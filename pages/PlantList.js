@@ -1,4 +1,4 @@
-import PlantList from "@/pages/components/PlantList/PlantList";
+import PlantList from "@/components/PlantList/PlantList";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import Link from "next/link";
