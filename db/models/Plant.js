@@ -10,7 +10,6 @@ const plantSchema = new Schema({
   },
   botanicalName: {
     type: String,
-    required: true,
     trim: true
   },
   imageUrl: {
