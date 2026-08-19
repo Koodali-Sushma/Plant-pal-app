@@ -8,30 +8,30 @@ export default function Navigation() {
 
   /* !!!!! CORRECT LINKS MUST BE ADDED */
   return (
-    <Nav>
-      <List role="list">
+    <nav>
+      <ul>
         <li>
           <Link href="/" $isActive={router.pathname === "/"}>
-            {" "}
             {/* link to my-plants */}
+            <img src="/assets/plant.svg" alt="icon of a plant" />
             MyPlants
           </Link>
         </li>
         <li>
           <Link href="/" $isActive={router.pathname === "/"}>
-            {" "}
             {/* link to plant-list */}
+            <img src="/assets/explore.svg" alt="icon of a compass" />
             Explore
           </Link>
         </li>
         <li>
           <Link href="/" $isActive={router.pathname === "/"}>
-            {" "}
             {/* link to rooms */}
+            <img src="/assets/rooms.svg" alt="icon of a house" />
             Rooms
           </Link>
         </li>
-      </List>
-    </Nav>
+      </ul>
+    </nav>
   );
 }
