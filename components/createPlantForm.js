@@ -22,6 +22,7 @@ export default function CreatePlantForm({ onSubmitForm }) {
           "fertiliserSeason",
         ) /* getAll because the user can click multiple seasons, returns an array */,
       description: formData.get("description"),
+      room: formData.get("room"),
     };
     onSubmitForm(data);
     event.target.reset();
@@ -107,10 +108,21 @@ export default function CreatePlantForm({ onSubmitForm }) {
         <textarea
           id="description"
           name="description"
-          maxLenght={250}
+          maxLength={250}
           onChange={(event) => setDescriptionLength(event.target.value.length)}
         />
         <small>{descriptionLength} / 250</small>
+
+        <label htmlFor="room">Select a Room:</label>
+        <select name="room" id="room">
+          <option value="livingRoom">Living Room</option>
+          <option value="kitchen">Kitchen</option>
+          <option value="bedroom">Bedroom</option>
+          <option value="balcony">Balcony</option>
+          <option value="bathroom">Bathroom</option>
+          <option value="other">Other</option>{" "}
+          {/* has to be updated once the rooms component is build */}
+        </select>
 
         <button type="submit">ADD</button>
       </form>
