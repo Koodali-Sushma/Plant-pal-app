@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { useState } from "react";
 
-export default function CreatePlantForm({ onSubmitForm }) {
+export default function CreatePlantForm({ onSubmitForm, onCancel }) {
   const [descriptionLength, setDescriptionLength] =
     useState(0); /* to count the length of the description  */
 
@@ -126,6 +126,9 @@ export default function CreatePlantForm({ onSubmitForm }) {
         </select>
 
         <button type="submit">ADD</button>
+        <button type="button" onClick={onCancel}>
+          Cancel
+        </button>
       </form>
     </>
   );
