@@ -19,14 +19,16 @@ export default function Homepage() {
   return (
     <>
       <h1>Default main page</h1>
-        {!showForm && (
+      {!showForm && (
         <button type="button" onClick={() => setShowForm(true)}>
-          Add a new plant
+          <img src="/assets/plus.svg" alt="plus sign" />
         </button>
       )}
       {showForm && (
-      <CreatePlantForm onSubmitForm={handleCreatePlant} 
-      onCancel={() => setShowForm(false)}/>
+        <CreatePlantForm
+          onSubmitForm={handleCreatePlant}
+          onCancel={() => setShowForm(false)}
+        />
       )}
     </>
   );
