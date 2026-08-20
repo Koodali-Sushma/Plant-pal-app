@@ -1,7 +1,9 @@
 import CreatePlantForm from "@/components/createPlantForm";
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { mutate } from "swr";
+import PlantList from "@/components/PlantList/PlantList";
 
 export default function Homepage() {
   const [showForm, setShowForm] =
@@ -29,13 +31,18 @@ export default function Homepage() {
   }
   return (
     <>
-      <h1>Default main page</h1>
+      <h1>My Plants</h1>
 
       <Link href="/PlantList">Plant List</Link>
 
       {!showForm && (
         <button type="button" onClick={() => setShowForm(true)}>
-          <img src="/assets/plus.svg" alt="plus sign" />
+          <Image
+            src="/assets/plus.svg"
+            alt="plus sign"
+            width={40}
+            height={40}
+          />
         </button>
       )}
       {showForm && (
@@ -44,6 +51,7 @@ export default function Homepage() {
           onCancel={() => setShowForm(false)}
         />
       )}
+      <PlantList onAddPlant={() => setShowForm(true)} />
     </>
   );
 }
