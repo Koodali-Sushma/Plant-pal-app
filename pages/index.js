@@ -51,7 +51,6 @@ export default function Homepage() {
           onCancel={() => setShowForm(false)}
         />
       )}
-      <PlantList onAddPlant={() => setShowForm(true)} />
     </>
   );
 }
