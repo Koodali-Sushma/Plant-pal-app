@@ -7,7 +7,7 @@ import Image from "next/image";
 
 export default function PlantListPage() {
      const { data, isLoading } = useSWR("/api/plants");
-        console.log(`data: ${data}`);
+      
     
         if(isLoading) {
             return <h1>Loading...</h1>;
