@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
 import { mutate } from "swr";
-import PlantList from "@/components/PlantList/PlantList";
+
 
 export default function Homepage() {
   const [showForm, setShowForm] =
