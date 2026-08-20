@@ -4,7 +4,9 @@ import Plant from "@/db/models/Plant";
 export default async function handler(request, response) {
   await dbConnect();
   if (request.method === "GET") {
-    const plants = await Plant.find();
+    const plants = await Plant.find().sort({
+      createdAt: -1,
+    }); /* shows the latest addition on top of the list */
     response.status(200).json(plants);
   } else if (request.method === "POST") {
     try {
