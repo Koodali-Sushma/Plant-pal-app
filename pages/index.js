@@ -1,4 +1,5 @@
 import CreatePlantForm from "@/components/createPlantForm";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function Homepage() {
@@ -25,6 +26,9 @@ export default function Homepage() {
   return (
     <>
       <h1>Default main page</h1>
+    
+    <Link href="/PlantList">Plant List</Link>
+    
       {!showForm && (
         <button type="button" onClick={() => setShowForm(true)}>
           <img src="/assets/plus.svg" alt="plus sign" />
@@ -37,5 +41,3 @@ export default function Homepage() {
         />
       )}
     </>
-  );
-}
