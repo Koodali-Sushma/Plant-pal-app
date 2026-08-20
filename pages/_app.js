@@ -1,6 +1,7 @@
 import "@/styles/globals.css";
 import Navigation from "@/components/navigation";
-import { Oswald } from "next/font/google";
+import { Oswald, Lato } from "next/font/google";
+import { SWRConfig } from "swr";
 
 const heading = Oswald({
   subsets: ["latin"],
@@ -15,12 +16,15 @@ const body = Lato({
 });
 
 export default function App({ Component, pageProps }) {
+  const fetcher = (url) => fetch(url).then((res) => res.json());
   return (
-    <>
-      <div className={`${heading.variable} ${body.variable} font-body`}>
-        <Component {...pageProps} />
-        <Navigation />
-      </div>
-    </>
+    <SWRConfig value={{ fetcher }}>
+      <>
+        <div className={`${heading.variable} ${body.variable} font-body`}>
+          <Component {...pageProps} />
+          <Navigation />
+        </div>
+      </>
+    </SWRConfig>
   );
 }
