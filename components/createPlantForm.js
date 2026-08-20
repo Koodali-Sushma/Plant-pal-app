@@ -1,25 +1,31 @@
 /*--- FORM TO ADD A NEW PLANT ---*/
 
 import Image from "next/image";
+import { useState } from "react";
 
 export default function CreatePlantForm({ onSubmitForm }) {
+  const [descriptionLength, setDescriptionLength] =
+    useState(0); /* to count the length of the description  */
+
   function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = {
       name: formData.get("name"),
       botanicalName: formData.get("botanicalName"),
-      imageUrl: formData.get("imageUrl"),
+      imageUrl:
+        "/images/plant-placeholder.png" /* has to be replaced when image upload is possible */,
       waterNeed: formData.get("waterNeed"),
       lightNeed: formData.get("lightNeed"),
       fertiliserSeason:
         formData.getAll(
           "fertiliserSeason",
-        ) /* getAll because the user can click multiple seasons */,
+        ) /* getAll because the user can click multiple seasons, returns an array */,
       description: formData.get("description"),
     };
     onSubmitForm(data);
     event.target.reset();
+    setDescriptionLength(0);
   }
 
   return (
@@ -35,6 +41,8 @@ export default function CreatePlantForm({ onSubmitForm }) {
         <Image
           src="/images/plant-placeholder.png"
           alt="placeholder for plant image"
+          width={200}
+          height={200}
         />
 
         <label htmlFor="name">Name:</label>
@@ -43,53 +51,66 @@ export default function CreatePlantForm({ onSubmitForm }) {
         <label htmlFor="botanical-name">Botanical Name:</label>
         <input type="text" id="botanical-name" name="botanicalName" />
 
-        <label htmlFor="water-need">Water Need:</label>
-        <label>
-          <input type="radio" name="waterNeed" value="Low" required />
-          Low
-        </label>
-        <label>
-          <input type="radio" name="waterNeed" value="Medium" />
-          Medium
-        </label>
-        <label>
-          <input type="radio" name="waterNeed" value="High" />
-          High
-        </label>
+        <fieldset>
+          <legend>Water Need:</legend>
+          <label>
+            <input type="radio" name="waterNeed" value="Low" required />
+            Low
+          </label>
+          <label>
+            <input type="radio" name="waterNeed" value="Medium" />
+            Medium
+          </label>
+          <label>
+            <input type="radio" name="waterNeed" value="High" />
+            High
+          </label>
+        </fieldset>
 
-        <label htmlFor="light-need">Light Need:</label>
-        <label>
-          <input type="radio" name="lightNeed" value="Full Sun" required />
-          Full Sun
-        </label>
-        <label>
-          <input type="radio" name="lightNeed" value="Partial Shade" />
-          Partial Shade
-        </label>
-        <label>
-          <input type="radio" name="lightNeed" value="Full Shade" />
-          Full Shade
-        </label>
+        <fieldset>
+          <legend>Light Need:</legend>
+          <label>
+            <input type="radio" name="lightNeed" value="Full Sun" required />
+            Full Sun
+          </label>
+          <label>
+            <input type="radio" name="lightNeed" value="Partial Shade" />
+            Partial Shade
+          </label>
+          <label>
+            <input type="radio" name="lightNeed" value="Full Shade" />
+            Full Shade
+          </label>
+        </fieldset>
 
-        <label>
-          <input type="checkbox" name="fertiliserSeason" value="Spring" />
-          Spring
-        </label>
-        <label>
-          <input type="checkbox" name="fertiliserSeason" value="Summer" />
-          Summer
-        </label>
-        <label>
-          <input type="checkbox" name="fertiliserSeason" value="Autumn" />
-          Autumn
-        </label>
-        <label>
-          <input type="checkbox" name="fertiliserSeason" value="Winter" />
-          Winter
-        </label>
+        <fieldset>
+          <legend>Fertiliser Season:</legend>
+          <label>
+            <input type="checkbox" name="fertiliserSeason" value="Spring" />
+            Spring
+          </label>
+          <label>
+            <input type="checkbox" name="fertiliserSeason" value="Summer" />
+            Summer
+          </label>
+          <label>
+            <input type="checkbox" name="fertiliserSeason" value="Autumn" />
+            Autumn
+          </label>
+          <label>
+            <input type="checkbox" name="fertiliserSeason" value="Winter" />
+            Winter
+          </label>
+        </fieldset>
 
         <label htmlFor="description">Description:</label>
-        <input type="text" id="description" name="description" />
+        <textarea
+          id="description"
+          name="description"
+          maxLenght={250}
+          onChange={(event) => setDescriptionLength(event.target.value.length)}
+        />
+        <small>{descriptionLength} / 250</small>
 
         <button type="submit">ADD</button>
       </form>
