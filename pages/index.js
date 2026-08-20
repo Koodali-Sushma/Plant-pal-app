@@ -12,9 +12,15 @@ export default function Homepage() {
       body: JSON.stringify(data),
     });
 
+    if (!response.ok) {
+      return false;
+    }
+
     const newPlant = await response.json();
 
     console.log(newPlant);
+
+    return true;
   }
   return (
     <>

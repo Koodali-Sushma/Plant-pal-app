@@ -6,8 +6,9 @@ import { useState } from "react";
 export default function CreatePlantForm({ onSubmitForm, onCancel }) {
   const [descriptionLength, setDescriptionLength] =
     useState(0); /* to count the length of the description  */
+  const [successMessage, setSuccessMessage] = useState("");
 
-  function handleSubmit(event) {
+  async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = {
@@ -24,14 +25,26 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
       description: formData.get("description"),
       room: formData.get("room"),
     };
-    onSubmitForm(data);
-    event.target.reset();
-    setDescriptionLength(0);
+
+    /* after submitting the data show a message for the user */
+    const success = await onSubmitForm(data);
+
+    if (success) {
+      event.target.reset();
+      setDescriptionLength(0);
+      setSuccessMessage("Plant successfully added!");
+
+      /* message disappears after 3 seconds */
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 3000);
+    }
   }
 
   return (
     <>
       <h2>Add a new plant</h2>
+      {successMessage && <p>{successMessage}</p>}
       <form
         onSubmit={handleSubmit}
         name="create-plant"
