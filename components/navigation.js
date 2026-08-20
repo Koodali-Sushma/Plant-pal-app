@@ -9,10 +9,10 @@ export default function Navigation() {
 
   /* !!!!! CORRECT LINKS MUST BE ADDED */
   return (
-    <nav className="">
-      <ul>
+    <nav className="border-b sticky bottom-0">
+      <ul className="mx-auto flex items-center justify-center gap-8">
         <li>
-          <Link href="/">
+          <Link href="/" className="flex flex-col items-center gap-1">
             {/* link to my-plants */}
             <Image
               src="/assets/plant.svg"
@@ -24,7 +24,7 @@ export default function Navigation() {
           </Link>
         </li>
         <li>
-          <Link href="/">
+          <Link href="/" className="flex flex-col items-center gap-1">
             {/* link to plant-list */}
             <Image
               src="/assets/explore.svg"
@@ -36,7 +36,7 @@ export default function Navigation() {
           </Link>
         </li>
         <li>
-          <Link href="/">
+          <Link href="/" className="flex flex-col items-center gap-1">
             {/* link to rooms */}
             <Image
               src="/assets/rooms.svg"
