@@ -38,6 +38,9 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
         aria-label="add a plant to your list"
       >
         {/* This is just a placeholder image, has to be replaced by a real import */}
+        <button type="button" onClick={onCancel}>
+          Cancel
+        </button>
         <label>Plant Image:</label>
         <Image
           src="/images/plant-placeholder.png"
@@ -126,9 +129,6 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
         </select>
 
         <button type="submit">ADD</button>
-        <button type="button" onClick={onCancel}>
-          Cancel
-        </button>
       </form>
     </>
   );
