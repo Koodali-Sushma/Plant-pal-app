@@ -115,6 +115,7 @@ export default function CreatePlantForm({ onSubmitForm }) {
 
         <label htmlFor="room">Select a Room:</label>
         <select name="room" id="room">
+          <option value="">Select a room</option>
           <option value="livingRoom">Living Room</option>
           <option value="kitchen">Kitchen</option>
           <option value="bedroom">Bedroom</option>
