@@ -15,8 +15,11 @@ const body = Lato({
   variable: "--font-body",
 });
 
+
+const fetcher = (url) => fetch(url).then((res) => res.json());
+
 export default function App({ Component, pageProps }) {
-  const fetcher = (url) => fetch(url).then((res) => res.json());
+
   return (
     <SWRConfig value={{ fetcher }}>
       <>
