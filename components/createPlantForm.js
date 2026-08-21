@@ -180,11 +180,11 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
           <small className="self-end font-normal text-secondary-700">
             {descriptionLength} / 250
           </small>
-
-         /*  <label htmlFor="room" className="flex flex-col gap-2 font-semibold">
+          {/*
+          <label htmlFor="room" className="flex flex-col gap-2 font-semibold">
             Select a Room:
           </label>
-          <select
+            <select
             name="room"
             id="room"
             className="rounded-xl border border-primary-500 bg-white px-4 py-3 outline-none transition focus:ring-2 focus:ring-primary-700/30"
@@ -195,9 +195,9 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
             <option value="bedroom">Bedroom</option>
             <option value="balcony">Balcony</option>
             <option value="bathroom">Bathroom</option>
-            <option value="other">Other</option>{" "}
-            {/* has to be updated once the rooms component is build */}
-          </select> */
+            <option value="other">Other</option>{" "} */}
+          {/* has to be updated once the rooms component is build */}
+          {/*  </select>  */}
           <div className="flex gap-3 pt-2">
             <button
               type="submit"
