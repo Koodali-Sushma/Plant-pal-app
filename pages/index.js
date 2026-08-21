@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useState } from "react";
 import { mutate } from "swr";
 
-
 export default function Homepage() {
   const [showForm, setShowForm] =
     useState(false); /* to show the form to add new plants */
