@@ -48,7 +48,7 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
           Add a new plant
         </h2>
         {successMessage && (
-          <p className="mb-6 rounded-lg bg-[#e3f4da] p-3 text-[#c85a1e]">
+          <p className="mb-6 rounded-lg bg-[#e3f4da] p-3 text-[#b24810]">
             {successMessage}
           </p>
         )}
@@ -63,7 +63,7 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
             <button
               type="button"
               onClick={onCancel}
-              className="flex-1 rounded-xl border-2 border-[#f2793a] px-5 py-3 font-semibold text-[#f2793a] transition hover:bg-[#c85a1e] hover:text-[#ffe4cc]"
+              className="flex-1 rounded-xl border-2 border-[#f2793a] px-5 py-3 font-semibold text-[#f2793a] transition hover:bg-[#b24810] hover:text-[#ffe4cc]"
             >
               Cancel
             </button>
@@ -93,7 +93,7 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
             id="name"
             name="name"
             required
-            className="rounded-xl border border-[#c8d9bd] bg-white px-4 py-3 font-normal text-[#14210a] outline-none transition focus:border-[#4a8534] focus:ring-2 focus:ring-[#6fb54f]/30"
+            className="rounded-xl border border-[#c8d9bd] bg-white px-4 py-3 font-normal text-[#14210a] outline-none transition focus:border-[#2a5f16] focus:ring-2 focus:ring-[#14210a]/30"
           />
 
           <label
@@ -106,7 +106,7 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
             type="text"
             id="botanical-name"
             name="botanicalName"
-            className="rounded-xl border border-[#c8d9bd] bg-white px-4 py-3 font-normal text-[#14210a] outline-none transition focus:border-[#4a8534] focus:ring-2 focus:ring-[#6fb54f]/30"
+            className="rounded-xl border border-[#c8d9bd] bg-white px-4 py-3 font-normal text-[#14210a] outline-none transition focus:border-[#2a5f16] focus:ring-2 focus:ring-[#14210a]/30"
           />
 
           <fieldset>
@@ -192,7 +192,7 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
             onChange={(event) =>
               setDescriptionLength(event.target.value.length)
             }
-            className="min-h-32 resize-y rounded-xl border border-[#c8d9bd] bg-white px-4 py-3 font-normal text-[#14210a] outline-none transition focus:border-[#4a8534] focus:ring-2 focus:ring-[#6fb54f]/30"
+            className="min-h-32 resize-y rounded-xl border border-[#c8d9bd] bg-white px-4 py-3 font-normal text-[#14210a] outline-none transition focus:border-[#4a8534] focus:ring-2 focus:ring-[#14210a]/30"
           />
           <small className="self-end font-normal text-gray-500">
             {descriptionLength} / 250
@@ -207,7 +207,7 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
           <select
             name="room"
             id="room"
-            className="rounded-xl border border-[#c8d9bd] bg-white px-4 py-3 text-[#14210a] outline-none transition focus:border-[#4a8534] focus:ring-2 focus:ring-[#6fb54f]/30"
+            className="rounded-xl border border-[#c8d9bd] bg-white px-4 py-3 text-[#14210a] outline-none transition focus:border-[#4a8534] focus:ring-2 focus:ring-[#14210a]/30"
           >
             <option value="">Select a room</option>
             <option value="livingRoom">Living Room</option>
