@@ -30,7 +30,8 @@ export default function PlantDetails() {
   const [activeImage, setActiveImage] = useState(0);
 
   if (isLoading) return <p>Loading...</p>;
-  if (error || !plant) return <p>Plant not found.</p>;
+  if (error) return <p>Something went wrong.</p>;
+  if (!plant) return <p>Plant not found.</p>;
 
   const images = plant.images?.length
     ? plant.images
@@ -61,7 +62,7 @@ export default function PlantDetails() {
         <CareCard label="Water">{plant.waterNeed}</CareCard>
         <CareCard label="Light">{plant.lightNeed}</CareCard>
         <CareCard label="Fertilise">
-          {plant.fertiliserSeason?.join(",")}
+          {plant.fertiliserSeason?.join(", ")}
         </CareCard>
       </div>
 
