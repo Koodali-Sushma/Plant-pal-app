@@ -2,32 +2,48 @@
 
 import { useRouter } from "next/router";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Navigation() {
   const router = useRouter();
 
   /* !!!!! CORRECT LINKS MUST BE ADDED */
   return (
-    <nav>
-      <ul>
+    <nav className="border-b sticky bottom-0">
+      <ul className="mx-auto flex items-center justify-center gap-8">
         <li>
-          <Link href="/">
+          <Link href="/" className="flex flex-col items-center gap-1">
             {/* link to my-plants */}
-            <img src="/assets/plant.svg" alt="icon of a plant" />
+            <Image
+              src="/assets/plant.svg"
+              alt="icon of a plant"
+              width={40}
+              height={40}
+            />
             MyPlants
           </Link>
         </li>
         <li>
-          <Link href="/">
+          <Link href="/" className="flex flex-col items-center gap-1">
             {/* link to plant-list */}
-            <img src="/assets/explore.svg" alt="icon of a compass" />
+            <Image
+              src="/assets/explore.svg"
+              alt="icon of a compass"
+              width={40}
+              height={40}
+            />
             Explore
           </Link>
         </li>
         <li>
-          <Link href="/">
+          <Link href="/" className="flex flex-col items-center gap-1">
             {/* link to rooms */}
-            <img src="/assets/rooms.svg" alt="icon of a house" />
+            <Image
+              src="/assets/rooms.svg"
+              alt="icon of a house"
+              width={40}
+              height={40}
+            />
             Rooms
           </Link>
         </li>
