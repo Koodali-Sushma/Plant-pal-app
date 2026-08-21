@@ -43,12 +43,12 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
 
   return (
     <>
-      <div className="mx-auto w-full max-w-2xl rounded-3xl bg-[#e3f4da] p-5 shadow-lg sm:p-8">
-        <h2 className="mb-2 var(--font-heading) text-3xl font-bold text-[#14210a]">
+      <div className="mx-auto w-full max-w-2xl rounded-3xl bg-primary-100 p-5 shadow-lg sm:p-8">
+        <h2 className="mb-2 var(--font-heading) text-3xl font-bold">
           Add a new plant
         </h2>
         {successMessage && (
-          <p className="mb-6 rounded-lg bg-[#e3f4da] p-3 text-[#b24810]">
+          <p className="mb-6 rounded-lg bg-primary-100 p-3 text-secondary-700">
             {successMessage}
           </p>
         )}
@@ -63,14 +63,14 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
             <button
               type="button"
               onClick={onCancel}
-              className="flex-1 rounded-xl border-2 border-[#f2793a] px-5 py-3 font-semibold text-[#f2793a] transition hover:bg-[#b24810] hover:text-[#ffe4cc]"
+              className="flex-1 rounded-xl border-2 border-secondary-500 px-5 py-3 font-semibold text-secondary-500 transition hover:bg-secondary-700 hover:text-background"
             >
               Cancel
             </button>
           </div>
 
           <div className="flex flex-col items-center gap-3">
-            <label className="flex flex-col gap-2 font-semibold text-[#14210a]">
+            <label className="flex flex-col gap-2 font-semibold">
               Plant Image:
             </label>
             <Image
@@ -82,10 +82,7 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
             />
           </div>
 
-          <label
-            htmlFor="name"
-            className="flex flex-col gap-2 font-semibold text-[#14210a]"
-          >
+          <label htmlFor="name" className="flex flex-col gap-2 font-semibold">
             Name:
           </label>
           <input
@@ -93,12 +90,12 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
             id="name"
             name="name"
             required
-            className="rounded-xl border border-[#c8d9bd] bg-white px-4 py-3 font-normal text-[#14210a] outline-none transition focus:border-[#2a5f16] focus:ring-2 focus:ring-[#14210a]/30"
+            className="rounded-xl border border-primary-500 bg-white px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/30"
           />
 
           <label
             htmlFor="botanical-name"
-            className="flex flex-col gap-2 font-semibold text-[#14210a]"
+            className="flex flex-col gap-2 font-semibold"
           >
             Botanical Name:
           </label>
@@ -106,11 +103,11 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
             type="text"
             id="botanical-name"
             name="botanicalName"
-            className="rounded-xl border border-[#c8d9bd] bg-white px-4 py-3 font-normal text-[#14210a] outline-none transition focus:border-[#2a5f16] focus:ring-2 focus:ring-[#14210a]/30"
+            className="rounded-xl border border-primary-500 bg-white px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/30" /* /30 means 30% of opacity */
           />
 
           <fieldset>
-            <legend className="flex flex-col gap-2 font-semibold text-[#14210a] mb-1">
+            <legend className="flex flex-col gap-2 font-semibold mb-1">
               Water Need:
             </legend>
 
@@ -131,9 +128,7 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
           </fieldset>
 
           <fieldset>
-            <legend className="mb-1 font-semibold text-[#14210a]">
-              Light Need:
-            </legend>
+            <legend className="mb-1 font-semibold ">Light Need:</legend>
             <div className="grid grid-cols-3 gap-1">
               <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
                 <input
@@ -156,7 +151,7 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
           </fieldset>
 
           <fieldset>
-            <legend className="flex flex-col gap-2 font-semibold text-[#14210a] mb-1">
+            <legend className="flex flex-col gap-2 font-semibold mb-1">
               Fertiliser Season:
             </legend>
             <div className="grid grid-cols-4 gap-3">
@@ -181,7 +176,7 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
 
           <label
             htmlFor="description"
-            className="flex flex-col gap-2 font-semibold text-[#14210a]"
+            className="flex flex-col gap-2 font-semibold "
           >
             Description:
           </label>
@@ -192,22 +187,19 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
             onChange={(event) =>
               setDescriptionLength(event.target.value.length)
             }
-            className="min-h-32 resize-y rounded-xl border border-[#c8d9bd] bg-white px-4 py-3 font-normal text-[#14210a] outline-none transition focus:border-[#4a8534] focus:ring-2 focus:ring-[#14210a]/30"
+            className="min-h-32 resize-y rounded-xl border border-primary-500 bg-white px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/30"
           />
-          <small className="self-end font-normal text-gray-500">
+          <small className="self-end font-normal text-secondary-700">
             {descriptionLength} / 250
           </small>
 
-          <label
-            htmlFor="room"
-            className="flex flex-col gap-2 font-semibold text-[#14210a]"
-          >
+          <label htmlFor="room" className="flex flex-col gap-2 font-semibold">
             Select a Room:
           </label>
           <select
             name="room"
             id="room"
-            className="rounded-xl border border-[#c8d9bd] bg-white px-4 py-3 text-[#14210a] outline-none transition focus:border-[#4a8534] focus:ring-2 focus:ring-[#14210a]/30"
+            className="rounded-xl border border-primary-500 bg-white px-4 py-3 outline-none transition focus:ring-2 focus:ring-primary-700/30"
           >
             <option value="">Select a room</option>
             <option value="livingRoom">Living Room</option>
@@ -221,7 +213,7 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
           <div className="flex gap-3 pt-2">
             <button
               type="submit"
-              className="flex-1 rounded-xl bg-[#4a8534] px-5 py-3 font-semibold text-[#f2fbe9] shadow-sm transition hover:bg-[#14210a] hover:shadow-md"
+              className="flex-1 rounded-xl bg-primary-700 px-5 py-3 font-semibold text-background shadow-sm transition hover:bg-foreground hover:shadow-md"
             >
               ADD
             </button>
