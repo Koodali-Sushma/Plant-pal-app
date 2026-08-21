@@ -181,7 +181,7 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
             {descriptionLength} / 250
           </small>
 
-          <label htmlFor="room" className="flex flex-col gap-2 font-semibold">
+         /*  <label htmlFor="room" className="flex flex-col gap-2 font-semibold">
             Select a Room:
           </label>
           <select
@@ -197,7 +197,7 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
             <option value="bathroom">Bathroom</option>
             <option value="other">Other</option>{" "}
             {/* has to be updated once the rooms component is build */}
-          </select>
+          </select> */
           <div className="flex gap-3 pt-2">
             <button
               type="submit"
