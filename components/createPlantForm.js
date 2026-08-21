@@ -3,7 +3,11 @@
 import Image from "next/image";
 import { useState } from "react";
 
-export default function CreatePlantForm({ onSubmitForm, onCancel }) {
+export default function CreatePlantForm({
+  onSubmitForm,
+  onCancel,
+  initialData,
+}) {
   const [descriptionLength, setDescriptionLength] =
     useState(0); /* to count the length of the description  */
   const [successMessage, setSuccessMessage] = useState("");
@@ -32,7 +36,9 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
     if (success) {
       event.target.reset();
       setDescriptionLength(0);
-      setSuccessMessage("Plant successfully added!");
+      setSuccessMessage(
+        initialData ? "Plant successfully updated" : "Plant successfully added",
+      );
 
       /* message disappears after 3 seconds */
       setTimeout(() => {
@@ -43,7 +49,7 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
 
   return (
     <>
-      <h2>Add a new plant</h2>
+      {initialData ? <h2>Edit a plant</h2> : <h2>Add a new plant</h2>}
       {successMessage && <p>{successMessage}</p>}
       <form
         onSubmit={handleSubmit}
@@ -63,23 +69,50 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
         />
 
         <label htmlFor="name">Name:</label>
-        <input type="text" id="name" name="name" required />
+        <input
+          type="text"
+          id="name"
+          name="name"
+          defaultValue={initialData ? initialData.name : ""}
+          required
+        />
 
         <label htmlFor="botanical-name">Botanical Name:</label>
-        <input type="text" id="botanical-name" name="botanicalName" />
+        <input
+          type="text"
+          id="botanical-name"
+          name="botanicalName"
+          defaultValue={initialData ? initialData.botanicalName : ""}
+        />
 
         <fieldset>
           <legend>Water Need:</legend>
           <label>
-            <input type="radio" name="waterNeed" value="Low" required />
+            <input
+              type="radio"
+              name="waterNeed"
+              value="Low"
+              required
+              defaultChecked={initialData?.waterNeed === "Low"}
+            />
             Low
           </label>
           <label>
-            <input type="radio" name="waterNeed" value="Medium" />
+            <input
+              type="radio"
+              name="waterNeed"
+              value="Medium"
+              defaultChecked={initialData?.waterNeed === "Medium"}
+            />
             Medium
           </label>
           <label>
-            <input type="radio" name="waterNeed" value="High" />
+            <input
+              type="radio"
+              name="waterNeed"
+              value="High"
+              defaultChecked={initialData?.waterNeed === "High"}
+            />
             High
           </label>
         </fieldset>
@@ -87,15 +120,31 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
         <fieldset>
           <legend>Light Need:</legend>
           <label>
-            <input type="radio" name="lightNeed" value="Full Sun" required />
+            <input
+              type="radio"
+              name="lightNeed"
+              value="Full Sun"
+              required
+              defaultChecked={initialData?.lightNeed === "Full Sun"}
+            />
             Full Sun
           </label>
           <label>
-            <input type="radio" name="lightNeed" value="Partial Shade" />
+            <input
+              type="radio"
+              name="lightNeed"
+              value="Partial Shade"
+              defaultChecked={initialData?.lightNeed === "Partial Shade"}
+            />
             Partial Shade
           </label>
           <label>
-            <input type="radio" name="lightNeed" value="Full Shade" />
+            <input
+              type="radio"
+              name="lightNeed"
+              value="Full Shade"
+              defaultChecked={initialData?.lightNeed === "Full Shade"}
+            />
             Full Shade
           </label>
         </fieldset>
@@ -103,19 +152,39 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
         <fieldset>
           <legend>Fertiliser Season:</legend>
           <label>
-            <input type="checkbox" name="fertiliserSeason" value="Spring" />
+            <input
+              type="checkbox"
+              name="fertiliserSeason"
+              value="Spring"
+              defaultChecked={initialData?.fertiliserSeason?.includes("Spring")}
+            />
             Spring
           </label>
           <label>
-            <input type="checkbox" name="fertiliserSeason" value="Summer" />
+            <input
+              type="checkbox"
+              name="fertiliserSeason"
+              value="Summer"
+              defaultChecked={initialData?.fertiliserSeason?.includes("Summer")}
+            />
             Summer
           </label>
           <label>
-            <input type="checkbox" name="fertiliserSeason" value="Autumn" />
+            <input
+              type="checkbox"
+              name="fertiliserSeason"
+              value="Autumn"
+              defaultChecked={initialData?.fertiliserSeason?.includes("Autumn")}
+            />
             Autumn
           </label>
           <label>
-            <input type="checkbox" name="fertiliserSeason" value="Winter" />
+            <input
+              type="checkbox"
+              name="fertiliserSeason"
+              value="Winter"
+              defaultChecked={initialData?.fertiliserSeason?.includes("Winter")}
+            />
             Winter
           </label>
         </fieldset>
@@ -126,11 +195,16 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
           name="description"
           maxLength={250}
           onChange={(event) => setDescriptionLength(event.target.value.length)}
+          defaultValue={initialData ? initialData.description : ""}
         />
         <small>{descriptionLength} / 250</small>
 
         <label htmlFor="room">Select a Room:</label>
-        <select name="room" id="room">
+        <select
+          name="room"
+          id="room"
+          defaultValue={initialData ? initialData.room : ""}
+        >
           <option value="">Select a room</option>
           <option value="livingRoom">Living Room</option>
           <option value="kitchen">Kitchen</option>
@@ -141,7 +215,11 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
           {/* has to be updated once the rooms component is build */}
         </select>
 
-        <button type="submit">ADD</button>
+        {initialData ? (
+          <button type="submit">UPDATE</button>
+        ) : (
+          <button type="submit">ADD</button>
+        )}
       </form>
     </>
   );
