@@ -29,7 +29,7 @@ export default function PlantList({ plants, onAddPlant }) {
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[30%] bg-linear-to-t from-black/70 to-transparent z-1" />{" "}
             <Link
               className="absolute left-0 top-0 flex flex-col p-3"
-              href={`/${plant._id}`}
+              href={`/plants/${plant._id}`}
             >
               <span className="font-semibold text-white drop-shadow-md z-1 absolute-bottom-0 left-0">
                 {plant.name}
