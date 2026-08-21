@@ -35,7 +35,7 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
 
   return (
     <>
-      <div className="mx-auto w-full max-w-2xl rounded-3xl bg-primary-100 p-5 shadow-lg sm:p-8">
+      <div className="mx-auto w-full max-w-2xl rounded-3xl bg-primary-100 p-5 shadow-lg sm:p-8 mb-10">
         <h2 className="mb-2 var(--font-heading) text-3xl font-bold">
           Add a new plant
         </h2>
