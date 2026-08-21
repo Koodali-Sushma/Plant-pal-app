@@ -51,7 +51,7 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
             <button
               type="button"
               onClick={onCancel}
-              className="flex-1 rounded-xl border-2 border-secondary-500 px-5 py-3 font-semibold text-secondary-500 transition hover:bg-secondary-700 hover:text-background"
+              className="flex-1 rounded-xl border-2 border-secondary-500 px-5 py-3 font-semibold text-secondary-500 transition hover:bg-secondary-500 hover:text-background"
             >
               Cancel
             </button>
