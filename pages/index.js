@@ -41,6 +41,7 @@ export default function Homepage() {
             alt="plus sign"
             width={40}
             height={40}
+            className="fixed bottom-20 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-accent-500 shadow-2xl transition hover:bg-primary-700 hover:shadow-xl"
           />
         </button>
       )}
