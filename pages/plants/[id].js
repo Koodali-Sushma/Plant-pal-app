@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 import useSWR, { useSWRConfig } from "swr";
+import Link from "next/link";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -40,6 +41,12 @@ export default function PlantDetails() {
   return (
     <main>
       <button onClick={() => router.back()}>← Back</button>
+      <Link
+        href={`/plants/${id}/edit`}
+        className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-colors"
+      >
+        Edit Plant
+      </Link>
 
       <div>
         <img src={images[activeImage]} alt={plant.name} />
