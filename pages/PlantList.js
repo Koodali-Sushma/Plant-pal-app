@@ -46,14 +46,26 @@ export default function PlantListPage() {
 
   return (
     <>
+    <span className="flex items-center content-center justify-between gap-3 m-auto w-screen  rounded-xl bg-[#dcebd9]/90 px-4 py-3 sticky top-0 z-30" >
+    <h1 className="text-3xl font-extrabold tracking-tight text-[#0d130a]">All Plants </h1>
+  <img 
+  className="h-12 w-12 shrink-0 object-contain"
+  src="https://cdn.midjourney.com/c7070fef-94d7-4568-86dc-a54c5af35571/0_2.png"
+  alt="collection of plants in pots"/>
+  </span> 
+  <div className="flex flex-row w-40  mt-5 bg-[#dcebd9] rounded-xl  ">
     <Link
         href="/"
-        className="mb-4 inline-block text-emerald-400 hover:underline"
+        className="flex flex-row items-center gap-2 p-0 mt-5 mx-auto rounded-xl font-bold  text-[#0d130a]"
       >
-        ← Back to My Plants
+        <img
+        className="p-0 w-10 "
+        src="./assets/back-arrow.svg"
+        alt="image of an arrow pointing left"
+        />MyPlants
       </Link>
-    <h1 className="mb-8 text-center text-4xl font-bold tracking-tight text-emerald-400 sm:text-5xl sticky">All Plants</h1>
-   
+      </div>
+      
 
 {showForm && (
         <CreatePlantForm

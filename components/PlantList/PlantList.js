@@ -6,14 +6,14 @@ import Image from "next/image";
 export default function PlantList({ plants, onAddPlant }) {
   return (
     <>
-      <button type="button" onClick={onAddPlant}>
+      <button type="button" onClick={onAddPlant}className="absolute top-4 z-31 right-20">
         <Image src="/assets/plus.svg" alt="plus sign" width={40} height={40} />
       </button>
-      <div className="grid grid-cols-2 m-auto gap-5  list-none w-100">
+      <div className="grid grid-cols-2 m-auto gap-1  list-none w-100">
         {plants.map((plant) => (
           <li
             key={plant._id}
-            className=" group relative h-48 w-48 overflow-hidden rounded-xl border"
+            className=" group relative h-40 w-40 m-auto overflow-hidden rounded-xl border"
           >
             {plant.imageUrl && (
               <Image
@@ -28,13 +28,13 @@ export default function PlantList({ plants, onAddPlant }) {
             )}
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[30%] bg-linear-to-t from-black/70 to-transparent z-1" />{" "}
             <Link
-              className="absolute left-0 top-0 flex flex-col p-3"
+              className="absolute left-0 bottom-0 flex flex-col p-3"
               href={`/${plant._id}`}
             >
-              <span className="font-semibold text-white drop-shadow-md z-1 absolute-bottom-0 left-0">
+              <span className="font-semibold text-[#f2fbe9] drop-shadow-md z-1 absolute-bottom-0 left-0">
                 {plant.name}
               </span>
-              <span className="text-sm text-blue drop-shadow-md">
+              <span className="text-sm text-[#e3f4da] drop-shadow-md">
                 {plant.botanicalName}
               </span>
             </Link>
