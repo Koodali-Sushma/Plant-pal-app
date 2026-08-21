@@ -3,12 +3,20 @@ import Link from "next/link";
 import { useState } from "react";
 import Image from "next/image";
 
-export default function PlantList({ plants, onAddPlant }) {
+export default function PlantList({ plants, onAddPlant, successMessage }) {
   return (
     <>
       <button type="button" onClick={onAddPlant}>
         <Image src="/assets/plus.svg" alt="plus sign" width={40} height={40} />
       </button>
+
+      {/* shows message when new plant is successfully added */}
+      {successMessage && (
+        <p className="mb-6 rounded-xl border border-primary-500/30 bg-primary-100 px-4 py-3 text-center font-semibold text-primary-700 shadow-sm">
+          {successMessage}
+        </p>
+      )}
+
       <div className="grid grid-cols-2 m-auto gap-5  list-none w-100">
         {plants.map((plant) => (
           <li
