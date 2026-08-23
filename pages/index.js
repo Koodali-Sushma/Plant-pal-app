@@ -1,14 +1,19 @@
 import CreatePlantForm from "@/components/createPlantForm";
-import Link from "next/link";
+import { useOwnershipToggle } from "@/hooks/useOwnershipToggle"; // Import the hook
 import Image from "next/image";
 import { useState } from "react";
-import { mutate } from "swr";
+import useSWR, { mutate } from "swr";
+import MyPlants from "@/components/MyPlants/MyPlants.js";
 
 export default function Homepage() {
+  const { data: plants, isLoading } = useSWR("/api/plants");
   const [showForm, setShowForm] =
     useState(false); /* to show the form to add new plants */
+  const { handleOwnershipToggle } = useOwnershipToggle();
 
   async function handleCreatePlant(data) {
+    console.log("Request body:", data);
+
     const response = await fetch("/api/plants", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -28,11 +33,33 @@ export default function Homepage() {
 
     return true;
   }
+
+  // Get the function from your custom hook
+
+  const ownedPlants = plants?.filter((plant) => plant.isOwned === true) || [];
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  /*Tracing purpose only*/
+  console.log("My Plants:", ownedPlants);
+  console.log("Owned plant count:", ownedPlants.length);
+
   return (
     <>
-      <h1>My Plants</h1>
+      <h1 className="mb-8 text-center text-4xl font-bold tracking-tight text-emerald-400 sm:text-5xl sticky">
+        My Plants
+      </h1>
 
-      <Link href="/PlantList">Plant List</Link>
+      {ownedPlants.length === 0 ? (
+        <p>You do not own any plants yet. Explore the Plant List.</p>
+      ) : (
+        <MyPlants
+          plants={ownedPlants}
+          onOwnershipToggle={handleOwnershipToggle}
+        />
+      )}
 
       {!showForm && (
         <button type="button" onClick={() => setShowForm(true)}>
