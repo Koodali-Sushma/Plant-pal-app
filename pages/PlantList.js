@@ -4,8 +4,8 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useState } from "react";
 import CreatePlantForm from "@/components/createPlantForm";
-
-
+import { Oswald, Lato } from "next/font/google";
+import Image from "next/image";
 export default function PlantListPage() {
   const [showForm, setShowForm] = useState(false); /* form to add new plants */
      const { data, isLoading } = useSWR("/api/plants");
@@ -46,22 +46,26 @@ export default function PlantListPage() {
 
   return (
     <>
-    <span className="flex items-center content-center justify-between gap-3 m-auto w-screen  rounded-xl bg-[#dcebd9]/90 px-4 py-3 sticky top-0 z-30" >
-    <h1 className="text-3xl font-extrabold tracking-tight text-[#0d130a]">All Plants </h1>
-  <img 
+    <span className="snap-always flex items-center content-center justify-between gap-3 m-auto w-rounded-3xl w-screen bg-(--color-primary-100) px-4 py-3 sticky top-0 z-30" >
+    <h1 className="text-3xl font-extrabold tracking-tight text(--font-heading)">All Plants </h1>
+  <Image
   className="h-12 w-12 shrink-0 object-contain"
-  src="https://cdn.midjourney.com/c7070fef-94d7-4568-86dc-a54c5af35571/0_2.png"
-  alt="collection of plants in pots"/>
+  src="/images/all-plants-icon-v2.png"
+  alt="collection of plants in pots"
+  width={500}
+  height={500}/>
   </span> 
-  <div className="flex flex-row w-40  mt-5 bg-[#dcebd9] rounded-xl  ">
+  <div className="flex flex-row w-40 p-0 mt-5 rounded-3xl">
     <Link
         href="/"
-        className="flex flex-row items-center gap-2 p-0 mt-5 mx-auto rounded-xl font-bold  text-[#0d130a]"
+        className="flex flex-row items-center gap-2 p-2 m-3 bg-(--color-primary-100) hover:bg-(color-secondary-500) rounded-3xl text-var(--font-body)"
       >
-        <img
-        className="p-0 w-10 "
-        src="./assets/back-arrow.svg"
+        <Image
+        className="p-0 w-7 "
+        src="./assets/back-arrow-light.svg"
         alt="image of an arrow pointing left"
+        width={500}
+        height={500}
         />MyPlants
       </Link>
       </div>
