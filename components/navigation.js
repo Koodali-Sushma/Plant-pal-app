@@ -12,19 +12,19 @@ export default function Navigation() {
     <nav className="rounded-3xl sticky bottom-0 self-center-safe bg-(--color-secondary-500) z-10">
       <ul className="mx-auto flex items-center justify-center gap-8">
         <li>
-          <Link href="/" className="flex flex-col items-center gap-1">
+          <Link href="/" className="flex flex-col items-center">
             {/* link to my-plants */}
             <Image 
               src="/assets/plant-light.svg"
               alt="icon of a plant"
-              width={50}
-              height={50}
+              width={40}
+              height={40}
             />
             MyPlants
           </Link>
         </li>
         <li>
-          <Link href="/" className="flex flex-col items-center gap-1">
+          <Link href="/" className="flex flex-col items-center">
             {/* link to plant-list */}
             <Image
               src="/assets/explore-light.svg"
@@ -36,7 +36,7 @@ export default function Navigation() {
           </Link>
         </li>
         <li>
-          <Link href="/" className="flex flex-col items-center gap-1">
+          <Link href="/" className="flex flex-col items-center p-0.5">
             {/* link to rooms */}
             <Image
               src="/assets/rooms-light.svg"

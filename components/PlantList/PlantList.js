@@ -9,7 +9,7 @@ export default function PlantList({ plants, onAddPlant, successMessage }) {
       <button
         type="button"
         onClick={onAddPlant}
-        className="fixed bottom-20 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-accent-500 shadow-2xl transition hover:bg-primary-700 hover:shadow-xl"
+        className="fixed bottom-20 right-10 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-accent-500 shadow-2xl transition hover:bg-(--color-primary-700) hover:shadow-xl"
       >
         <Image src="/assets/plus.svg" alt="plus sign" width={40} height={40} />
       </button>
@@ -21,7 +21,7 @@ export default function PlantList({ plants, onAddPlant, successMessage }) {
         </p>
       )}
 
-      <div className="grid grid-cols-2 m-auto gap-5  list-none w-100">
+      <div className="grid grid-cols-2 gap-2  list-none">
         {plants.map((plant) => (
           <li
             key={plant._id}
@@ -40,13 +40,13 @@ export default function PlantList({ plants, onAddPlant, successMessage }) {
             )}
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[30%] bg-linear-to-t from-black/70 to-transparent z-1" />{" "}
             <Link
-              className="absolute left-0 top-0 flex flex-col p-3"
+              className="absolute left-0 bottom-0 flex flex-col p-1.5"
               href={`/plants/${plant._id}`}
             >
-              <span className="font-semibold  drop-shadow-md z-1 absolute-bottom-0 left-0 bg-(--color-secondary-500)/60 rounded-3xl p-0.75">
+              <span className="font-semibold  drop-shadow-md z-1 absolute-bottom-0 left-0 bg-(--color-primary-500) rounded-3xl p-0.75">
                 {plant.name}
               </span>
-              <span className="text-sm text-(--color-secondary-500)">
+              <span className="italic text-xs text bg-(--color-primary-100) rounded-3xl">
                 {plant.botanicalName}
               </span>
             </Link>
