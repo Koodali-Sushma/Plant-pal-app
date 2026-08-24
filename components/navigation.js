@@ -12,17 +12,7 @@ export default function Navigation() {
   const isRooms = router.pathname === "/rooms";
 
   return (
-    <nav className="rounded-3xl sticky bottom-0.5 self-center-safe bg-(--color-secondary-500) z-10">
-      <ul className="mx-auto flex items-center justify-center gap-8">
-        <li>
-          <Link href="/" className="flex flex-col items-center">
-            {/* link to my-plants */}
-            <Image 
-              src="/assets/plant-light.svg"
-              alt="icon of a plant"
-              width={40}
-              height={40}
-    <nav
+  <nav
       className="rounded-3xl sticky bottom-0.5 self-center-safe bg-(--color-secondary-500) z-10 backdrop-blur-md 
       pt-2
       pb-2"
