@@ -57,4 +57,10 @@ Follow the guide and/or remember to use npm install in your Terminal.
 - To avoid merge conflicts: Once you are done with your feature implementation, you are inside your feature branch:
     1. git switch develop.
     2. git pull origin develop.
+    3. git switch <feature-branch> you are inside you feature branch now
+    4. check git status up-to-date
+    5. git merge develop
+    6. solve merge conflicts if any, i suggest to resolve merge conflit in VSCode
+    7. check git status
+    8. git push origin <feature-branch> our PR is read
 
