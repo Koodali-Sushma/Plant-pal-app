@@ -25,7 +25,7 @@ export default function PlantList({ plants, onAddPlant, successMessage }) {
         {plants.map((plant) => (
           <li
             key={plant._id}
-            className=" group relative h-40 w-40 m-auto overflow-hidden rounded-3xl border-(--color-secondary-500)"
+            className=" group relative h-40 w-40 m-auto overflow-hidden rounded-2xl border-(--color-secondary-500)"
           >
             {plant.imageUrl && (
               <Image

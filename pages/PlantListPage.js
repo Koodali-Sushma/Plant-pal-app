@@ -52,7 +52,7 @@ export default function PlantListPage() {
 
   return (
     <>
-     <h1 className="mb-8 text-center text-4xl font-bold tracking-tight text-(--color-heading) sm:text-5xl sticky bg-(--color-secondary-500) rounded-3xl">
+     <h1 className="mb-8 text-center text-4xl font-bold tracking-tight text-(--color-heading) sm:text-5xl sticky top-1 z-100 bg-(--color-secondary-500) rounded-3xl">
         All Plants
       </h1>
       <Link
