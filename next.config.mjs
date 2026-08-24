@@ -8,6 +8,11 @@ const nextConfig = {
         hostname: "images.pexels.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "cdn.midjourney.com",
+        pathname: "/**",
+      },
     ],
   },
 };
