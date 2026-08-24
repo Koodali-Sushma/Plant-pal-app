@@ -23,8 +23,10 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
         ) /* getAll because the user can click multiple seasons, returns an array */,
       description: formData.get("description"),
       room: formData.get("room"),
+      isOwned: false,
     };
 
+    /* after submitting the data show a message for the user */
     const success = await onSubmitForm(data);
 
     if (success) {

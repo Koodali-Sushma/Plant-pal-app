@@ -24,7 +24,10 @@ export default function Navigation() {
           </Link>
         </li>
         <li>
-          <Link href="/" className="flex flex-col items-center gap-1">
+          <Link
+            href="/PlantListPage"
+            className="flex flex-col items-center gap-1"
+          >
             {/* link to plant-list */}
             <Image
               src="/assets/explore.svg"
