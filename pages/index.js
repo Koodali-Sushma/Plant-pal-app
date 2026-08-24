@@ -1,6 +1,7 @@
 import CreatePlantForm from "@/components/createPlantForm";
 import { useOwnershipToggle } from "@/hooks/useOwnershipToggle"; // Import the hook
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import useSWR, { mutate } from "swr";
 import MyPlants from "@/components/MyPlants/MyPlants.js";
@@ -48,7 +49,25 @@ export default function Homepage() {
 
   return (
     <>
-      <h1 className="mb-8 text-center text-4xl font-bold tracking-tight text-emerald-400 sm:text-5xl sticky">
+      {!showForm && (
+        <button type="button" onClick={() => setShowForm(true)}>
+          <Image
+            src="/assets/plus.svg"
+            alt="plus sign"
+            width={40}
+            height={40}
+            className="fixed bottom-20 right-5 z-50 flex h-14 w-14 
+            items-center justify-center rounded-full bg-accent-500 
+            shadow-2xl transition hover:bg-primary-700 hover:shadow-xl"
+          />
+        </button>
+      )}
+      <h1
+        className="mb-8 text-center 
+     text-4xl font-bold tracking-tight 
+     text-(--color-heading) sm:text-5xl 
+     sticky top-1 z-100 bg-(--color-secondary-500) rounded-3xl"
+      >
         My Plants
       </h1>
 
@@ -67,19 +86,6 @@ export default function Homepage() {
         />
       )}
 
-      {!showForm && (
-        <button type="button" onClick={() => setShowForm(true)}>
-          <Image
-            src="/assets/plus.svg"
-            alt="plus sign"
-            width={40}
-            height={40}
-            className="fixed bottom-20 right-5 z-50 flex h-14 w-14 
-            items-center justify-center rounded-full bg-accent-500 
-            shadow-2xl transition hover:bg-primary-700 hover:shadow-xl"
-          />
-        </button>
-      )}
       {showForm && (
         <CreatePlantForm
           onSubmitForm={handleCreatePlant}

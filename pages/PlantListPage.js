@@ -1,13 +1,17 @@
 import PlantList from "@/components/PlantList/PlantList";
 import useSWR, { mutate } from "swr";
-import { useOwnershipToggle } from "@/hooks/useOwnershipToggle"; // Import the hook
+import { useRouter } from "next/router";
+import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import CreatePlantForm from "@/components/createPlantForm";
+import { useOwnershipToggle } from "@/hooks/useOwnershipToggle"; // Import the hook
 
 export default function PlantListPage() {
   const [showForm, setShowForm] = useState(false); /* form to add new plants */
   const [successMessage, setSuccessMessage] = useState("");
   const { data, isLoading } = useSWR("/api/plants");
+
   // Get the function from your custom hook
   const { handleOwnershipToggle } = useOwnershipToggle();
   if (isLoading) {
@@ -52,9 +56,29 @@ export default function PlantListPage() {
 
   return (
     <>
-      <h1 className="mb-8 text-center text-4xl font-bold tracking-tight text-emerald-400 sm:text-5xl sticky">
+      <h1
+        className="mb-8 text-center 
+     text-4xl font-bold tracking-tight 
+     text-(--color-heading) sm:text-5xl 
+     sticky top-1 z-100 bg-(--color-secondary-500) rounded-3xl"
+      >
         All Plants
       </h1>
+      <Link
+        href="/"
+        className="flex flex-row items-center gap-2  
+        mt-0.5 mb-1.5 w-30 bg-(--color-primary-100) 
+        hover:bg-(color-secondary-500) rounded-3xl text-var(--font-body)"
+      >
+        <Image
+          className="p-0 w-7 "
+          src="./assets/back-arrow-light.svg"
+          alt="image of an arrow pointing left"
+          width={500}
+          height={500}
+        />
+        MyPlants
+      </Link>
 
       {showForm && (
         <CreatePlantForm

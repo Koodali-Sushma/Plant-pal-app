@@ -26,8 +26,10 @@
   --color-primary-700: var(--primary-700);
 
   --color-secondary-100: #ffe4cc;
+  --color-secondary-200: #ecc29c;
   --color-secondary-500: #f2793a;
   --color-secondary-700: #b24810;
+  --color-secondary-800: #732d08;
   --color-secondary-900: #331200;
 
   --color-accent-500: #f2b705;

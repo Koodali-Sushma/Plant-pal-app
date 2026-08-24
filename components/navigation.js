@@ -2,54 +2,52 @@
 
 import { useRouter } from "next/router";
 import Link from "next/link";
-import Image from "next/image";
+import { MyPlantsIcon, ExploreIcon, RoomsIcon } from "./svgicons";
 
 export default function Navigation() {
   const router = useRouter();
 
-  /* !!!!! CORRECT LINKS MUST BE ADDED */
+  const isMyPlants = router.pathname === "/";
+  const isExplore = router.pathname === "/PlantListPage";
+  /*   const isRooms = router.pathname === "/rooms"; */
+
   return (
-    <nav className="border-b sticky bottom-0">
+    <nav
+      className="rounded-3xl fixed bottom-4 left-4 right-4 bg-(--color-secondary-500) z-10 backdrop-blur-md 
+      pt-2
+      pb-2"
+    >
       <ul className="mx-auto flex items-center justify-center gap-8">
         <li>
-          <Link href="/" className="flex flex-col items-center gap-1">
-            {/* link to my-plants */}
-            <Image
-              src="/assets/plant.svg"
-              alt="icon of a plant"
-              width={40}
-              height={40}
+          <Link
+            href="/"
+            className={`flex flex-col items-center rounded-full p-2 ${isMyPlants ? "bg-accent-500 text-secondary-800" : ""}`}
+          >
+            <MyPlantsIcon
+              className={`h-10 w-10 ${isMyPlants ? "text-secondary-800" : "text-secondary-700"}`}
             />
-            MyPlants
           </Link>
         </li>
         <li>
           <Link
             href="/PlantListPage"
-            className="flex flex-col items-center gap-1"
+            className={`flex flex-col items-center rounded-full p-2 ${isExplore ? "bg-accent-500 text-secondary-900" : ""}`}
           >
-            {/* link to plant-list */}
-            <Image
-              src="/assets/explore.svg"
-              alt="icon of a compass"
-              width={40}
-              height={40}
+            <ExploreIcon
+              className={`h-10 w-10 ${isExplore ? "text-secondary-800" : "text-secondary-700"}`}
             />
-            Explore
           </Link>
         </li>
-        <li>
-          <Link href="/" className="flex flex-col items-center gap-1">
-            {/* link to rooms */}
-            <Image
-              src="/assets/rooms.svg"
-              alt="icon of a house"
-              width={40}
-              height={40}
+        {/*         <li>
+          <Link
+            href="/rooms"
+            className={`flex flex-col items-center rounded-full p-2 ${isRooms ? "bg-accent-500 text-secondary-900" : ""}`}
+          >
+            <RoomsIcon
+              className={`h-10 w-10 ${isRooms ? "text-secondary-800" : "text-secondary-700"}`}
             />
-            Rooms
           </Link>
-        </li>
+        </li> */}
       </ul>
     </nav>
   );
