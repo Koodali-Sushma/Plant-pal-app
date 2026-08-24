@@ -9,7 +9,7 @@ export default function Navigation() {
 
   const isMyPlants = router.pathname === "/";
   const isExplore = router.pathname === "/PlantListPage";
-  const isRooms = router.pathname === "/rooms";
+  /*   const isRooms = router.pathname === "/rooms"; */
 
   return (
     <nav
