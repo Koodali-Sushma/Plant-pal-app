@@ -13,9 +13,14 @@ export function useOwnershipToggle() {
       }),
     });
 
-    if (response.ok) {
-      await mutate("/api/plants");
+    if (!response.ok) {
+      throw new Error("Failed to update plant ownership");
     }
+    const updatedPlant = await response.json();
+
+    await mutate("/api/plants");
+
+    return updatedPlant;
   }
 
   return { handleOwnershipToggle };

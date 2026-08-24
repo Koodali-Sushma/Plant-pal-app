@@ -5,7 +5,7 @@ import Image from "next/image";
 export default function MyPlants({ plants, onOwnershipToggle }) {
   return (
     <>
-      <div className="grid grid-cols-2 m-auto gap-5  list-none w-100">
+      <ul className="grid grid-cols-2 m-auto gap-5  list-none w-100">
         {plants.map((plant) => (
           <li
             key={plant._id}
@@ -41,7 +41,7 @@ export default function MyPlants({ plants, onOwnershipToggle }) {
             />
           </li>
         ))}
-      </div>
+      </ul>
     </>
   );
 }
