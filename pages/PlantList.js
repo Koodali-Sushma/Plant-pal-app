@@ -4,22 +4,20 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { useState } from "react";
 import CreatePlantForm from "@/components/createPlantForm";
-import { Oswald, Lato } from "next/font/google";
-import Image from "next/image";
 export default function PlantListPage() {
   const [showForm, setShowForm] = useState(false); /* form to add new plants */
-     const { data, isLoading } = useSWR("/api/plants");
-      
-    
-        if(isLoading) {
-            return <h1>Loading...</h1>;
-        }
-    
-        if (!data) {
-            return null;
-        }
+  const [successMessage, setSuccessMessage] = useState("");
+  const { data, isLoading } = useSWR("/api/plants");
 
-     async function handleCreatePlant(data) {
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
+
+  if (!data) {
+    return null;
+  }
+
+  async function handleCreatePlant(data) {
     const response = await fetch("/api/plants", {
       method: "POST",
       headers: {
@@ -41,22 +39,19 @@ export default function PlantListPage() {
 
     setShowForm(false);
 
+    /* shows success message for 5 seconds when a new plant is added */
+    setSuccessMessage("Plant successfully added!");
+
+    setTimeout(() => {
+      setSuccessMessage("");
+    }, 5000);
+
     return true;
   }
 
   return (
     <>
-    <span className="snap-always flex items-center content-center justify-between gap-3 m-auto w-rounded-3xl w-screen bg-(--color-primary-100) px-4 py-3 sticky top-0 z-30" >
-    <h1 className="text-3xl font-extrabold tracking-tight text(--font-heading)">All Plants </h1>
-  <Image
-  className="h-12 w-12 shrink-0 object-contain"
-  src="/images/all-plants-icon-v2.png"
-  alt="collection of plants in pots"
-  width={500}
-  height={500}/>
-  </span> 
-  <div className="flex flex-row w-40 p-0 mt-5 rounded-3xl">
-    <Link
+      <Link
         href="/"
         className="flex flex-row items-center gap-2 p-2 m-3 bg-(--color-primary-100) hover:bg-(color-secondary-500) rounded-3xl text-var(--font-body)"
       >
@@ -68,10 +63,11 @@ export default function PlantListPage() {
         height={500}
         />MyPlants
       </Link>
-      </div>
-      
+      <h1 className="mb-8 text-center text-4xl font-bold tracking-tight text-emerald-400 sm:text-5xl sticky">
+        All Plants
+      </h1>
 
-{showForm && (
+      {showForm && (
         <CreatePlantForm
           onSubmitForm={handleCreatePlant}
           onCancel={() => setShowForm(false)}
@@ -81,8 +77,8 @@ export default function PlantListPage() {
       <PlantList
         plants={data}
         onAddPlant={() => setShowForm(true)}
+        successMessage={successMessage}
       />
-
     </>
   );
 }

@@ -6,7 +6,6 @@ import { useState } from "react";
 export default function CreatePlantForm({ onSubmitForm, onCancel }) {
   const [descriptionLength, setDescriptionLength] =
     useState(0); /* to count the length of the description  */
-  const [successMessage, setSuccessMessage] = useState("");
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -26,123 +25,189 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
       room: formData.get("room"),
     };
 
-    /* after submitting the data show a message for the user */
     const success = await onSubmitForm(data);
 
     if (success) {
       event.target.reset();
       setDescriptionLength(0);
-      setSuccessMessage("Plant successfully added!");
-
-      /* message disappears after 3 seconds */
-      setTimeout(() => {
-        setSuccessMessage("");
-      }, 3000);
     }
   }
 
   return (
     <>
-      <h2>Add a new plant</h2>
-      {successMessage && <p>{successMessage}</p>}
-      <form
-        onSubmit={handleSubmit}
-        name="create-plant"
-        aria-label="add a plant to your list"
-      >
-        {/* This is just a placeholder image, has to be replaced by a real import */}
-        <button type="button" onClick={onCancel}>
-          Cancel
-        </button>
-        <label>Plant Image:</label>
-        <Image
-          src="/images/plant-placeholder.png"
-          alt="placeholder for plant image"
-          width={200}
-          height={200}
-        />
+      <div className="mx-auto w-full max-w-2xl rounded-3xl bg-primary-100 p-5 shadow-lg sm:p-8 mb-10">
+        <h2 className="mb-2 var(--font-heading) text-3xl font-bold">
+          Add a new plant
+        </h2>
 
-        <label htmlFor="name">Name:</label>
-        <input type="text" id="name" name="name" required />
+        <form
+          onSubmit={handleSubmit}
+          name="create-plant"
+          aria-label="add a plant to your list"
+          className="flex flex-col gap-6"
+        >
+          {/* This is just a placeholder image, has to be replaced by a real import */}
+          <div className="flex gap-3 pt-2">
+            <button
+              type="button"
+              onClick={onCancel}
+              className="flex-1 rounded-xl border-2 border-secondary-500 px-5 py-3 font-semibold text-secondary-500 transition hover:bg-secondary-500 hover:text-background"
+            >
+              Cancel
+            </button>
+          </div>
 
-        <label htmlFor="botanical-name">Botanical Name:</label>
-        <input type="text" id="botanical-name" name="botanicalName" />
+          <div className="flex flex-col items-center gap-3">
+            <label className="flex flex-col gap-2 font-semibold">
+              Plant Image:
+            </label>
+            <Image
+              src="/images/plant-placeholder.png"
+              alt="placeholder for plant image"
+              width={200}
+              height={200}
+              className="rounded-xl object-cover"
+            />
+          </div>
 
-        <fieldset>
-          <legend>Water Need:</legend>
-          <label>
-            <input type="radio" name="waterNeed" value="Low" required />
-            Low
+          <label htmlFor="name" className="flex flex-col gap-2 font-semibold">
+            Name:
           </label>
-          <label>
-            <input type="radio" name="waterNeed" value="Medium" />
-            Medium
-          </label>
-          <label>
-            <input type="radio" name="waterNeed" value="High" />
-            High
-          </label>
-        </fieldset>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            className="rounded-xl border border-primary-500 bg-white px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/30"
+          />
 
-        <fieldset>
-          <legend>Light Need:</legend>
-          <label>
-            <input type="radio" name="lightNeed" value="Full Sun" required />
-            Full Sun
+          <label
+            htmlFor="botanical-name"
+            className="flex flex-col gap-2 font-semibold"
+          >
+            Botanical Name:
           </label>
-          <label>
-            <input type="radio" name="lightNeed" value="Partial Shade" />
-            Partial Shade
-          </label>
-          <label>
-            <input type="radio" name="lightNeed" value="Full Shade" />
-            Full Shade
-          </label>
-        </fieldset>
+          <input
+            type="text"
+            id="botanical-name"
+            name="botanicalName"
+            className="rounded-xl border border-primary-500 bg-white px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/30" /* /30 means 30% of opacity */
+          />
 
-        <fieldset>
-          <legend>Fertiliser Season:</legend>
-          <label>
-            <input type="checkbox" name="fertiliserSeason" value="Spring" />
-            Spring
-          </label>
-          <label>
-            <input type="checkbox" name="fertiliserSeason" value="Summer" />
-            Summer
-          </label>
-          <label>
-            <input type="checkbox" name="fertiliserSeason" value="Autumn" />
-            Autumn
-          </label>
-          <label>
-            <input type="checkbox" name="fertiliserSeason" value="Winter" />
-            Winter
-          </label>
-        </fieldset>
+          <fieldset>
+            <legend className="flex flex-col gap-2 font-semibold mb-1">
+              Water Need:
+            </legend>
 
-        <label htmlFor="description">Description:</label>
-        <textarea
-          id="description"
-          name="description"
-          maxLength={250}
-          onChange={(event) => setDescriptionLength(event.target.value.length)}
-        />
-        <small>{descriptionLength} / 250</small>
+            <div className="grid grid-cols-3 gap-3">
+              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+                <input type="radio" name="waterNeed" value="Low" required />
+                Low
+              </label>
+              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+                <input type="radio" name="waterNeed" value="Medium" />
+                Medium
+              </label>
+              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+                <input type="radio" name="waterNeed" value="High" />
+                High
+              </label>
+            </div>
+          </fieldset>
 
-        <label htmlFor="room">Select a Room:</label>
-        <select name="room" id="room">
-          <option value="">Select a room</option>
-          <option value="livingRoom">Living Room</option>
-          <option value="kitchen">Kitchen</option>
-          <option value="bedroom">Bedroom</option>
-          <option value="balcony">Balcony</option>
-          <option value="bathroom">Bathroom</option>
-          <option value="other">Other</option>{" "}
+          <fieldset>
+            <legend className="mb-1 font-semibold ">Light Need:</legend>
+            <div className="grid grid-cols-3 gap-1">
+              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+                <input
+                  type="radio"
+                  name="lightNeed"
+                  value="Full Sun"
+                  required
+                />
+                Full Sun
+              </label>
+              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+                <input type="radio" name="lightNeed" value="Partial Shade" />
+                Partial Shade
+              </label>
+              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+                <input type="radio" name="lightNeed" value="Full Shade" />
+                Full Shade
+              </label>
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend className="flex flex-col gap-2 font-semibold mb-1">
+              Fertiliser Season:
+            </legend>
+            <div className="grid grid-cols-4 gap-3">
+              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+                <input type="checkbox" name="fertiliserSeason" value="Spring" />
+                Spring
+              </label>
+              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+                <input type="checkbox" name="fertiliserSeason" value="Summer" />
+                Summer
+              </label>
+              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+                <input type="checkbox" name="fertiliserSeason" value="Autumn" />
+                Autumn
+              </label>
+              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+                <input type="checkbox" name="fertiliserSeason" value="Winter" />
+                Winter
+              </label>
+            </div>
+          </fieldset>
+
+          <label
+            htmlFor="description"
+            className="flex flex-col gap-2 font-semibold "
+          >
+            Description:
+          </label>
+          <textarea
+            id="description"
+            name="description"
+            maxLength={250}
+            onChange={(event) =>
+              setDescriptionLength(event.target.value.length)
+            }
+            className="min-h-32 resize-y rounded-xl border border-primary-500 bg-white px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/30"
+          />
+          <small className="self-end font-normal text-secondary-700">
+            {descriptionLength} / 250
+          </small>
+          {/*
+          <label htmlFor="room" className="flex flex-col gap-2 font-semibold">
+            Select a Room:
+          </label>
+            <select
+            name="room"
+            id="room"
+            className="rounded-xl border border-primary-500 bg-white px-4 py-3 outline-none transition focus:ring-2 focus:ring-primary-700/30"
+          >
+            <option value="">Select a room</option>
+            <option value="livingRoom">Living Room</option>
+            <option value="kitchen">Kitchen</option>
+            <option value="bedroom">Bedroom</option>
+            <option value="balcony">Balcony</option>
+            <option value="bathroom">Bathroom</option>
+            <option value="other">Other</option>{" "} */}
           {/* has to be updated once the rooms component is build */}
-        </select>
-
-        <button type="submit">ADD</button>
-      </form>
+          {/*  </select>  */}
+          <div className="flex gap-3 pt-2">
+            <button
+              type="submit"
+              className="flex-1 rounded-xl bg-primary-700 px-5 py-3 font-semibold text-background shadow-sm transition hover:bg-foreground hover:shadow-md"
+            >
+              ADD
+            </button>
+          </div>
+        </form>
+      </div>
     </>
   );
 }
