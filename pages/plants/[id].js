@@ -10,7 +10,7 @@ const ROOMS = ["Kitchen", "Balcony", "Living Room", "Bedroom"];
 
 function CareCard({ label, children }) {
   return (
-    <div className="flex flex-col items-center gap-1 p-3 rounded-card bg-secondary-100 shadow-soft text-sm">
+    <div className="flex flex-col items-center gap-1 p-3 rounded-card bg-secondary-100 shadow-soft text-sm text-secondary-900">
       <span className="text-xs uppercase tracking-wide text-secondary-700">
         {label}
       </span>
