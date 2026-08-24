@@ -53,7 +53,13 @@ export default function Homepage() {
       </h1>
 
       {ownedPlants.length === 0 ? (
-        <p>You do not own any plants yet. Explore the Plant List.</p>
+        <p
+          className="mx-auto mt-12 max-w-md rounded-xl
+         border border-emerald-300/30 bg-emerald-50 p-6 
+         text-center text-lg font-semibold text-emerald-700 shadow-sm"
+        >
+          You do not own any plants yet. Explore the Plant List.
+        </p>
       ) : (
         <MyPlants
           plants={ownedPlants}
@@ -68,7 +74,9 @@ export default function Homepage() {
             alt="plus sign"
             width={40}
             height={40}
-            className="fixed bottom-20 right-5 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-accent-500 shadow-2xl transition hover:bg-primary-700 hover:shadow-xl"
+            className="fixed bottom-20 right-5 z-50 flex h-14 w-14 
+            items-center justify-center rounded-full bg-accent-500 
+            shadow-2xl transition hover:bg-primary-700 hover:shadow-xl"
           />
         </button>
       )}
