@@ -1,6 +1,7 @@
 import CreatePlantForm from "@/components/createPlantForm";
 import { useOwnershipToggle } from "@/hooks/useOwnershipToggle"; // Import the hook
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import useSWR, { mutate } from "swr";
 import MyPlants from "@/components/MyPlants/MyPlants.js";
@@ -52,6 +53,7 @@ export default function Homepage() {
         My Plants
       </h1>
 
+      <Link href="/PlantListPage">Plant List</Link>
       {ownedPlants.length === 0 ? (
         <p
           className="mx-auto mt-12 max-w-md rounded-xl

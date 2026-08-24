@@ -12,14 +12,12 @@ export default function Navigation() {
   /*   const isRooms = router.pathname === "/rooms"; */
 
   return (
-    <nav
-      className="fixed bottom-4 left-4 right-4 border bg-secondary-100/70 backdrop-blur-md text-secondary-700
-      z-50
-      rounded-full
+  <nav
+      className="rounded-3xl sticky bottom-0.5 self-center-safe bg-(--color-secondary-500) z-10 backdrop-blur-md 
       pt-2
       pb-2"
     >
-      <ul className="mx-auto flex items-center justify-center gap-12">
+      <ul className="mx-auto flex items-center justify-center gap-8">
         <li>
           <Link
             href="/"
