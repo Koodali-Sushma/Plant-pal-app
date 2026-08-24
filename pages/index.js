@@ -32,7 +32,7 @@ export default function Homepage() {
     <>
       <h1>My Plants</h1>
 
-      <Link href="/PlantList">Plant List</Link>
+      <Link href="/PlantListPage">Plant List</Link>
 
       {!showForm && (
         <button type="button" onClick={() => setShowForm(true)}>

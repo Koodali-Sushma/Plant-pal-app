@@ -9,7 +9,7 @@ export default function Navigation() {
 
   /* !!!!! CORRECT LINKS MUST BE ADDED */
   return (
-    <nav className="rounded-3xl sticky bottom-0 self-center-safe bg-(--color-primary-100) z-10">
+    <nav className="rounded-3xl sticky bottom-0 self-center-safe bg-(--color-secondary-500) z-10">
       <ul className="mx-auto flex items-center justify-center gap-8">
         <li>
           <Link href="/" className="flex flex-col items-center gap-1">
