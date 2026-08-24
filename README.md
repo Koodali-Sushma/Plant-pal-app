@@ -38,3 +38,23 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+
+## .env.local
+
+Remember to set up your local .env.local file:
+MONGODB_URI=mongodb+srv://<db_username>:<db_password>@myfirstcluster.gg5kqih.mongodb.net/plant-pal-database?appName=plant-pal-app
+
+## Tailwind
+
+In this project, we decided to work with Tailwind: https://tailwindcss.com/docs/installation/framework-guides/nextjs
+Follow the guide and/or remember to use npm install in your Terminal.
+
+## How we work
+
+- Push from your feature branch to `develop`
+- `main` is updated once a day
+- remember to pull at the beginning of the day
+- To avoid merge conflicts: Once you are done with your feature implementation, you are inside your feature branch:
+    1. git switch develop.
+    2. git pull origin develop.
+
