@@ -8,7 +8,7 @@ export default function Navigation() {
   const router = useRouter();
 
   const isMyPlants = router.pathname === "/";
-  const isExplore = router.pathname === "/PlantList";
+  const isExplore = router.pathname === "/PlantListPage";
   const isRooms = router.pathname === "/rooms";
 
   return (
@@ -23,10 +23,10 @@ export default function Navigation() {
         <li>
           <Link
             href="/"
-            className={`flex flex-col items-center rounded-full p-2 ${isMyPlants ? "bg-accent-500 text-secondary-900" : ""}`}
+            className={`flex flex-col items-center rounded-full p-2 ${isMyPlants ? "bg-accent-500 text-secondary-800" : ""}`}
           >
             <MyPlantsIcon
-              className={`h-10 w-10 ${isMyPlants ? "text-secondary-900" : "text-secondary-700"}`}
+              className={`h-10 w-10 ${isMyPlants ? "text-secondary-800" : "text-secondary-700"}`}
             />
           </Link>
         </li>
@@ -36,20 +36,20 @@ export default function Navigation() {
             className={`flex flex-col items-center rounded-full p-2 ${isExplore ? "bg-accent-500 text-secondary-900" : ""}`}
           >
             <ExploreIcon
-              className={`h-10 w-10 ${isExplore ? "text-secondary-900" : "text-secondary-700"}`}
+              className={`h-10 w-10 ${isExplore ? "text-secondary-800" : "text-secondary-700"}`}
             />
           </Link>
         </li>
-        <li>
+        {/*         <li>
           <Link
             href="/rooms"
             className={`flex flex-col items-center rounded-full p-2 ${isRooms ? "bg-accent-500 text-secondary-900" : ""}`}
           >
             <RoomsIcon
-              className={`h-10 w-10 ${isRooms ? "text-secondary-900" : "text-secondary-700"}`}
+              className={`h-10 w-10 ${isRooms ? "text-secondary-800" : "text-secondary-700"}`}
             />
           </Link>
-        </li>
+        </li> */}
       </ul>
     </nav>
   );
