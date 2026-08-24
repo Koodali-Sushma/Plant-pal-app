@@ -3,7 +3,7 @@
 :root {
   --background: #fefefb;
   --foreground: #14210a;
-  --color-primary-700: #2a5f16;
+  --primary-700: #2a5f16;
 }
 
 @theme inline {
@@ -41,7 +41,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0d150a;
+    --background: darkgreen;
     --foreground: #f2fbe9;
     --primary-700: #7ecb54;
   }

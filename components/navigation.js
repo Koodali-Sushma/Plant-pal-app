@@ -32,7 +32,7 @@ export default function Navigation() {
         </li>
         <li>
           <Link
-            href="/PlantList"
+            href="/PlantListPage"
             className={`flex flex-col items-center rounded-full p-2 ${isExplore ? "bg-accent-500 text-secondary-900" : ""}`}
           >
             <ExploreIcon

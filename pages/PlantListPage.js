@@ -1,25 +1,24 @@
 import PlantList from "@/components/PlantList/PlantList";
 import useSWR, { mutate } from "swr";
-import { useRouter } from "next/router";
-import Link from "next/link";
+import { useOwnershipToggle } from "@/hooks/useOwnershipToggle"; // Import the hook
 import { useState } from "react";
 import CreatePlantForm from "@/components/createPlantForm";
 
-
 export default function PlantListPage() {
   const [showForm, setShowForm] = useState(false); /* form to add new plants */
-     const { data, isLoading } = useSWR("/api/plants");
-      
-    
-        if(isLoading) {
-            return <h1>Loading...</h1>;
-        }
-    
-        if (!data) {
-            return null;
-        }
+  const [successMessage, setSuccessMessage] = useState("");
+  const { data, isLoading } = useSWR("/api/plants");
+  // Get the function from your custom hook
+  const { handleOwnershipToggle } = useOwnershipToggle();
+  if (isLoading) {
+    return <h1>Loading...</h1>;
+  }
 
-     async function handleCreatePlant(data) {
+  if (!data) {
+    return null;
+  }
+
+  async function handleCreatePlant(data) {
     const response = await fetch("/api/plants", {
       method: "POST",
       headers: {
@@ -41,21 +40,23 @@ export default function PlantListPage() {
 
     setShowForm(false);
 
+    /* shows success message for 5 seconds when a new plant is added */
+    setSuccessMessage("Plant successfully added!");
+
+    setTimeout(() => {
+      setSuccessMessage("");
+    }, 5000);
+
     return true;
   }
 
   return (
     <>
-    <Link
-        href="/"
-        className="mb-4 inline-block text-emerald-400 hover:underline"
-      >
-        ← Back to My Plants
-      </Link>
-    <h1 className="mb-8 text-center text-4xl font-bold tracking-tight text-emerald-400 sm:text-5xl sticky">All Plants</h1>
-   
+      <h1 className="mb-8 text-center text-4xl font-bold tracking-tight text-emerald-400 sm:text-5xl sticky">
+        All Plants
+      </h1>
 
-{showForm && (
+      {showForm && (
         <CreatePlantForm
           onSubmitForm={handleCreatePlant}
           onCancel={() => setShowForm(false)}
@@ -65,8 +66,9 @@ export default function PlantListPage() {
       <PlantList
         plants={data}
         onAddPlant={() => setShowForm(true)}
+        onOwnershipToggle={handleOwnershipToggle}
+        successMessage={successMessage}
       />
-
     </>
   );
 }
