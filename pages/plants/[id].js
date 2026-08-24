@@ -84,7 +84,7 @@ export default function PlantDetails() {
           {plant.fertiliserSeason?.join(", ")}
         </CareCard>
       </div>
-
+      {/* 
       <div className="mt-6 p-4 rounded-card bg-primary-100 shadow-soft">
         <label className="block text-sm font-medium text-primary-700 mb-1">
           Assign to a room
@@ -97,7 +97,7 @@ export default function PlantDetails() {
             </option>
           ))}
         </select>
-      </div>
+      </div> */}
     </main>
   );
 }
