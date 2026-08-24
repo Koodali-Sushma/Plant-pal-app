@@ -6,8 +6,7 @@ import Image from "next/image";
 import { useState } from "react";
 import CreatePlantForm from "@/components/createPlantForm";
 import { useOwnershipToggle } from "@/hooks/useOwnershipToggle"; // Import the hook
-import { useState } from "react";
-import CreatePlantForm from "@/components/createPlantForm";
+
 
 export default function PlantListPage() {
   const [showForm, setShowForm] = useState(false); /* form to add new plants */
