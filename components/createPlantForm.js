@@ -39,7 +39,7 @@ export default function CreatePlantForm({
   return (
     <>
       <div className="mx-auto w-full max-w-2xl rounded-3xl bg-primary-100 p-5 shadow-lg sm:p-8 mb-10">
-        <h2 className="mb-2 var(--font-heading) text-3xl font-bold">
+        <h2 className="mb-2 font-heading text-3xl font-bold">
           {initialData ? "Edit a plant" : "Add a new plant"}
         </h2>
 
