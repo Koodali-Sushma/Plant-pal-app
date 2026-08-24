@@ -62,11 +62,15 @@ export default function Homepage() {
           />
         </button>
       )}
-      <h1 className="mb-8 text-center text-4xl font-bold tracking-tight text-emerald-400 sm:text-5xl sticky">
+      <h1
+        className="mb-8 text-center 
+     text-4xl font-bold tracking-tight 
+     text-(--color-heading) sm:text-5xl 
+     sticky top-1 z-100 bg-(--color-secondary-500) rounded-3xl"
+      >
         My Plants
       </h1>
 
-      <Link href="/PlantListPage">Plant List</Link>
       {ownedPlants.length === 0 ? (
         <p
           className="mx-auto mt-12 max-w-md rounded-xl

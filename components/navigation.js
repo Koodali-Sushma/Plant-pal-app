@@ -12,8 +12,8 @@ export default function Navigation() {
   /*   const isRooms = router.pathname === "/rooms"; */
 
   return (
-  <nav
-      className="rounded-3xl sticky bottom-0.5 self-center-safe bg-(--color-secondary-500) z-10 backdrop-blur-md 
+    <nav
+      className="rounded-3xl fixed bottom-4 left-4 right-4 bg-(--color-secondary-500) z-10 backdrop-blur-md 
       pt-2
       pb-2"
     >

@@ -42,12 +42,18 @@ export default function PlantList({
                 className="object-cover transition-transform duration-300  z-0"
               />
             )}
-            <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[30%] bg-linear-to-t from-black/70 to-transparent z-1" />{" "}
+            <div
+              className="pointer-events-none absolute 
+            inset-x-0 bottom-0 h-[30%] bg-linear-to-t from-black/70 to-transparent z-1"
+            />{" "}
             <Link
               className="absolute left-0 bottom-0 flex flex-col p-1.5"
               href={`/plants/${plant._id}`}
             >
-              <span className="font-semibold  drop-shadow-md z-1 absolute-bottom-0 left-0 bg-(--color-primary-500) rounded-3xl p-0.75">
+              <span
+                className="font-semibold  drop-shadow-md z-1 absolute-bottom-0 
+              left-0 bg-(--color-primary-500) rounded-3xl p-0.75"
+              >
                 {plant.name}
               </span>
               <span className="italic text-xs text bg-(--color-primary-100) rounded-3xl">
