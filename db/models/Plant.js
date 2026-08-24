@@ -34,7 +34,12 @@ const plantSchema = new Schema({
   description: {
     type: String,
     trim: true
-  }
+  },
+  room: {
+  type: String,
+  enum: ['livingRoom', 'kitchen', 'bedroom', 'balcony', 'bathroom', 'other'],
+  trim: true
+}
 },
 {timestamps: true}
 );
