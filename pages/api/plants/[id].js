@@ -25,6 +25,35 @@ export default async function handler(request, response) {
         .status(400)
         .json({ status: "Invalid request", error: error.message });
     }
+  } else if (request.method === "PATCH") {
+    try {
+      const { isOwned } = request.body;
+
+      if (typeof isOwned !== "boolean") {
+        return response.status(400).json({
+          status: "isOwned must be a boolean",
+        });
+      }
+
+      const updatedPlant = await Plant.findByIdAndUpdate(
+        id,
+        { isOwned }, //only update isOwned
+        { new: true, runValidators: true },
+      );
+
+      if (!updatedPlant) {
+        return response.status(404).json({
+          status: "Plant not found",
+        });
+      }
+
+      response.status(200).json(updatedPlant);
+    } catch (error) {
+      response.status(400).json({
+        status: "Invalid request",
+        error: error.message,
+      });
+    }
   }
   // update plant logic
   else if (request.method === "PUT") {

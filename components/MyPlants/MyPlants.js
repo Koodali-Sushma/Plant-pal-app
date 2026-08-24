@@ -2,34 +2,14 @@ import Link from "next/link";
 import OwnershipButton from "@/components/OwnershipButton/OwnershipButton"; // Import your reusable ownership component
 import Image from "next/image";
 
-export default function PlantList({
-  plants,
-  onAddPlant,
-  onOwnershipToggle,
-  successMessage,
-}) {
+export default function MyPlants({ plants, onOwnershipToggle }) {
   return (
     <>
-      <button
-        type="button"
-        onClick={onAddPlant}
-        className="fixed bottom-20 right-10 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-accent-500 shadow-2xl transition hover:bg-(--color-primary-700) hover:shadow-xl"
-      >
-        <Image src="/assets/plus.svg" alt="plus sign" width={40} height={40} />
-      </button>
-
-      {/* shows message when new plant is successfully added */}
-      {successMessage && (
-        <p className="mb-6 rounded-xl border border-primary-500/30 bg-primary-100 px-4 py-3 text-center font-semibold text-primary-700 shadow-sm">
-          {successMessage}
-        </p>
-      )}
-
-      <div className="grid grid-cols-2 gap-2  list-none">
+      <ul className="grid grid-cols-2 m-auto gap-5  list-none w-100">
         {plants.map((plant) => (
           <li
             key={plant._id}
-            className=" group relative h-40 w-40 m-auto overflow-hidden rounded-2xl border-(--color-secondary-500)"
+            className=" group relative h-48 w-48 overflow-hidden rounded-xl border"
           >
             {plant.imageUrl && (
               <Image
@@ -44,13 +24,13 @@ export default function PlantList({
             )}
             <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[30%] bg-linear-to-t from-black/70 to-transparent z-1" />{" "}
             <Link
-              className="absolute left-0 bottom-0 flex flex-col p-1.5"
+              className="absolute left-0 top-0 flex flex-col p-3"
               href={`/plants/${plant._id}`}
             >
-              <span className="font-semibold  drop-shadow-md z-1 absolute-bottom-0 left-0 bg-(--color-primary-500) rounded-3xl p-0.75">
+              <span className="font-semibold text-white drop-shadow-md z-1 absolute-bottom-0 left-0">
                 {plant.name}
               </span>
-              <span className="italic text-xs text bg-(--color-primary-100) rounded-3xl">
+              <span className="text-sm text-blue drop-shadow-md">
                 {plant.botanicalName}
               </span>
             </Link>
@@ -61,7 +41,7 @@ export default function PlantList({
             />
           </li>
         ))}
-      </div>
+      </ul>
     </>
   );
 }
