@@ -14,7 +14,7 @@ export default async function handler(request, response) {
 
       if (!plant) {
         response.status(404).json({
-          status: "Plant not found. Feel free to add your own Plants!",
+          status: `Plant not found. Feel free to add your own Plants!`,
         });
         return;
       }
@@ -54,6 +54,14 @@ export default async function handler(request, response) {
         error: error.message,
       });
     }
+  }
+  // update plant logic
+  else if (request.method === "PUT") {
+    //get the updated data from request body
+    const updatedPlant = request.body;
+    // Find the plant by its ID and update the plant using its ID and the new data.
+    await Plant.findByIdAndUpdate(id, updatedPlant);
+    return response.status(200).json({ status: `Plant successfully updated` });
   } else {
     response.status(405).json({ status: "Method not allowed." });
   }

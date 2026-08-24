@@ -3,9 +3,14 @@
 import Image from "next/image";
 import { useState } from "react";
 
-export default function CreatePlantForm({ onSubmitForm, onCancel }) {
-  const [descriptionLength, setDescriptionLength] =
-    useState(0); /* to count the length of the description  */
+export default function CreatePlantForm({
+  onSubmitForm,
+  onCancel,
+  initialData,
+}) {
+  const [descriptionLength, setDescriptionLength] = useState(
+    initialData?.description ? initialData.description.length : 0,
+  );
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -13,14 +18,10 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
     const data = {
       name: formData.get("name"),
       botanicalName: formData.get("botanicalName"),
-      imageUrl:
-        "/images/plant-placeholder.png" /* has to be replaced when image upload is possible */,
+      imageUrl: "/images/plant-placeholder.png",
       waterNeed: formData.get("waterNeed"),
       lightNeed: formData.get("lightNeed"),
-      fertiliserSeason:
-        formData.getAll(
-          "fertiliserSeason",
-        ) /* getAll because the user can click multiple seasons, returns an array */,
+      fertiliserSeason: formData.getAll("fertiliserSeason"),
       description: formData.get("description"),
       room: formData.get("room"),
       isOwned: false,
@@ -39,7 +40,7 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
     <>
       <div className="mx-auto w-full max-w-2xl rounded-3xl bg-primary-100 p-5 shadow-lg sm:p-8 mb-10">
         <h2 className="mb-2 var(--font-heading) text-3xl font-bold">
-          Add a new plant
+          {initialData ? "Edit a plant" : "Add a new plant"}
         </h2>
 
         <form
@@ -48,12 +49,11 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
           aria-label="add a plant to your list"
           className="flex flex-col gap-6"
         >
-          {/* This is just a placeholder image, has to be replaced by a real import */}
           <div className="flex gap-3 pt-2">
             <button
               type="button"
               onClick={onCancel}
-              className="flex-1 rounded-xl border-2 border-secondary-500 px-5 py-3 font-semibold text-secondary-500 transition hover:bg-secondary-500 hover:text-background"
+              className="flex-1 rounded-xl border-2 border-secondary-500 px-5 py-3 font-semibold text-secondary-500 transition hover:bg-secondary-500 hover:text-background cursor-pointer"
             >
               Cancel
             </button>
@@ -79,6 +79,7 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
             type="text"
             id="name"
             name="name"
+            defaultValue={initialData ? initialData.name : ""}
             required
             className="rounded-xl border border-primary-500 bg-white px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/30"
           />
@@ -93,32 +94,48 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
             type="text"
             id="botanical-name"
             name="botanicalName"
-            className="rounded-xl border border-primary-500 bg-white px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/30" /* /30 means 30% of opacity */
+            defaultValue={initialData ? initialData.botanicalName : ""}
+            className="rounded-xl border border-primary-500 bg-white px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/30"
           />
 
           <fieldset>
             <legend className="flex flex-col gap-2 font-semibold mb-1">
               Water Need:
             </legend>
-
             <div className="grid grid-cols-3 gap-3">
               <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
-                <input type="radio" name="waterNeed" value="Low" required />
+                <input
+                  type="radio"
+                  name="waterNeed"
+                  value="Low"
+                  required
+                  defaultChecked={initialData?.waterNeed === "Low"}
+                />
                 Low
               </label>
               <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
-                <input type="radio" name="waterNeed" value="Medium" />
+                <input
+                  type="radio"
+                  name="waterNeed"
+                  value="Medium"
+                  defaultChecked={initialData?.waterNeed === "Medium"}
+                />
                 Medium
               </label>
               <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
-                <input type="radio" name="waterNeed" value="High" />
+                <input
+                  type="radio"
+                  name="waterNeed"
+                  value="High"
+                  defaultChecked={initialData?.waterNeed === "High"}
+                />
                 High
               </label>
             </div>
           </fieldset>
 
           <fieldset>
-            <legend className="mb-1 font-semibold ">Light Need:</legend>
+            <legend className="mb-1 font-semibold">Light Need:</legend>
             <div className="grid grid-cols-3 gap-1">
               <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
                 <input
@@ -126,15 +143,26 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
                   name="lightNeed"
                   value="Full Sun"
                   required
+                  defaultChecked={initialData?.lightNeed === "Full Sun"}
                 />
                 Full Sun
               </label>
               <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
-                <input type="radio" name="lightNeed" value="Partial Shade" />
+                <input
+                  type="radio"
+                  name="lightNeed"
+                  value="Partial Shade"
+                  defaultChecked={initialData?.lightNeed === "Partial Shade"}
+                />
                 Partial Shade
               </label>
               <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
-                <input type="radio" name="lightNeed" value="Full Shade" />
+                <input
+                  type="radio"
+                  name="lightNeed"
+                  value="Full Shade"
+                  defaultChecked={initialData?.lightNeed === "Full Shade"}
+                />
                 Full Shade
               </label>
             </div>
@@ -146,19 +174,47 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
             </legend>
             <div className="grid grid-cols-4 gap-3">
               <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
-                <input type="checkbox" name="fertiliserSeason" value="Spring" />
+                <input
+                  type="checkbox"
+                  name="fertiliserSeason"
+                  value="Spring"
+                  defaultChecked={initialData?.fertiliserSeason?.includes(
+                    "Spring",
+                  )}
+                />
                 Spring
               </label>
               <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
-                <input type="checkbox" name="fertiliserSeason" value="Summer" />
+                <input
+                  type="checkbox"
+                  name="fertiliserSeason"
+                  value="Summer"
+                  defaultChecked={initialData?.fertiliserSeason?.includes(
+                    "Summer",
+                  )}
+                />
                 Summer
               </label>
               <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
-                <input type="checkbox" name="fertiliserSeason" value="Autumn" />
+                <input
+                  type="checkbox"
+                  name="fertiliserSeason"
+                  value="Autumn"
+                  defaultChecked={initialData?.fertiliserSeason?.includes(
+                    "Autumn",
+                  )}
+                />
                 Autumn
               </label>
               <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
-                <input type="checkbox" name="fertiliserSeason" value="Winter" />
+                <input
+                  type="checkbox"
+                  name="fertiliserSeason"
+                  value="Winter"
+                  defaultChecked={initialData?.fertiliserSeason?.includes(
+                    "Winter",
+                  )}
+                />
                 Winter
               </label>
             </div>
@@ -166,7 +222,7 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
 
           <label
             htmlFor="description"
-            className="flex flex-col gap-2 font-semibold "
+            className="flex flex-col gap-2 font-semibold"
           >
             Description:
           </label>
@@ -177,35 +233,19 @@ export default function CreatePlantForm({ onSubmitForm, onCancel }) {
             onChange={(event) =>
               setDescriptionLength(event.target.value.length)
             }
+            defaultValue={initialData ? initialData.description : ""}
             className="min-h-32 resize-y rounded-xl border border-primary-500 bg-white px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/30"
           />
           <small className="self-end font-normal text-secondary-700">
             {descriptionLength} / 250
           </small>
-          {/*
-          <label htmlFor="room" className="flex flex-col gap-2 font-semibold">
-            Select a Room:
-          </label>
-            <select
-            name="room"
-            id="room"
-            className="rounded-xl border border-primary-500 bg-white px-4 py-3 outline-none transition focus:ring-2 focus:ring-primary-700/30"
-          >
-            <option value="">Select a room</option>
-            <option value="livingRoom">Living Room</option>
-            <option value="kitchen">Kitchen</option>
-            <option value="bedroom">Bedroom</option>
-            <option value="balcony">Balcony</option>
-            <option value="bathroom">Bathroom</option>
-            <option value="other">Other</option>{" "} */}
-          {/* has to be updated once the rooms component is build */}
-          {/*  </select>  */}
+
           <div className="flex gap-3 pt-2">
             <button
               type="submit"
-              className="flex-1 rounded-xl bg-primary-700 px-5 py-3 font-semibold text-background shadow-sm transition hover:bg-foreground hover:shadow-md"
+              className="flex-1 rounded-xl bg-primary-700 px-5 py-3 font-semibold text-background shadow-sm transition hover:bg-foreground hover:shadow-md cursor-pointer"
             >
-              ADD
+              {initialData ? "UPDATE" : "ADD"}
             </button>
           </div>
         </form>
