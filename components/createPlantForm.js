@@ -20,11 +20,39 @@ export default function CreatePlantForm({
 
   async function handleSubmit(event) {
     event.preventDefault();
+    // Collect all form data from the submitted form.
     const formData = new FormData(event.target);
+    const imageFile = formData.get("file");
+
+    // Keep the existing image path as the default value.
+    let imageUrl = imagePath;
+
+    // Upload the selected image to Vercel Blob if a file was selected.
+    if (imageFile && imageFile.size > 0) {
+      const uploadFormData = new FormData();
+      uploadFormData.append("file", imageFile);
+
+      // Send the image to the upload API endpoint.
+      const uploadResponse = await fetch("/api/upload", {
+        method: "POST",
+        body: uploadFormData,
+      });
+
+      // Stop submitting the form if the image upload failed.
+      if (!uploadResponse.ok) {
+        console.error("Image upload failed");
+        return;
+      }
+
+      // Get the public Blob URL returned by the upload endpoint.
+      const uploadData = await uploadResponse.json();
+      imageUrl = uploadData.url;
+    }
+
     const data = {
       name: formData.get("name"),
       botanicalName: formData.get("botanicalName"),
-      imageUrl: imagePath,
+      imageUrl: imageUrl,
       waterNeed: formData.get("waterNeed"),
       lightNeed: formData.get("lightNeed"),
       fertiliserSeason: formData.getAll("fertiliserSeason"),
@@ -73,8 +101,8 @@ export default function CreatePlantForm({
         <form
           onSubmit={
             initialData
-              ? handleSubmit
-              : () => handleEditSubmit(initialData?.isOwned)
+              ? (event) => handleEditSubmit(initialData?.isOwned)
+              : handleSubmit
           }
           name="create-plant"
           aria-label="add a plant to your list"
@@ -101,6 +129,8 @@ export default function CreatePlantForm({
               height={200}
               className="rounded-xl object-cover"
             />
+            {/* Allow the user to select an image for the plant. */}
+            <input type="file" name="file" accept="image/*" />
           </div>
 
           <label htmlFor="name" className="flex flex-col gap-2 font-semibold">
