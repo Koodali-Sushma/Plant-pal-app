@@ -11,7 +11,8 @@ export default function CreatePlantForm({
   const [descriptionLength, setDescriptionLength] = useState(
     initialData?.description ? initialData.description.length : 0,
   );
-
+  console.log("initial data in edit mode:", initialData);
+  const isOwnedValue = initialData ? initialData.isOwned : false;
   async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -24,9 +25,30 @@ export default function CreatePlantForm({
       fertiliserSeason: formData.getAll("fertiliserSeason"),
       description: formData.get("description"),
       room: formData.get("room"),
-      isOwned: false,
+      isOwned: isOwnedValue,
     };
+    const success = await onSubmitForm(data);
 
+    if (success) {
+      event.target.reset();
+      setDescriptionLength(0);
+    }
+  }
+  async function handleEditSubmit(event, isOwned) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = {
+      name: formData.get("name"),
+      botanicalName: formData.get("botanicalName"),
+      imageUrl: "/images/plant-placeholder.png",
+      waterNeed: formData.get("waterNeed"),
+      lightNeed: formData.get("lightNeed"),
+      fertiliserSeason: formData.getAll("fertiliserSeason"),
+      description: formData.get("description"),
+      room: formData.get("room"),
+      isOwned: isOwnedValue,
+    };
+    console.log("Data after editing: ", data);
     /* after submitting the data show a message for the user */
     const success = await onSubmitForm(data);
 
@@ -44,7 +66,11 @@ export default function CreatePlantForm({
         </h2>
 
         <form
-          onSubmit={handleSubmit}
+          onSubmit={
+            initialData
+              ? handleSubmit
+              : () => handleEditSubmit(initialData?.isOwned)
+          }
           name="create-plant"
           aria-label="add a plant to your list"
           className="flex flex-col gap-6"
@@ -243,7 +269,9 @@ export default function CreatePlantForm({
           <div className="flex gap-3 pt-2">
             <button
               type="submit"
-              className="flex-1 rounded-xl bg-primary-700 px-5 py-3 font-semibold text-background shadow-sm transition hover:bg-foreground hover:shadow-md cursor-pointer"
+              className="flex-1 rounded-xl bg-primary-700 px-5 
+              py-3 font-semibold text-background shadow-sm transition 
+              hover:bg-foreground hover:shadow-md cursor-pointer"
             >
               {initialData ? "UPDATE" : "ADD"}
             </button>
