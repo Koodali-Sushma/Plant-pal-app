@@ -130,7 +130,20 @@ export default function CreatePlantForm({
               className="rounded-xl object-cover"
             />
             {/* Allow the user to select an image for the plant. */}
-            <input type="file" name="file" accept="image/*" />
+            <label
+              htmlFor="plant-image"
+              className="cursor-pointer rounded-xl bg-primary-500 px-5 py-3 font-semibold text-background transition hover:bg-primary-700"
+            >
+              Choose an image
+            </label>
+
+            <input
+              id="plant-image"
+              type="file"
+              name="file"
+              accept="image/*"
+              className="hidden"
+            />
           </div>
 
           <label htmlFor="name" className="flex flex-col gap-2 font-semibold">
