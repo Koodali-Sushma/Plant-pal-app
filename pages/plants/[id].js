@@ -43,12 +43,7 @@ export default function PlantDetails() {
   return (
     <main className="max-w-2x1 mx-auto px-4 py-6 font-body text-foreground">
       <div className="flex justify-between items-center mb-4">
-        <button
-          onClick={() => router.back()}
-          className="text-sm text-primary-700 hover:underline"
-        >
-          ← Back
-        </button>
+        
         <Link
           href={`/plants/${id}/edit`}
           className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-colors text-sm"
