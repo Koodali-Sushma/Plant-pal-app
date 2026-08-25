@@ -141,10 +141,10 @@ export default function CreatePlantForm({
             </label>
             <Image
               src={imagePreview}
-              alt="placeholder for plant image"
+              alt="Preview of selected plant image"
               width={200}
               height={200}
-              className="rounded-xl object-cover"
+              className="h-[200px] w-[200px] rounded-xl object-cover" /* object-cover cuts the uploaded picture in the preview to the size 200x200px */
             />
             {/* Allow the user to select an image for the plant. */}
             <label
