@@ -64,21 +64,7 @@ export default function PlantListPage() {
       >
         All Plants
       </h1>
-      <Link
-        href="/"
-        className="flex flex-row items-center gap-2  
-        mt-0.5 mb-1.5 w-30 bg-(--color-primary-100) 
-        hover:bg-(color-secondary-500) rounded-3xl text-var(--font-body)"
-      >
-        <Image
-          className="p-0 w-7 "
-          src="./assets/back-arrow-light.svg"
-          alt="image of an arrow pointing left"
-          width={500}
-          height={500}
-        />
-        MyPlants
-      </Link>
+      
 
       {showForm && (
         <CreatePlantForm
