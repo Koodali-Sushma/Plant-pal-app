@@ -23,7 +23,7 @@ export default function App({ Component, pageProps }) {
   return (
     <SWRConfig value={{ fetcher }}>
       <>
-        <div className={`${heading.variable} ${body.variable} font-body`}>
+        <div className={`${heading.variable} ${body.variable} font-body pb-28`}>
           <Component {...pageProps} />
           <Navigation />
         </div>
