@@ -13,13 +13,18 @@ export default function CreatePlantForm({
   );
   console.log("initial data in edit mode:", initialData);
   const isOwnedValue = initialData ? initialData.isOwned : false;
+  const imagePath = initialData
+    ? initialData.imageUrl
+    : "/images/plant-placeholder.png";
+  console.log("Image path: ", imagePath);
+
   async function handleSubmit(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = {
       name: formData.get("name"),
       botanicalName: formData.get("botanicalName"),
-      imageUrl: "/images/plant-placeholder.png",
+      imageUrl: imagePath,
       waterNeed: formData.get("waterNeed"),
       lightNeed: formData.get("lightNeed"),
       fertiliserSeason: formData.getAll("fertiliserSeason"),
@@ -34,13 +39,13 @@ export default function CreatePlantForm({
       setDescriptionLength(0);
     }
   }
-  async function handleEditSubmit(event, isOwned) {
+  async function handleEditSubmit(event, isOwnedValue) {
     event.preventDefault();
     const formData = new FormData(event.target);
     const data = {
       name: formData.get("name"),
       botanicalName: formData.get("botanicalName"),
-      imageUrl: "/images/plant-placeholder.png",
+      imageUrl: imagePath,
       waterNeed: formData.get("waterNeed"),
       lightNeed: formData.get("lightNeed"),
       fertiliserSeason: formData.getAll("fertiliserSeason"),
@@ -90,7 +95,7 @@ export default function CreatePlantForm({
               Plant Image:
             </label>
             <Image
-              src="/images/plant-placeholder.png"
+              src={imagePath}
               alt="placeholder for plant image"
               width={200}
               height={200}
