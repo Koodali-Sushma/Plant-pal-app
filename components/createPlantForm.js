@@ -11,12 +11,29 @@ export default function CreatePlantForm({
   const [descriptionLength, setDescriptionLength] = useState(
     initialData?.description ? initialData.description.length : 0,
   );
-  console.log("initial data in edit mode:", initialData);
-  const isOwnedValue = initialData ? initialData.isOwned : false;
+
   const imagePath = initialData
     ? initialData.imageUrl
     : "/images/plant-placeholder.png";
+
+  const [imagePreview, setImagePreview] =
+    useState(imagePath); /* set the preview for the plant image */
+
+  console.log("initial data in edit mode:", initialData);
+  const isOwnedValue = initialData ? initialData.isOwned : false;
+
   console.log("Image path: ", imagePath);
+
+  // Create a temporary URL for the selected image and update the preview.
+  function handleImageChange(event) {
+    const file = event.target.files[0];
+
+    if (file) {
+      // URL.createObjectURL(file) creates a temporary url.
+      const imageUrl = URL.createObjectURL(file);
+      setImagePreview(imageUrl);
+    }
+  }
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -123,7 +140,7 @@ export default function CreatePlantForm({
               Plant Image:
             </label>
             <Image
-              src={imagePath}
+              src={imagePreview}
               alt="placeholder for plant image"
               width={200}
               height={200}
@@ -143,6 +160,7 @@ export default function CreatePlantForm({
               name="file"
               accept="image/*"
               className="hidden"
+              onChange={handleImageChange}
             />
           </div>
 
