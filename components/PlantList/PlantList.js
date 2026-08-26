@@ -1,5 +1,5 @@
 import Link from "next/link";
-import OwnershipButton from "@/components/OwnershipButton/OwnershipButton"; // Import your reusable ownership component
+import OwnershipButton from "@/components/PlantOwnership/OwnershipButton"; // Import your reusable ownership component
 import Image from "next/image";
 
 export default function PlantList({
