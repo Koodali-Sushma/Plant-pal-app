@@ -8,15 +8,12 @@ export default function CreatePlantForm({
   onCancel,
   initialData,
 }) {
-  const [descriptionLength, setDescriptionLength] = useState(
-    initialData?.description ? initialData.description.length : 0,
-  );
-  console.log("initial data in edit mode:", initialData);
-  const isOwnedValue = initialData ? initialData.isOwned : false;
   const imagePath = initialData
     ? initialData.imageUrl
     : "/images/plant-placeholder.png";
-  console.log("Image path: ", imagePath);
+  const [descriptionLength, setDescriptionLength] = useState(
+    initialData?.description ? initialData.description.length : 0,
+  );
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -29,40 +26,10 @@ export default function CreatePlantForm({
       lightNeed: formData.get("lightNeed"),
       fertiliserSeason: formData.getAll("fertiliserSeason"),
       description: formData.get("description"),
-      room: formData.get("room"),
-      isOwned: isOwnedValue,
     };
-    const success = await onSubmitForm(data);
 
-    if (success) {
-      event.target.reset();
-      setDescriptionLength(0);
-    }
+    await onSubmitForm(data);
   }
-  async function handleEditSubmit(event, isOwnedValue) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    const data = {
-      name: formData.get("name"),
-      botanicalName: formData.get("botanicalName"),
-      imageUrl: imagePath,
-      waterNeed: formData.get("waterNeed"),
-      lightNeed: formData.get("lightNeed"),
-      fertiliserSeason: formData.getAll("fertiliserSeason"),
-      description: formData.get("description"),
-      room: formData.get("room"),
-      isOwned: isOwnedValue,
-    };
-    console.log("Data after editing: ", data);
-    /* after submitting the data show a message for the user */
-    const success = await onSubmitForm(data);
-
-    if (success) {
-      event.target.reset();
-      setDescriptionLength(0);
-    }
-  }
-
   return (
     <>
       <div className="mx-auto w-full max-w-2xl rounded-3xl bg-primary-100 p-5 shadow-lg sm:p-8 mb-10">
@@ -71,11 +38,7 @@ export default function CreatePlantForm({
         </h2>
 
         <form
-          onSubmit={
-            initialData
-              ? handleSubmit
-              : () => handleEditSubmit(initialData?.isOwned)
-          }
+          onSubmit={handleSubmit}
           name="create-plant"
           aria-label="add a plant to your list"
           className="flex flex-col gap-6"

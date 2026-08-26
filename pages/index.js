@@ -1,7 +1,7 @@
 import CreatePlantForm from "@/components/createPlantForm";
-import { useOwnershipToggle } from "@/hooks/useOwnershipToggle"; // Import the hook
+import handleOwnershipToggle from "@/components/PlantOwnership/OwnershipToggle"; // Import the hook
 import Image from "next/image";
-import Link from "next/link";
+
 import { useState } from "react";
 import useSWR, { mutate } from "swr";
 import MyPlants from "@/components/MyPlants/MyPlants.js";
@@ -10,11 +10,9 @@ export default function Homepage() {
   const { data: plants, isLoading } = useSWR("/api/plants");
   const [showForm, setShowForm] =
     useState(false); /* to show the form to add new plants */
-  const { handleOwnershipToggle } = useOwnershipToggle();
+  const [successMessage, setSuccessMessage] = useState("");
 
   async function handleCreatePlant(data) {
-    console.log("Request body:", data);
-
     const response = await fetch("/api/plants", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -25,13 +23,18 @@ export default function Homepage() {
       return false;
     }
 
-    const newPlant = await response.json();
-
-    console.log(newPlant);
+    await response.json();
 
     /* Revalidate plant data so the new plant appears in the list */
     await mutate("/api/plants");
+    setShowForm(false);
 
+    /* shows success message for 5 seconds when a new plant is added */
+    setSuccessMessage("Plant successfully added!");
+
+    setTimeout(() => {
+      setSuccessMessage("");
+    }, 5000);
     return true;
   }
 
@@ -42,10 +45,6 @@ export default function Homepage() {
   if (isLoading) {
     return <p>Loading...</p>;
   }
-
-  /*Tracing purpose only*/
-  console.log("My Plants:", ownedPlants);
-  console.log("Owned plant count:", ownedPlants.length);
 
   return (
     <>
@@ -83,6 +82,7 @@ export default function Homepage() {
         <MyPlants
           plants={ownedPlants}
           onOwnershipToggle={handleOwnershipToggle}
+          successMessage={successMessage}
         />
       )}
 
