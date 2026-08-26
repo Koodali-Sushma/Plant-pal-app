@@ -1,7 +1,7 @@
 import PlantList from "@/components/PlantList/PlantList";
 import useSWR, { mutate } from "swr";
 import { useState } from "react";
-import CreatePlantForm from "@/components/createPlantForm";
+import CreatePlantForm from "@/components/CreatePlantForm";
 import handleOwnershipToggle from "@/components/PlantOwnership/OwnershipToggle";
 
 export default function PlantListPage() {

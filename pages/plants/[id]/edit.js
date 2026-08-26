@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import CreatePlantForm from "@/components/createPlantForm";
+import CreatePlantForm from "@/components/CreatePlantForm";
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
 

@@ -1,4 +1,4 @@
-import CreatePlantForm from "@/components/createPlantForm";
+import CreatePlantForm from "@/components/CreatePlantForm";
 import handleOwnershipToggle from "@/components/PlantOwnership/OwnershipToggle"; // Import the hook
 import Image from "next/image";
 
