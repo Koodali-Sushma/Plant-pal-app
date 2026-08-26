@@ -70,6 +70,13 @@ export default function Homepage() {
         My Plants
       </h1>
 
+      {showForm && (
+        <CreatePlantForm
+          onSubmitForm={handleCreatePlant}
+          onCancel={() => setShowForm(false)}
+        />
+      )}
+
       {ownedPlants.length === 0 ? (
         <p
           className="mx-auto mt-12 max-w-md rounded-xl
@@ -83,13 +90,6 @@ export default function Homepage() {
           plants={ownedPlants}
           onOwnershipToggle={handleOwnershipToggle}
           successMessage={successMessage}
-        />
-      )}
-
-      {showForm && (
-        <CreatePlantForm
-          onSubmitForm={handleCreatePlant}
-          onCancel={() => setShowForm(false)}
         />
       )}
     </>
