@@ -1,19 +1,14 @@
 import PlantList from "@/components/PlantList/PlantList";
 import useSWR, { mutate } from "swr";
-import { useRouter } from "next/router";
-import Link from "next/link";
-import Image from "next/image";
 import { useState } from "react";
 import CreatePlantForm from "@/components/createPlantForm";
-import { useOwnershipToggle } from "@/hooks/useOwnershipToggle"; // Import the hook
+import handleOwnershipToggle from "@/components/PlantOwnership/OwnershipToggle";
 
 export default function PlantListPage() {
   const [showForm, setShowForm] = useState(false); /* form to add new plants */
   const [successMessage, setSuccessMessage] = useState("");
   const { data, isLoading } = useSWR("/api/plants");
 
-  // Get the function from your custom hook
-  const { handleOwnershipToggle } = useOwnershipToggle();
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
@@ -23,12 +18,14 @@ export default function PlantListPage() {
   }
 
   async function handleCreatePlant(data) {
+    const updatedData = { ...data, isOwned: true };
+
     const response = await fetch("/api/plants", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(updatedData),
     });
 
     if (!response.ok) {
@@ -37,7 +34,7 @@ export default function PlantListPage() {
 
     const newPlant = await response.json();
 
-    console.log(newPlant);
+    console.log("newPlant add: ", newPlant);
 
     // Revalidate plant data so the new plant appears in the list
     await mutate("/api/plants");
@@ -64,7 +61,6 @@ export default function PlantListPage() {
       >
         All Plants
       </h1>
-      
 
       {showForm && (
         <CreatePlantForm

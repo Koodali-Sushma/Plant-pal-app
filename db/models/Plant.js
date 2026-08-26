@@ -38,7 +38,7 @@ const plantSchema = new Schema(
     },
     isOwned: {
       type: Boolean,
-      default: false,
+      default: true,
     },
   },
 
