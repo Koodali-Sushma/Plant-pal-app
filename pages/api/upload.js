@@ -48,7 +48,7 @@ export default async function handler(req, res) {
     // Upload the image buffer to Vercel Blob.
     const blob = await put(imageFile.originalFilename, fileBuffer, {
       access: "public",
-      addRandomSuffix: true,
+      addRandomSuffix: true /* Adds a random suffix to the filename to prevent duplicate filenames e.g. in case the user has multiple plants with the same image name */,
     });
 
     // Return the URL of the uploaded image to the client.
