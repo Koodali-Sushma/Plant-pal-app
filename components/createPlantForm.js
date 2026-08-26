@@ -76,6 +76,7 @@ export default function CreatePlantForm({
       description: formData.get("description"),
     };
 
+
     await onSubmitForm(data);
   }
   return (
