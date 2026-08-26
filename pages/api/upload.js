@@ -33,6 +33,15 @@ export default async function handler(req, res) {
       });
     }
 
+    // Limit uploaded images to a maximum of 5 MB.
+    const maxFileSize = 5 * 1024 * 1024;
+
+    if (imageFile.size > maxFileSize) {
+      return res.status(400).json({
+        error: "Image must not exceed 5 MB",
+      });
+    }
+
     // Only allow JPEG and PNG image files.
     const allowedMimeTypes = ["image/jpeg", "image/png"];
 
