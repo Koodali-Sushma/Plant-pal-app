@@ -10,10 +10,7 @@ export default async function handler(request, response) {
     response.status(200).json(plants);
   } else if (request.method === "POST") {
     try {
-      const plant = await Plant.create({
-        ...request.body,
-        isOwned: false,
-      });
+      const plant = await Plant.create(request.body);
       response.status(201).json(plant);
     } catch (error) {
       response

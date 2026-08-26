@@ -1,10 +1,20 @@
 import Link from "next/link";
-import OwnershipButton from "@/components/OwnershipButton/OwnershipButton"; // Import your reusable ownership component
+import OwnershipButton from "@/components/PlantOwnership/OwnershipButton"; // Import your reusable ownership component
 import Image from "next/image";
 
-export default function MyPlants({ plants, onOwnershipToggle }) {
+export default function MyPlants({
+  plants,
+  onOwnershipToggle,
+  successMessage,
+}) {
   return (
     <>
+      {/* shows message when new plant is successfully added */}
+      {successMessage && (
+        <p className="mb-6 rounded-xl border border-primary-500/30 bg-primary-100 px-4 py-3 text-center font-semibold text-primary-700 shadow-sm">
+          {successMessage}
+        </p>
+      )}
       <ul className="grid grid-cols-2 gap-2  list-none">
         {plants.map((plant) => (
           <li
