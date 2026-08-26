@@ -61,12 +61,14 @@ export default function PlantDetails() {
         >
           Edit Plant
         </Link>
-        <button
-          onClick={() => setShowDeleteConfirmation(true)}
-          className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-colors text-sm"
-        >
-          Delete
-        </button>
+        {plant.userCreated && (
+          <button
+            onClick={() => setShowDeleteConfirmation(true)}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-colors text-sm"
+          >
+            Delete
+          </button>
+        )}
       </div>
       {showDeleteConfirmation && (
         <div className="mb-4 p-4 rounded-card bg-red-50 border border-red-200 shadow-soft">
