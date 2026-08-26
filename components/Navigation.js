@@ -2,7 +2,7 @@
 
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { MyPlantsIcon, ExploreIcon, RoomsIcon } from "./Svgicons";
+import { MyPlantsIcon, ExploreIcon, RoomsIcon } from "./SvgIcons";
 
 export default function Navigation() {
   const router = useRouter();
