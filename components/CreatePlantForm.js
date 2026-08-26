@@ -8,6 +8,7 @@ export default function CreatePlantForm({
   onCancel,
   initialData,
 }) {
+  const [imageError, setImageError] = useState("");
   const [descriptionLength, setDescriptionLength] = useState(
     initialData?.description ? initialData.description.length : 0,
   );
@@ -19,20 +20,28 @@ export default function CreatePlantForm({
   const [imagePreview, setImagePreview] =
     useState(imagePath); /* set the preview for the plant image */
 
-  console.log("initial data in edit mode:", initialData);
   const isOwnedValue = initialData ? initialData.isOwned : false;
-
-  console.log("Image path: ", imagePath);
 
   // Create a temporary URL for the selected image and update the preview.
   function handleImageChange(event) {
     const file = event.target.files[0];
 
-    if (file) {
-      // URL.createObjectURL(file) creates a temporary url.
-      const imageUrl = URL.createObjectURL(file);
-      setImagePreview(imageUrl);
+    if (!file) return;
+
+    // Only allow JPEG, PNG, and WebP image files.
+    const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
+
+    if (!allowedMimeTypes.includes(file.type)) {
+      setImageError("Please select a JPEG or PNG image.");
+      return;
     }
+
+    // Clear any previous image error.
+    setImageError("");
+
+    // Create a temporary URL for the selected image and update the preview.
+    const imageUrl = URL.createObjectURL(file);
+    setImagePreview(imageUrl);
   }
 
   async function handleSubmit(event) {
@@ -57,7 +66,11 @@ export default function CreatePlantForm({
 
       // Stop submitting the form if the image upload failed.
       if (!uploadResponse.ok) {
-        console.error("Image upload failed");
+        const errorData = await uploadResponse.json().catch(() => ({}));
+
+        console.error("Image upload failed:", errorData);
+
+        setImageError(errorData.error || "Image upload failed.");
         return;
       }
 
@@ -75,7 +88,6 @@ export default function CreatePlantForm({
       fertiliserSeason: formData.getAll("fertiliserSeason"),
       description: formData.get("description"),
     };
-
 
     await onSubmitForm(data);
   }
@@ -125,10 +137,15 @@ export default function CreatePlantForm({
               id="plant-image"
               type="file"
               name="file"
-              accept="image/*"
+              accept="image/jpeg, image/png" /* only allows jpg, jpeg and png to be uploaded */
               className="hidden"
               onChange={handleImageChange}
             />
+
+            {/* display error message when the wrong image type is uploaded */}
+            {imageError && (
+              <p className="text-sm font-semibold text-red-600">{imageError}</p>
+            )}
           </div>
 
           <label htmlFor="name" className="flex flex-col gap-2 font-semibold">
