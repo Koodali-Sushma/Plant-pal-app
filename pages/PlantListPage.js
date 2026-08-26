@@ -32,9 +32,7 @@ export default function PlantListPage() {
       return false;
     }
 
-    const newPlant = await response.json();
-
-    console.log("newPlant add: ", newPlant);
+    await response.json();
 
     // Revalidate plant data so the new plant appears in the list
     await mutate("/api/plants");

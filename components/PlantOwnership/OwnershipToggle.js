@@ -1,7 +1,6 @@
 import { mutate } from "swr";
 
 export default async function handleOwnershipToggle(plant) {
-  console.log("Plant data:", plant);
   const response = await fetch(`/api/plants/${plant._id}`, {
     method: "PATCH",
     headers: {

@@ -7,7 +7,7 @@ const fetcher = (url) => fetch(url).then((res) => res.json());
 
 /* temporary ROOMS */
 
-const ROOMS = ["Kitchen", "Balcony", "Living Room", "Bedroom"];
+//onst ROOMS = ["Kitchen", "Balcony", "Living Room", "Bedroom"];
 
 function CareCard({ label, children }) {
   return (
@@ -43,7 +43,6 @@ export default function PlantDetails() {
   return (
     <main className="max-w-2x1 mx-auto px-4 py-6 font-body text-foreground">
       <div className="flex justify-between items-center mb-4">
-        
         <Link
           href={`/plants/${id}/edit`}
           className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-colors text-sm"
@@ -88,20 +87,6 @@ export default function PlantDetails() {
           {plant.fertiliserSeason?.join(", ")}
         </CareCard>
       </div>
-      {/* 
-      <div className="mt-6 p-4 rounded-card bg-primary-100 shadow-soft">
-        <label className="block text-sm font-medium text-primary-700 mb-1">
-          Assign to a room
-        </label>
-        <select className="w-full rounded-card border border-primary-500/30 px-3 py-2 bg-background">
-          <option value="">Select a room...</option>
-          {ROOMS.map((room) => (
-            <option key={room} value={room}>
-              {room}
-            </option>
-          ))}
-        </select>
-      </div> */}
     </main>
   );
 }

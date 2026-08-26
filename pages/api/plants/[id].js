@@ -6,8 +6,6 @@ export default async function handler(request, response) {
 
   const { id } = request.query;
 
-  console.log("/api/plants/[id]: ", id, typeof id);
-
   if (request.method === "GET") {
     try {
       const plant = await Plant.findById(id);

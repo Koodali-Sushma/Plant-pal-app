@@ -35,7 +35,6 @@ export default function EditPlantPage() {
       router.push(`/plants/${id}`);
       return true;
     } else {
-      console.error("failed to update plant");
       return false;
     }
   }
