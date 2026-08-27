@@ -8,7 +8,7 @@ export default function Navigation() {
   const router = useRouter();
 
   const isMyPlants = router.pathname === "/";
-  const isExplore = router.pathname === "/PlantListPage";
+  const isExplore = router.pathname === "/plants";
   /*   const isRooms = router.pathname === "/rooms"; */
 
   return (
@@ -30,7 +30,7 @@ export default function Navigation() {
         </li>
         <li>
           <Link
-            href="/PlantListPage"
+            href="/plants"
             className={`flex flex-col items-center rounded-full p-2 ${isExplore ? "bg-accent-500 text-secondary-900" : ""}`}
           >
             <ExploreIcon
