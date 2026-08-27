@@ -1,16 +1,23 @@
 import CreatePlantForm from "@/components/createPlantForm";
 import handleOwnershipToggle from "@/components/PlantOwnership/OwnershipToggle"; // Import the hook
 import Image from "next/image";
-
+import useFilters from "@/hooks/useFilters";
 import { useState } from "react";
 import useSWR, { mutate } from "swr";
 import MyPlants from "@/components/MyPlants/MyPlants.js";
+import { filterPlants } from "@/utils/filterPlants";
+import FilterButtons from "@/components/FilterButton/FilterButton";
 
 export default function Homepage() {
   const { data: plants, isLoading } = useSWR("/api/plants");
   const [showForm, setShowForm] =
     useState(false); /* to show the form to add new plants */
   const [successMessage, setSuccessMessage] = useState("");
+  const { filters, toggleFilters, clearFilters} = useFilters({
+    lightNeed: [],
+    waterNeed: [],
+    fertiliserSeason: [],
+  });
 
   async function handleCreatePlant(data) {
     const response = await fetch("/api/plants", {
@@ -40,12 +47,14 @@ export default function Homepage() {
 
   // Get the function from your custom hook
 
-  const ownedPlants = plants?.filter((plant) => plant.isOwned === true) || [];
+  
 
   if (isLoading) {
     return <p>Loading...</p>;
   }
-
+  const ownedPlants = plants?.filter((plant) => plant.isOwned === true) || [];
+  const filteredPlants = filterPlants?.(ownedPlants, filters)
+  
   return (
     <>
       {!showForm && (
@@ -78,12 +87,30 @@ export default function Homepage() {
         >
           You do not own any plants yet. Explore the Plant List.
         </p>
+      ) : filteredPlants.length === 0 ? (
+      <p
+          className="mx-auto mt-12 max-w-md rounded-xl
+         border border-emerald-300/30 bg-emerald-50 p-6 
+         text-center text-lg font-semibold text-emerald-700 shadow-sm"
+        >
+          No plants match your filters.
+          <button type="button" onClick={() => clearFilters()}>
+  Clear all filters
+</button>
+        </p>
       ) : (
+        <>
+        <FilterButtons 
+        filters={filters}
+        toggleFilters={toggleFilters}
+        clearFilters={clearFilters}
+        />  
         <MyPlants
-          plants={ownedPlants}
+          plants={filteredPlants}
           onOwnershipToggle={handleOwnershipToggle}
           successMessage={successMessage}
         />
+        </>
       )}
 
       {showForm && (

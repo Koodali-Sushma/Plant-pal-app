@@ -14,7 +14,7 @@ export default async function handler(request, response) {
 
       if (!plant) {
         response.status(404).json({
-          status: `Plant not found. Feel free to add your own Plants!`,
+          status: `Plant not found.`,
         });
         return;
       }
