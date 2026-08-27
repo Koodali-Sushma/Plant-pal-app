@@ -12,6 +12,8 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@vercel/blob": "^2.8.0",
+    "formidable": "^3.5.4",
     "mongoose": "^9.9.3",
     "next": "16.3.1",
     "postcss": "^8.5.26",
