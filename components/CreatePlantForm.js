@@ -8,20 +8,81 @@ export default function CreatePlantForm({
   onCancel,
   initialData,
 }) {
-  const imagePath = initialData
-    ? initialData.imageUrl
-    : "/images/plant-placeholder.png";
+  const [imageError, setImageError] = useState("");
   const [descriptionLength, setDescriptionLength] = useState(
     initialData?.description ? initialData.description.length : 0,
   );
 
+  const imagePath = initialData
+    ? initialData.imageUrl
+    : "/images/plant-placeholder.png";
+
+  const [imagePreview, setImagePreview] =
+    useState(imagePath); /* set the preview for the plant image */
+
+  const isOwnedValue = initialData ? initialData.isOwned : false;
+
+  // Create a temporary URL for the selected image and update the preview.
+  function handleImageChange(event) {
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    // Only allow JPEG, PNG, and WebP image files.
+    const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
+
+    if (!allowedMimeTypes.includes(file.type)) {
+      setImageError("Please select a JPEG or PNG image.");
+      return;
+    }
+
+    // Clear any previous image error.
+    setImageError("");
+
+    // Create a temporary URL for the selected image and update the preview.
+    const imageUrl = URL.createObjectURL(file);
+    setImagePreview(imageUrl);
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
+    // Collect all form data from the submitted form.
     const formData = new FormData(event.target);
+    const imageFile = formData.get("file");
+
+    // Keep the existing image path as the default value.
+    let imageUrl = imagePath;
+
+    // Upload the selected image to Vercel Blob if a file was selected.
+    if (imageFile && imageFile.size > 0) {
+      const uploadFormData = new FormData();
+      uploadFormData.append("file", imageFile);
+
+      // Send the image to the upload API endpoint.
+      const uploadResponse = await fetch("/api/upload", {
+        method: "POST",
+        body: uploadFormData,
+      });
+
+      // Stop submitting the form if the image upload failed.
+      if (!uploadResponse.ok) {
+        const errorData = await uploadResponse.json().catch(() => ({}));
+
+        console.error("Image upload failed:", errorData);
+
+        setImageError(errorData.error || "Image upload failed.");
+        return;
+      }
+
+      // Get the public Blob URL returned by the upload endpoint.
+      const uploadData = await uploadResponse.json();
+      imageUrl = uploadData.url;
+    }
+
     const data = {
       name: formData.get("name"),
       botanicalName: formData.get("botanicalName"),
-      imageUrl: imagePath,
+      imageUrl: imageUrl,
       waterNeed: formData.get("waterNeed"),
       lightNeed: formData.get("lightNeed"),
       fertiliserSeason: formData.getAll("fertiliserSeason"),
@@ -58,12 +119,33 @@ export default function CreatePlantForm({
               Plant Image:
             </label>
             <Image
-              src={imagePath}
-              alt="placeholder for plant image"
+              src={imagePreview}
+              alt="Preview of selected plant image"
               width={200}
               height={200}
-              className="rounded-xl object-cover"
+              className="h-50 w-50 rounded-xl object-cover" /* object-cover cuts the uploaded picture in the preview to the size 200x200px (same as h- and w-50) */
             />
+            {/* Allow the user to select an image for the plant. */}
+            <label
+              htmlFor="plant-image"
+              className="cursor-pointer rounded-xl bg-primary-500 px-5 py-3 font-semibold text-background transition hover:bg-primary-700"
+            >
+              Choose an image
+            </label>
+
+            <input
+              id="plant-image"
+              type="file"
+              name="file"
+              accept="image/jpeg, image/png" /* only allows jpg, jpeg and png to be uploaded */
+              className="hidden"
+              onChange={handleImageChange}
+            />
+
+            {/* display error message when the wrong image type is uploaded */}
+            {imageError && (
+              <p className="text-sm font-semibold text-red-600">{imageError}</p>
+            )}
           </div>
 
           <label htmlFor="name" className="flex flex-col gap-2 font-semibold">

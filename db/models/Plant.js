@@ -40,6 +40,10 @@ const plantSchema = new Schema(
       type: Boolean,
       default: true,
     },
+    userCreated: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   { timestamps: true },

@@ -1,7 +1,7 @@
 import PlantList from "@/components/PlantList/PlantList";
 import useSWR, { mutate } from "swr";
 import { useState } from "react";
-import CreatePlantForm from "@/components/createPlantForm";
+import CreatePlantForm from "@/components/CreatePlantForm";
 import handleOwnershipToggle from "@/components/PlantOwnership/OwnershipToggle";
 
 export default function PlantListPage() {
@@ -18,7 +18,7 @@ export default function PlantListPage() {
   }
 
   async function handleCreatePlant(data) {
-    const updatedData = { ...data, isOwned: true };
+    const updatedData = { ...data, isOwned: true, userCreated: true };
 
     const response = await fetch("/api/plants", {
       method: "POST",
@@ -36,12 +36,10 @@ export default function PlantListPage() {
 
     console.log("newPlant add: ", newPlant);
 
-    // Revalidate plant data so the new plant appears in the list
     await mutate("/api/plants");
 
     setShowForm(false);
 
-    /* shows success message for 5 seconds when a new plant is added */
     setSuccessMessage("Plant successfully added!");
 
     setTimeout(() => {

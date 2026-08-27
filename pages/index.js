@@ -1,4 +1,4 @@
-import CreatePlantForm from "@/components/createPlantForm";
+import CreatePlantForm from "@/components/CreatePlantForm";
 import handleOwnershipToggle from "@/components/PlantOwnership/OwnershipToggle"; // Import the hook
 import Image from "next/image";
 
@@ -8,15 +8,14 @@ import MyPlants from "@/components/MyPlants/MyPlants.js";
 
 export default function Homepage() {
   const { data: plants, isLoading } = useSWR("/api/plants");
-  const [showForm, setShowForm] =
-    useState(false); /* to show the form to add new plants */
+  const [showForm, setShowForm] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
 
   async function handleCreatePlant(data) {
     const response = await fetch("/api/plants", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ ...data, userCreated: true }),
     });
 
     if (!response.ok) {
@@ -25,11 +24,9 @@ export default function Homepage() {
 
     await response.json();
 
-    /* Revalidate plant data so the new plant appears in the list */
     await mutate("/api/plants");
     setShowForm(false);
 
-    /* shows success message for 5 seconds when a new plant is added */
     setSuccessMessage("Plant successfully added!");
 
     setTimeout(() => {
@@ -37,8 +34,6 @@ export default function Homepage() {
     }, 5000);
     return true;
   }
-
-  // Get the function from your custom hook
 
   const ownedPlants = plants?.filter((plant) => plant.isOwned === true) || [];
 
@@ -70,6 +65,13 @@ export default function Homepage() {
         My Plants
       </h1>
 
+      {showForm && (
+        <CreatePlantForm
+          onSubmitForm={handleCreatePlant}
+          onCancel={() => setShowForm(false)}
+        />
+      )}
+
       {ownedPlants.length === 0 ? (
         <p
           className="mx-auto mt-12 max-w-md rounded-xl
@@ -83,13 +85,6 @@ export default function Homepage() {
           plants={ownedPlants}
           onOwnershipToggle={handleOwnershipToggle}
           successMessage={successMessage}
-        />
-      )}
-
-      {showForm && (
-        <CreatePlantForm
-          onSubmitForm={handleCreatePlant}
-          onCancel={() => setShowForm(false)}
         />
       )}
     </>

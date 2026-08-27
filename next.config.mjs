@@ -22,6 +22,10 @@ const nextConfig = {
         hostname: "cdn.midjourney.com",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "*.public.blob.vercel-storage.com",
+      },
     ],
   },
 };
