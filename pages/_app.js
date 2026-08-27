@@ -1,5 +1,5 @@
 import "@/styles/globals.css";
-import Navigation from "@/components/navigation";
+import Navigation from "@/components/Navigation";
 import { Oswald, Lato } from "next/font/google";
 import { SWRConfig } from "swr";
 

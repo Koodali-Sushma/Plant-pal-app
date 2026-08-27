@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import useSWR, { useSWRConfig } from "swr";
 import Link from "next/link";
+import Image from "next/image";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
@@ -25,6 +26,21 @@ export default function PlantDetails() {
 
   const router = useRouter();
   const { id } = router.query;
+
+  /* successMessage if plant is updated */
+  const [successMessage, setSuccessMessage] = useState("");
+
+  useEffect(() => {
+    if (router.query.updated === "true") {
+      setSuccessMessage("Plant successfully updated!");
+
+      const timer = setTimeout(() => {
+        setSuccessMessage("");
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [router.query.updated]);
 
   const {
     data: plant,
@@ -94,11 +110,19 @@ export default function PlantDetails() {
         </div>
       )}
 
+      {successMessage && (
+        <p className="mb-6 rounded-xl border border-primary-500/30 bg-primary-100 px-4 py-3 text-center font-semibold text-primary-700 shadow-sm">
+          {successMessage}
+        </p>
+      )}
+
       <div className="relative rounded-card overflow-hidden shadow-soft">
-        <img
+        <Image
           src={images[activeImage]}
           alt={plant.name}
           className="w-full h-64 object-cover"
+          width={200}
+          height={200}
         />
         {images.length > 1 && (
           <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
