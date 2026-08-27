@@ -7,10 +7,10 @@ function useFilters(initialState) {
     function toggleFilters(category, value) {  
     setFilters((previous) => {
         const currentSelected = previous[category];
-        const selectedPlants = currentSelected.includes(value)
+        const selectedFilterValues = currentSelected.includes(value)
         ? currentSelected.filter((item) => item !== value)
         : [...currentSelected, value];
-        return {...previous, [category]: selectedPlants };
+        return {...previous, [category]: selectedFilterValues };
     });
 }
 
