@@ -82,6 +82,7 @@ export default function PlantListPage() {
             All Plants
           </h1>
           <button
+          className="bg-(--color-secondary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 rounded-full border-(--color-secondary-500) hover:bg-(--color-secondary-500) "
             type="Button"
             onClick={() => setShowFilterButtons(!showFilterButtons)}
           >
