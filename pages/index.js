@@ -7,6 +7,7 @@ import useSWR, { mutate } from "swr";
 import MyPlants from "@/components/MyPlants/MyPlants.js";
 import { filterPlants } from "@/utils/filterPlants";
 import FilterButtons from "@/components/FilterButton/FilterButton";
+import SearchBar from "@/components/SearchBar/SearchBar";
 
 export default function Homepage() {
   const { data: plants, isLoading } = useSWR("/api/plants");
@@ -18,6 +19,8 @@ export default function Homepage() {
     fertiliserSeason: [],
   });
   const [showFilterButtons, setShowFilterButtons] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
   async function handleCreatePlant(data) {
     const response = await fetch("/api/plants", {
       method: "POST",
@@ -47,7 +50,19 @@ export default function Homepage() {
   if (isLoading) {
     return <p>Loading...</p>;
   }
-  const ownedPlants = plants?.filter((plant) => plant.isOwned === true) || [];
+  const normalizedQuery = searchQuery.trim().toLowerCase();
+
+  const ownedPlants =
+    plants?.filter((plant) => {
+      const name = plant.name?.toLowerCase() || "";
+      const botanicalName = plant.botanicalName?.toLowerCase() || "";
+
+      return (
+        plant.isOwned === true &&
+        (name.includes(normalizedQuery) ||
+          botanicalName.includes(normalizedQuery))
+      );
+    }) || [];
   const filteredPlants = filterPlants?.(ownedPlants, filters);
 
   return (
@@ -80,8 +95,8 @@ export default function Homepage() {
           onCancel={() => setShowForm(false)}
         />
       )}
-
-      {ownedPlants.length === 0 ? (
+      <SearchBar value={searchQuery} onChange={setSearchQuery} />
+      {searchQuery.trim() !== "" && ownedPlants.length === 0 ? (
         <p
           className="mx-auto mt-12 max-w-md rounded-xl
          border border-emerald-300/30 bg-emerald-50 p-6 
@@ -90,16 +105,19 @@ export default function Homepage() {
           You do not own any plants yet. Explore the Plant List.
         </p>
       ) : filteredPlants.length === 0 ? (
-        <p
-          className="mx-auto mt-12 max-w-md rounded-xl
+        <>
+          {" "}
+          <p
+            className="mx-auto mt-12 max-w-md rounded-xl
          border border-emerald-300/30 bg-emerald-50 p-6 
          text-center text-lg font-semibold text-emerald-700 shadow-sm"
-        >
-          No plants match your filters.
+          >
+            No plants match your filters.
+          </p>
           <button type="button" onClick={() => clearFilters()}>
             Clear all filters
           </button>
-        </p>
+        </>
       ) : (
         <>
           <button
@@ -116,7 +134,7 @@ export default function Homepage() {
             />
           )}
           <MyPlants
-            plants={filteredPlants}
+            plants={ownedPlants}
             onOwnershipToggle={handleOwnershipToggle}
             successMessage={successMessage}
           />
