@@ -7,6 +7,8 @@ export default function PlantList({
   onAddPlant,
   onOwnershipToggle,
   successMessage,
+
+
 }) {
   return (
     <>
@@ -27,7 +29,10 @@ export default function PlantList({
       )}
 
       <ul className="grid grid-cols-2 gap-2  list-none">
-        {plants.map((plant) => (
+        {plants.length === 0 ? ( 
+          <p>No plants found</p>
+        ) : (   
+        plants.map((plant) => (
           <li
             key={plant._id}
             className=" group relative h-40 w-40 m-auto overflow-hidden rounded-2xl border-(--color-secondary-500)"
@@ -67,7 +72,8 @@ export default function PlantList({
               onOwnershipToggle={onOwnershipToggle}
             />
           </li>
-        ))}
+        ))
+          )}
       </ul>
     </>
   );

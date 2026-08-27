@@ -3,19 +3,29 @@ import useSWR, { mutate } from "swr";
 import { useState } from "react";
 import CreatePlantForm from "@/components/CreatePlantForm";
 import handleOwnershipToggle from "@/components/PlantOwnership/OwnershipToggle";
+import FilterButtons from "@/components/FilterButton/FilterButton.js";
+import useFilters from "@/hooks/useFilters.js";
+import { filterPlants } from "@/utils/filterPlants.js";
 
 export default function PlantListPage() {
   const [showForm, setShowForm] = useState(false); /* form to add new plants */
   const [successMessage, setSuccessMessage] = useState("");
   const { data, isLoading } = useSWR("/api/plants");
+  const { filters, toggleFilters, clearFilters } = useFilters({
+  lightNeed: [],
+  waterNeed: [],
+  fertiliserSeason: [],
+});
+const [showFilterButtons, setShowFilterButtons] = useState(false);
 
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
-
-  if (!data) {
+ if (!data) {
     return null;
   }
+
+
 
   async function handleCreatePlant(data) {
     const updatedData = { ...data, isOwned: true, userCreated: true };
@@ -48,8 +58,21 @@ export default function PlantListPage() {
 
     return true;
   }
-
-  return (
+const filteredPlants = filterPlants(data, filters);
+ 
+return (
+  filteredPlants.length === 0 ? (
+    <p
+          className="mx-auto mt-12 max-w-md rounded-xl
+         border border-emerald-300/30 bg-emerald-50 p-6 
+         text-center text-lg font-semibold text-emerald-700 shadow-sm"
+        >
+         No plants match your filters. 
+<button type="button" onClick={() => clearFilters()}>
+  Clear all filters
+</button>
+        </p>
+  ) : (
     <>
       <h1
         className="mb-8 text-center 
@@ -59,7 +82,15 @@ export default function PlantListPage() {
       >
         All Plants
       </h1>
-
+      <button type="Button" onClick={() => setShowFilterButtons(!showFilterButtons)}>
+        {showFilterButtons ? "Hide" : "Show"} Filters
+      </button>
+      {showFilterButtons && (  
+      <FilterButtons 
+      filters={filters}
+      toggleFilters={toggleFilters}
+      clearFilters={clearFilters}/>
+      )}
       {showForm && (
         <CreatePlantForm
           onSubmitForm={handleCreatePlant}
@@ -68,11 +99,11 @@ export default function PlantListPage() {
       )}
 
       <PlantList
-        plants={data}
+        plants={filteredPlants}
         onAddPlant={() => setShowForm(true)}
         onOwnershipToggle={handleOwnershipToggle}
         successMessage={successMessage}
       />
     </>
-  );
+  ));
 }
