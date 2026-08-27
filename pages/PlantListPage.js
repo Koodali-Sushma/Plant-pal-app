@@ -25,38 +25,60 @@ export default function PlantListPage() {
     return null;
   }
 
+  const filteredPlants = filterPlants(data, filters);
+
   async function handleCreatePlant(data) {
     const updatedData = { ...data, isOwned: true, userCreated: true };
 
-    const response = await fetch("/api/plants", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedData),
-    });
+    try {
+      const newPlant = {
+        ...updatedData,
+        _id: `temp-${Date.now()}` /* Temporary ID for the optimistic update. */,
+      };
 
-    if (!response.ok) {
+      await mutate(
+        "/api/plants",
+        async (currentPlants) => {
+          /* send the new plant to the server */
+          const response = await fetch("/api/plants", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedData),
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to create plant");
+          }
+          /* Return the current data. SWR will revalidate afterwards. */
+          return currentPlants;
+        },
+        {
+          optimisticData: (currentPlants) => [...currentPlants, newPlant],
+
+          /* Remove the optimistic plant if the request fails. */
+          rollbackOnError: true,
+
+          /* Fetch the latest data from the server after the request succeeds. */
+          revalidate: true,
+        },
+      );
+
+      setShowForm(false);
+
+      setSuccessMessage("Plant successfully added!");
+
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 5000);
+
+      return true;
+    } catch (error) {
+      console.error("Failed to create plant:", error);
       return false;
     }
-
-    const newPlant = await response.json();
-
-    console.log("newPlant add: ", newPlant);
-
-    await mutate("/api/plants");
-
-    setShowForm(false);
-
-    setSuccessMessage("Plant successfully added!");
-
-    setTimeout(() => {
-      setSuccessMessage("");
-    }, 5000);
-
-    return true;
   }
-  const filteredPlants = filterPlants(data, filters);
 
   return (
     <main className="px-4 py-6">
