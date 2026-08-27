@@ -12,12 +12,12 @@ export default function Homepage() {
   const { data: plants, isLoading } = useSWR("/api/plants");
   const [showForm, setShowForm] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const { filters, toggleFilters, clearFilters} = useFilters({
+  const { filters, toggleFilters, clearFilters } = useFilters({
     lightNeed: [],
     waterNeed: [],
     fertiliserSeason: [],
   });
-const [showFilterButtons, setShowFilterButtons] = useState(false);
+  const [showFilterButtons, setShowFilterButtons] = useState(false);
   async function handleCreatePlant(data) {
     const response = await fetch("/api/plants", {
       method: "POST",
@@ -44,16 +44,14 @@ const [showFilterButtons, setShowFilterButtons] = useState(false);
 
   // Get the function from your custom hook
 
-  
-
   if (isLoading) {
     return <p>Loading...</p>;
   }
   const ownedPlants = plants?.filter((plant) => plant.isOwned === true) || [];
-  const filteredPlants = filterPlants?.(ownedPlants, filters)
-  
+  const filteredPlants = filterPlants?.(ownedPlants, filters);
+
   return (
-    <>
+    <main className="px-4 py-6">
       {!showForm && (
         <button type="button" onClick={() => setShowForm(true)}>
           <Image
@@ -68,10 +66,10 @@ const [showFilterButtons, setShowFilterButtons] = useState(false);
         </button>
       )}
       <h1
-        className="mb-8 text-center 
+        className="mb-8 text-left 
      text-4xl font-bold tracking-tight 
-     text-(--color-heading) sm:text-5xl 
-     sticky top-1 z-100 bg-(--color-secondary-500) rounded-3xl"
+     text-primary-500 sm:text-5xl 
+     top-1 z-10"
       >
         My Plants
       </h1>
@@ -92,35 +90,38 @@ const [showFilterButtons, setShowFilterButtons] = useState(false);
           You do not own any plants yet. Explore the Plant List.
         </p>
       ) : filteredPlants.length === 0 ? (
-      <p
+        <p
           className="mx-auto mt-12 max-w-md rounded-xl
          border border-emerald-300/30 bg-emerald-50 p-6 
          text-center text-lg font-semibold text-emerald-700 shadow-sm"
         >
           No plants match your filters.
           <button type="button" onClick={() => clearFilters()}>
-  Clear all filters
-</button>
+            Clear all filters
+          </button>
         </p>
       ) : (
         <>
-          <button type="Button" onClick={() => setShowFilterButtons(!showFilterButtons)}>
+          <button
+            type="Button"
+            onClick={() => setShowFilterButtons(!showFilterButtons)}
+          >
             {showFilterButtons ? "Hide" : "Show"} Filters
           </button>
           {showFilterButtons && (
-        <FilterButtons 
-        filters={filters}
-        toggleFilters={toggleFilters}
-        clearFilters={clearFilters}
-        /> 
-      )}
-        <MyPlants
-          plants={filteredPlants}
-          onOwnershipToggle={handleOwnershipToggle}
-          successMessage={successMessage}
-        />
+            <FilterButtons
+              filters={filters}
+              toggleFilters={toggleFilters}
+              clearFilters={clearFilters}
+            />
+          )}
+          <MyPlants
+            plants={filteredPlants}
+            onOwnershipToggle={handleOwnershipToggle}
+            successMessage={successMessage}
+          />
         </>
       )}
-    </>
+    </main>
   );
 }

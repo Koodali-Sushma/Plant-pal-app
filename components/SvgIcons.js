@@ -99,3 +99,19 @@ export function FertilizerIcon({ className }) {
     </svg>
   );
 }
+
+export function BookmarkIcon({ className }) {
+  return (
+    <svg viewBox="0 0 32 32" fill="currentColor" className={className}>
+      <path d="M24,4V26.75l-7.1-3.59-.9-.45-.9.45L8,26.75V4H24m0-2H8A2,2,0,0,0,6,4V30L16,25,26,30V4A2,2,0,0,0,24,2Z" />
+    </svg>
+  );
+}
+
+export function BookmarkFilledIcon({ className }) {
+  return (
+    <svg viewBox="0 0 32 32" fill="currentColor" className={className}>
+      <path d="M24,2H8A2,2,0,0,0,6,4V30l10-5.0538L26,30V4A2,2,0,0,0,24,2Z" />
+    </svg>
+  );
+}
