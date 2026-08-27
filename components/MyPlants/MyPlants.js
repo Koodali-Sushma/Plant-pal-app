@@ -1,7 +1,7 @@
 import Link from "next/link";
 import OwnershipButton from "@/components/PlantOwnership/OwnershipButton"; // Import your reusable ownership component
 import Image from "next/image";
-import useFilters from "@/hooks/useFilters.js";
+
 
 
 export default function MyPlants({

@@ -16,6 +16,7 @@ export default function PlantListPage() {
   waterNeed: [],
   fertiliserSeason: [],
 });
+const [showFilterButtons, setShowFilterButtons] = useState(false);
 
   if (isLoading) {
     return <h1>Loading...</h1>;
@@ -83,11 +84,15 @@ return (
       >
         All Plants
       </h1>
+      <button type="Button" onClick={() => setShowFilterButtons(!showFilterButtons)}>
+        {showFilterButtons ? "Hide" : "Show"} Filters
+      </button>
+      {showFilterButtons && (  
       <FilterButtons 
       filters={filters}
       toggleFilters={toggleFilters}
       clearFilters={clearFilters}/>
-
+      )}
       {showForm && (
         <CreatePlantForm
           onSubmitForm={handleCreatePlant}

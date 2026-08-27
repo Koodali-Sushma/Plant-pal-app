@@ -18,7 +18,7 @@ export default function Homepage() {
     waterNeed: [],
     fertiliserSeason: [],
   });
-
+const [showFilterButtons, setShowFilterButtons] = useState(false);
   async function handleCreatePlant(data) {
     const response = await fetch("/api/plants", {
       method: "POST",
@@ -100,11 +100,16 @@ export default function Homepage() {
         </p>
       ) : (
         <>
+          <button type="Button" onClick={() => setShowFilterButtons(!showFilterButtons)}>
+            {showFilterButtons ? "Hide" : "Show"} Filters
+          </button>
+          {showFilterButtons && (
         <FilterButtons 
         filters={filters}
         toggleFilters={toggleFilters}
         clearFilters={clearFilters}
-        />  
+        /> 
+      )}
         <MyPlants
           plants={filteredPlants}
           onOwnershipToggle={handleOwnershipToggle}
