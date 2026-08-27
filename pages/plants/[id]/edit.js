@@ -1,10 +1,13 @@
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import { useState } from "react";
 import CreatePlantForm from "@/components/CreatePlantForm";
+
+const [errorMessage, setErrorMessage] = useState("");
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
-export default function EditPlantPage() {
+export default function EditPlantPage(updatedPlant) {
   const router = useRouter();
   const { id } = router.query;
 
@@ -36,12 +39,19 @@ export default function EditPlantPage() {
       return true;
     } else {
       console.error("failed to update plant");
+      setErrorMessage(
+        "Something went wrong while updating the plant.",
+      ); /* visible error message for users */
       return false;
     }
   }
 
   return (
     <main>
+      {errorMessage && (
+        <p className="mt-2 text-sm text-red-600">{errorMessage}</p>
+      )}
+
       <CreatePlantForm
         onSubmitForm={handleEditPlant}
         initialData={plant}
