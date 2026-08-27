@@ -12,20 +12,18 @@ export default function PlantListPage() {
   const [successMessage, setSuccessMessage] = useState("");
   const { data, isLoading } = useSWR("/api/plants");
   const { filters, toggleFilters, clearFilters } = useFilters({
-  lightNeed: [],
-  waterNeed: [],
-  fertiliserSeason: [],
-});
-const [showFilterButtons, setShowFilterButtons] = useState(false);
+    lightNeed: [],
+    waterNeed: [],
+    fertiliserSeason: [],
+  });
+  const [showFilterButtons, setShowFilterButtons] = useState(false);
 
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
- if (!data) {
+  if (!data) {
     return null;
   }
-
-
 
   async function handleCreatePlant(data) {
     const updatedData = { ...data, isOwned: true, userCreated: true };
@@ -58,52 +56,59 @@ const [showFilterButtons, setShowFilterButtons] = useState(false);
 
     return true;
   }
-const filteredPlants = filterPlants(data, filters);
- 
-return (
-  filteredPlants.length === 0 ? (
-    <p
+  const filteredPlants = filterPlants(data, filters);
+
+  return (
+    <main className="px-4 py-6">
+      {filteredPlants.length === 0 ? (
+        <p
           className="mx-auto mt-12 max-w-md rounded-xl
          border border-emerald-300/30 bg-emerald-50 p-6 
          text-center text-lg font-semibold text-emerald-700 shadow-sm"
         >
-         No plants match your filters. 
-<button type="button" onClick={() => clearFilters()}>
-  Clear all filters
-</button>
+          No plants match your filters.
+          <button type="button" onClick={() => clearFilters()}>
+            Clear all filters
+          </button>
         </p>
-  ) : (
-    <>
-      <h1
-        className="mb-8 text-center 
+      ) : (
+        <>
+          <h1
+            className="mb-8 text-left 
      text-4xl font-bold tracking-tight 
-     text-(--color-heading) sm:text-5xl 
-     sticky top-1 z-100 bg-(--color-secondary-500) rounded-3xl"
-      >
-        All Plants
-      </h1>
-      <button type="Button" onClick={() => setShowFilterButtons(!showFilterButtons)}>
-        {showFilterButtons ? "Hide" : "Show"} Filters
-      </button>
-      {showFilterButtons && (  
-      <FilterButtons 
-      filters={filters}
-      toggleFilters={toggleFilters}
-      clearFilters={clearFilters}/>
-      )}
-      {showForm && (
-        <CreatePlantForm
-          onSubmitForm={handleCreatePlant}
-          onCancel={() => setShowForm(false)}
-        />
-      )}
+     text-primary-500 sm:text-5xl 
+     top-1 z-10"
+          >
+            All Plants
+          </h1>
+          <button
+            type="Button"
+            onClick={() => setShowFilterButtons(!showFilterButtons)}
+          >
+            {showFilterButtons ? "Hide" : "Show"} Filters
+          </button>
+          {showFilterButtons && (
+            <FilterButtons
+              filters={filters}
+              toggleFilters={toggleFilters}
+              clearFilters={clearFilters}
+            />
+          )}
+          {showForm && (
+            <CreatePlantForm
+              onSubmitForm={handleCreatePlant}
+              onCancel={() => setShowForm(false)}
+            />
+          )}
 
-      <PlantList
-        plants={filteredPlants}
-        onAddPlant={() => setShowForm(true)}
-        onOwnershipToggle={handleOwnershipToggle}
-        successMessage={successMessage}
-      />
-    </>
-  ));
+          <PlantList
+            plants={filteredPlants}
+            onAddPlant={() => setShowForm(true)}
+            onOwnershipToggle={handleOwnershipToggle}
+            successMessage={successMessage}
+          />
+        </>
+      )}
+    </main>
+  );
 }
