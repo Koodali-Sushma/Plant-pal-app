@@ -1,4 +1,4 @@
-import CreatePlantForm from "@/components/createPlantForm";
+import CreatePlantForm from "@/components/CreatePlantForm";
 import handleOwnershipToggle from "@/components/PlantOwnership/OwnershipToggle"; // Import the hook
 import Image from "next/image";
 import useFilters from "@/hooks/useFilters";
@@ -10,8 +10,7 @@ import FilterButtons from "@/components/FilterButton/FilterButton";
 
 export default function Homepage() {
   const { data: plants, isLoading } = useSWR("/api/plants");
-  const [showForm, setShowForm] =
-    useState(false); /* to show the form to add new plants */
+  const [showForm, setShowForm] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const { filters, toggleFilters, clearFilters} = useFilters({
     lightNeed: [],
@@ -23,7 +22,7 @@ const [showFilterButtons, setShowFilterButtons] = useState(false);
     const response = await fetch("/api/plants", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      body: JSON.stringify({ ...data, userCreated: true }),
     });
 
     if (!response.ok) {
@@ -32,11 +31,9 @@ const [showFilterButtons, setShowFilterButtons] = useState(false);
 
     await response.json();
 
-    /* Revalidate plant data so the new plant appears in the list */
     await mutate("/api/plants");
     setShowForm(false);
 
-    /* shows success message for 5 seconds when a new plant is added */
     setSuccessMessage("Plant successfully added!");
 
     setTimeout(() => {
@@ -79,6 +76,13 @@ const [showFilterButtons, setShowFilterButtons] = useState(false);
         My Plants
       </h1>
 
+      {showForm && (
+        <CreatePlantForm
+          onSubmitForm={handleCreatePlant}
+          onCancel={() => setShowForm(false)}
+        />
+      )}
+
       {ownedPlants.length === 0 ? (
         <p
           className="mx-auto mt-12 max-w-md rounded-xl
@@ -116,13 +120,6 @@ const [showFilterButtons, setShowFilterButtons] = useState(false);
           successMessage={successMessage}
         />
         </>
-      )}
-
-      {showForm && (
-        <CreatePlantForm
-          onSubmitForm={handleCreatePlant}
-          onCancel={() => setShowForm(false)}
-        />
       )}
     </>
   );

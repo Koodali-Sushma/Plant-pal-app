@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import CreatePlantForm from "@/components/createPlantForm";
+import CreatePlantForm from "@/components/CreatePlantForm";
 
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
@@ -32,7 +32,7 @@ export default function EditPlantPage() {
 
     if (response.ok) {
       //redirect back to plant detail page after update
-      router.push(`/plants/${id}`);
+      router.push(`/plants/${id}?updated=true`);
       return true;
     } else {
       console.error("failed to update plant");
