@@ -21,6 +21,8 @@ function CareCard({ label, children }) {
 }
 
 export default function PlantDetails() {
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
+
   const router = useRouter();
   const { id } = router.query;
 
@@ -29,6 +31,16 @@ export default function PlantDetails() {
     error,
     isLoading,
   } = useSWR(id ? `/api/plants/${id}` : null, fetcher);
+
+  async function handleDelete() {
+    const response = await fetch(`/api/plants/${id}`, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      router.push("/");
+    }
+  }
 
   const [activeImage, setActiveImage] = useState(0);
 
@@ -43,14 +55,44 @@ export default function PlantDetails() {
   return (
     <main className="max-w-2x1 mx-auto px-4 py-6 font-body text-foreground">
       <div className="flex justify-between items-center mb-4">
-        
         <Link
           href={`/plants/${id}/edit`}
           className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-colors text-sm"
         >
           Edit Plant
         </Link>
+        {plant.userCreated && (
+          <button
+            onClick={() => setShowDeleteConfirmation(true)}
+            className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-colors text-sm"
+          >
+            Delete
+          </button>
+        )}
       </div>
+      {showDeleteConfirmation && (
+        <div className="mb-4 p-4 rounded-card bg-red-50 border border-red-200 shadow-soft">
+          <p className="text-secondary-700  font-semibold mb-3">
+            Are you sure you want to delete this plant?
+          </p>
+          <div className="flex gap-3">
+            <button
+              type="button"
+              onClick={handleDelete}
+              className="bg-(--color-secondary-500) hover:bg-(--color-secondary-700) text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            >
+              Confirm
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowDeleteConfirmation(false)}
+              className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="relative rounded-card overflow-hidden shadow-soft">
         <img
