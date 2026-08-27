@@ -1,4 +1,4 @@
-import useFilters from "@/hooks/useFilters";
+
 
 
 export default function FilterButtons ({filters, toggleFilters, clearFilters}) {
