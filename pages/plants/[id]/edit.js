@@ -3,13 +3,13 @@ import useSWR from "swr";
 import { useState } from "react";
 import CreatePlantForm from "@/components/CreatePlantForm";
 
-const [errorMessage, setErrorMessage] = useState("");
-
 const fetcher = (url) => fetch(url).then((response) => response.json());
 
-export default function EditPlantPage(updatedPlant) {
+export default function EditPlantPage() {
   const router = useRouter();
   const { id } = router.query;
+
+  const [errorMessage, setErrorMessage] = useState("");
 
   // fetch plant data by id
 
@@ -34,10 +34,14 @@ export default function EditPlantPage(updatedPlant) {
     });
 
     if (response.ok) {
-      //redirect back to plant detail page after update
-      router.push(`/plants/${id}?updated=true`);
+      //redirect back to plant detail page after update and pass the update status via the router
+      router.push({
+        pathname: `/plants/${id}`,
+        query: { updated: "true" },
+      });
       return true;
     } else {
+      // Log the error for debugging and show a user-friendly error message
       console.error("failed to update plant");
       setErrorMessage(
         "Something went wrong while updating the plant.",
@@ -48,6 +52,7 @@ export default function EditPlantPage(updatedPlant) {
 
   return (
     <main>
+      {/* Display an error message if the plant update fails */}
       {errorMessage && (
         <p className="mt-2 text-sm text-red-600">{errorMessage}</p>
       )}

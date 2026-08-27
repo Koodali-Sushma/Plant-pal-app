@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import useSWR, { useSWRConfig } from "swr";
+import useSWR from "swr";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -27,20 +27,40 @@ export default function PlantDetails() {
   const router = useRouter();
   const { id } = router.query;
 
-  /* successMessage if plant is updated */
-  const [successMessage, setSuccessMessage] = useState("");
+  /* Show a temporary success message (=toast) after the plant has been updated */
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
 
   useEffect(() => {
-    if (router.query.updated === "true") {
-      setSuccessMessage("Plant successfully updated!");
+    // Wait until the router is ready before accessing query parameters
+    if (!router.isReady) return;
 
+    if (router.query.updated === "true") {
+      // Show the success toast after the current effect has finished
       const timer = setTimeout(() => {
-        setSuccessMessage("");
+        setShowSuccessToast(true);
+      }, 0);
+
+      // Remove the temporary query parameter from the URL without reloading the page
+      router.replace(
+        {
+          pathname: `/plants/${id}`,
+        },
+        undefined,
+        { shallow: true },
+      );
+
+      // Hide the success toast after five seconds
+      const hideTimer = setTimeout(() => {
+        setShowSuccessToast(false);
       }, 5000);
 
-      return () => clearTimeout(timer);
+      // Clean up timers if the component unmounts or the effect runs again
+      return () => {
+        clearTimeout(timer);
+        clearTimeout(hideTimer);
+      };
     }
-  }, [router.query.updated]);
+  }, [router, id]);
 
   const {
     data: plant,
@@ -69,7 +89,7 @@ export default function PlantDetails() {
     : [plant.imageUrl].filter(Boolean);
 
   return (
-    <main className="max-w-2x1 mx-auto px-4 py-6 font-body text-foreground">
+    <main className="max-w-2xl mx-auto px-4 py-6 font-body text-foreground">
       <div className="flex justify-between items-center mb-4">
         <Link
           href={`/plants/${id}/edit`}
@@ -110,9 +130,9 @@ export default function PlantDetails() {
         </div>
       )}
 
-      {successMessage && (
+      {showSuccessToast && (
         <p className="mb-6 rounded-xl border border-primary-500/30 bg-primary-100 px-4 py-3 text-center font-semibold text-primary-700 shadow-sm">
-          {successMessage}
+          Plant successfully updated
         </p>
       )}
 
