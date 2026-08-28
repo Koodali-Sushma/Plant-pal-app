@@ -20,7 +20,7 @@ export default function PlantListPage() {
   const [showFilterButtons, setShowFilterButtons] = useState(false);
 
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <p>Loading...</p>;
   }
   if (!data) {
     return <p className="text-center mt-12 text-lg">No data found</p>;
@@ -61,7 +61,7 @@ export default function PlantListPage() {
           /* Remove the optimistic plant if the request fails. */
           rollbackOnError: true,
 
-          populateCache: false, /* Keep the optimistic data in the cache until the revalidation. fetch replaces it with the latest data from the server. */
+          populateCache: false /* Keep the optimistic data in the cache until the revalidation. fetch replaces it with the latest data from the server. */,
 
           /* Fetch the latest data from the server after the request succeeds. */
           revalidate: true,
@@ -133,7 +133,13 @@ export default function PlantListPage() {
 
           <PlantList
             plants={filteredPlants}
-            onAddPlant={() => setShowForm(true)}
+            onAddPlant={() => {
+              setShowForm(true);
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
+            }}
             onOwnershipToggle={handleOwnershipToggle}
             successMessage={successMessage}
           />
