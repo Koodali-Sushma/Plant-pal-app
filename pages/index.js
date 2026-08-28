@@ -7,6 +7,7 @@ import useSWR, { mutate } from "swr";
 import MyPlants from "@/components/MyPlants/MyPlants.js";
 import { filterPlants } from "@/utils/filterPlants";
 import FilterButtons from "@/components/FilterButton/FilterButton";
+import SearchBar from "@/components/SearchBar/SearchBar";
 
 export default function Homepage() {
   const { data: plants, isLoading } = useSWR("/api/plants");
@@ -18,6 +19,8 @@ export default function Homepage() {
     fertiliserSeason: [],
   });
   const [showFilterButtons, setShowFilterButtons] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+
   async function handleCreatePlant(data) {
     const response = await fetch("/api/plants", {
       method: "POST",
@@ -41,18 +44,27 @@ export default function Homepage() {
     }, 5000);
     return true;
   }
-
-  // Get the function from your custom hook
-
   if (isLoading) {
     return <p>Loading...</p>;
   }
 
   if (!plants) {
-    return <p className="text-center mt12 text-lg">No data found</p>;
+    return <p className="text-center mt-12 text-lg">No data found</p>;
   }
-  const ownedPlants = plants?.filter((plant) => plant.isOwned === true) || [];
-  const filteredPlants = filterPlants?.(ownedPlants, filters);
+
+  const ownedPlants = plants.filter((plant) => plant.isOwned === true);
+  const searchBarState = ownedPlants.length > 0 ? false : true;
+  const normalizedQuery = searchQuery.trim().toLowerCase();
+  const filteredPlants = filterPlants(ownedPlants, filters);
+
+  const searchedPlants = filteredPlants.filter((plant) => {
+    const name = plant.name?.toLowerCase() || "";
+    const botanicalName = plant.botanicalName?.toLowerCase() || "";
+
+    return (
+      name.includes(normalizedQuery) || botanicalName.includes(normalizedQuery)
+    );
+  });
 
   return (
     <main className="px-4 py-6">
@@ -79,41 +91,40 @@ export default function Homepage() {
       >
         My Plants
       </h1>
-
       {showForm && (
         <CreatePlantForm
           onSubmitForm={handleCreatePlant}
           onCancel={() => setShowForm(false)}
         />
       )}
-
+      <SearchBar
+        value={searchQuery}
+        onChange={setSearchQuery}
+        searchBarState={searchBarState}
+      />
       {ownedPlants.length === 0 ? (
-        <p
-          className="mx-auto mt-12 max-w-md rounded-xl
-         border border-emerald-300/30 bg-emerald-50 p-6 
-         text-center text-lg font-semibold text-emerald-700 shadow-sm"
-        >
+        <p className="mx-auto mt-12 max-w-md rounded-xl border border-emerald-300/30 bg-emerald-50 p-6 text-center text-lg font-semibold text-emerald-700">
           You do not own any plants yet. Explore the Plant List.
         </p>
-      ) : filteredPlants.length === 0 ? (
-        <p
-          className="mx-auto mt-12 max-w-md rounded-xl
-         border border-emerald-300/30 bg-emerald-50 p-6 
-         text-center text-lg font-semibold text-emerald-700 shadow-sm"
-        >
-          No plants match your filters.
+      ) : searchedPlants.length === 0 ? (
+        <>
           <button type="button" onClick={() => clearFilters()}>
             Clear all filters
           </button>
-        </p>
+          <p className="mx-auto mt-12 max-w-md rounded-xl border border-emerald-300/30 bg-emerald-50 p-6 text-center text-lg font-semibold text-emerald-700">
+            No results found
+          </p>
+        </>
       ) : (
         <>
           <button
+            className="ml-4"
             type="button"
             onClick={() => setShowFilterButtons(!showFilterButtons)}
           >
             {showFilterButtons ? "Hide" : "Show"} Filters
           </button>
+
           {showFilterButtons && (
             <FilterButtons
               filters={filters}
@@ -121,8 +132,9 @@ export default function Homepage() {
               clearFilters={clearFilters}
             />
           )}
+
           <MyPlants
-            plants={filteredPlants}
+            plants={searchedPlants}
             onOwnershipToggle={handleOwnershipToggle}
             successMessage={successMessage}
           />
