@@ -1,8 +1,4 @@
-export default function SearchBar({
-  value,
-  onChange,
-  searchBarState = false,
-}) {
+export default function SearchBar({ value, onChange, searchBarState = false }) {
   return (
     <input
       type="search"
@@ -11,7 +7,12 @@ export default function SearchBar({
       placeholder="🔍Search plants..."
       aria-label="Search plants"
       disabled={searchBarState}
-      className="flex-1 rounded-xl border border-primary-500 bg-white px-4 py-3 outline-none focus:ring-2 focus:ring-primary-700/30"
+      className="flex-1 rounded-xl border border-primary-500 bg-white px-4 py-3 
+      outline-none shadow-sm 
+      focus:border-primary-700 focus:ring-2 focus:ring-primary-700/20 
+      disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-60
+      placeholder:text-gray-400
+      mb-3"
     />
   );
 }
