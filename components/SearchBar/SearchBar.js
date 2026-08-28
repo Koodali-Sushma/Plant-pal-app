@@ -1,7 +1,7 @@
 export default function SearchBar({
   value,
   onChange,
-  searchBarState = "false",
+  searchBarState = false,
 }) {
   return (
     <input
