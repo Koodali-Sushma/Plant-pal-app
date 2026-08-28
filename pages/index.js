@@ -47,6 +47,10 @@ export default function Homepage() {
   if (isLoading) {
     return <p>Loading...</p>;
   }
+
+  if (!plants) {
+    return <p className="text-center mt12 text-lg">No data found</p>;
+  }
   const ownedPlants = plants?.filter((plant) => plant.isOwned === true) || [];
   const filteredPlants = filterPlants?.(ownedPlants, filters);
 
@@ -105,7 +109,7 @@ export default function Homepage() {
       ) : (
         <>
           <button
-            type="Button"
+            type="button"
             onClick={() => setShowFilterButtons(!showFilterButtons)}
           >
             {showFilterButtons ? "Hide" : "Show"} Filters
