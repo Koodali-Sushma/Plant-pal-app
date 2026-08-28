@@ -106,7 +106,7 @@ export default function PlantListPage() {
             All Plants
           </h1>
           <button
-            type="Button"
+            type="button"
             onClick={() => setShowFilterButtons(!showFilterButtons)}
           >
             {showFilterButtons ? "Hide" : "Show"} Filters
