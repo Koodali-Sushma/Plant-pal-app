@@ -71,7 +71,7 @@ export default function EditPlantPage() {
   }
 
   return (
-    <main>
+    <main className="px-4 py-6">
       {errorMessage && (
         <p className="mt-2 text-sm text-red-600">{errorMessage}</p>
       )}

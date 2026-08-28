@@ -103,7 +103,7 @@ export default function PlantListPage() {
      text-primary-500 sm:text-5xl 
      top-1 z-10"
       >
-        All Plants
+        Explore all plants
       </h1>
 
       <SearchBar
@@ -118,9 +118,9 @@ export default function PlantListPage() {
           </button>
           <p
             className="mx-auto mt-12 max-w-md 
-          rounded-xl border border-emerald-300/30 
-          bg-emerald-50 p-6 text-center text-lg 
-          font-semibold text-emerald-700"
+          rounded-xl border border-primary-500/30 
+          bg-primary-50 p-6 text-center text-lg 
+          font-semibold text-primary-700"
           >
             {normalizedQuery
               ? "No plants match your search."
@@ -167,13 +167,6 @@ export default function PlantListPage() {
             successMessage={successMessage}
           />
         </>
-      )}
-
-      {showForm && (
-        <CreatePlantForm
-          onSubmitForm={handleCreatePlant}
-          onCancel={() => setShowForm(false)}
-        />
       )}
     </main>
   );
