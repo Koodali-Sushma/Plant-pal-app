@@ -94,7 +94,7 @@ export default function CreatePlantForm({
   return (
     <>
       <div className="mx-auto w-full max-w-2xl rounded-3xl bg-primary-100 p-5 shadow-lg sm:p-8 mb-10">
-        <h2 className="mb-2 font-heading text-3xl font-bold">
+        <h2 className="mb-2 font-heading text-3xl font-bold pb-4 text-primary-700">
           {initialData ? "Edit a plant" : "Add a new plant"}
         </h2>
 
@@ -104,18 +104,8 @@ export default function CreatePlantForm({
           aria-label="add a plant to your list"
           className="flex flex-col gap-6"
         >
-          <div className="flex gap-3 pt-2">
-            <button
-              type="button"
-              onClick={onCancel}
-              className="flex-1 rounded-xl border-2 border-secondary-500 px-5 py-3 font-semibold text-secondary-500 transition hover:bg-secondary-500 hover:text-background cursor-pointer"
-            >
-              Cancel
-            </button>
-          </div>
-
           <div className="flex flex-col items-center gap-3">
-            <label className="flex flex-col gap-2 font-semibold">
+            <label className="flex flex-col gap-2 font-semibold self-start">
               Plant Image:
             </label>
             <Image
@@ -128,9 +118,9 @@ export default function CreatePlantForm({
             {/* Allow the user to select an image for the plant. */}
             <label
               htmlFor="plant-image"
-              className="cursor-pointer rounded-xl bg-primary-500 px-5 py-3 font-semibold text-background transition hover:bg-primary-700"
+              className="w-full text-center cursor-pointer rounded-xl bg-primary-500 px-5 py-3 font-semibold text-background transition hover:bg-primary-700"
             >
-              Choose an image
+              Upload image
             </label>
 
             <input
@@ -155,6 +145,7 @@ export default function CreatePlantForm({
             type="text"
             id="name"
             name="name"
+            placeholder="e.g. Monstera"
             defaultValue={initialData ? initialData.name : ""}
             required
             className="rounded-xl border border-primary-500 bg-white px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/30"
@@ -170,6 +161,7 @@ export default function CreatePlantForm({
             type="text"
             id="botanical-name"
             name="botanicalName"
+            placeholder="Monstera deliciosa"
             defaultValue={initialData ? initialData.botanicalName : ""}
             className="rounded-xl border border-primary-500 bg-white px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/30"
           />
@@ -305,6 +297,7 @@ export default function CreatePlantForm({
           <textarea
             id="description"
             name="description"
+            placeholder="Add any care notes or details about this plant..."
             maxLength={250}
             onChange={(event) =>
               setDescriptionLength(event.target.value.length)
@@ -324,6 +317,15 @@ export default function CreatePlantForm({
               hover:bg-foreground hover:shadow-md cursor-pointer"
             >
               {initialData ? "UPDATE" : "ADD"}
+            </button>
+          </div>
+          <div className="flex gap-3 pt-2">
+            <button
+              type="button"
+              onClick={onCancel}
+              className="flex-1 rounded-xl border-2 border-secondary-500 px-5 py-3 font-semibold text-secondary-500 transition hover:bg-secondary-500 hover:text-background cursor-pointer"
+            >
+              Cancel
             </button>
           </div>
         </form>
