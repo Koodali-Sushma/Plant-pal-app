@@ -27,7 +27,7 @@ export default function PlantList({
         </p>
       )}
 
-      <ul className="grid grid-cols-2 gap-2  list-none">
+      <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-8  list-none">
         {plants.length === 0 ? (
           <p>No plants found</p>
         ) : (

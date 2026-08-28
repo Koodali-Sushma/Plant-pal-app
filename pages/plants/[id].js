@@ -3,15 +3,7 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import Link from "next/link";
 import Image from "next/image";
-import {
-  WaterIcon,
-  LightIcon,
-  FertilizerIcon,
-  FiltersIcon,
-  CloseIcon,
-} from "@/components/SvgIcons";
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
+import { WaterIcon, LightIcon, FertilizerIcon } from "@/components/SvgIcons";
 
 /* new variables for level indicator */
 const WATER_LEVELS = { Low: 1, Medium: 2, High: 3 };
