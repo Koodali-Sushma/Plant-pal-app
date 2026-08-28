@@ -2,7 +2,7 @@ import { BookmarkFilledIcon, BookmarkIcon } from "../SvgIcons";
 import { useState } from "react";
 
 export default function OwnershipButton({ plant, onOwnershipToggle }) {
-  const [failed, setFailed] = useState("");
+  const [failed, setFailed] = useState(false);
 
   async function handleClick(e) {
     e.stopPropagation();
