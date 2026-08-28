@@ -33,7 +33,7 @@ function CareLevelIcons({ Icon, total = 3, filled }) {
 
 /* temporary ROOMS */
 
-const ROOMS = ["Kitchen", "Balcony", "Living Room", "Bedroom"];
+//onst ROOMS = ["Kitchen", "Balcony", "Living Room", "Bedroom"];
 
 function CareCard({ label, children, icon }) {
   return (
@@ -228,20 +228,6 @@ export default function PlantDetails() {
           {plant.fertiliserSeason?.join(", ")}
         </CareCard>
       </div>
-      {/* 
-      <div className="mt-6 p-4 rounded-card bg-primary-100 shadow-soft">
-        <label className="block text-sm font-medium text-primary-700 mb-1">
-          Assign to a room
-        </label>
-        <select className="w-full rounded-card border border-primary-500/30 px-3 py-2 bg-background">
-          <option value="">Select a room...</option>
-          {ROOMS.map((room) => (
-            <option key={room} value={room}>
-              {room}
-            </option>
-          ))}
-        </select>
-      </div> */}
     </main>
   );
 }

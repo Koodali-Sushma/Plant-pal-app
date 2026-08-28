@@ -38,16 +38,6 @@ export default function Navigation() {
             />
           </Link>
         </li>
-        {/*         <li>
-          <Link
-            href="/rooms"
-            className={`flex flex-col items-center rounded-full p-2 ${isRooms ? "bg-accent-500 text-secondary-900" : ""}`}
-          >
-            <RoomsIcon
-              className={`h-10 w-10 ${isRooms ? "text-secondary-800" : "text-secondary-700"}`}
-            />
-          </Link>
-        </li> */}
       </ul>
     </nav>
   );
