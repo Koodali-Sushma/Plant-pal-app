@@ -1,23 +1,35 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import useSWR, { useSWRConfig } from "swr";
+import useSWR from "swr";
 import Link from "next/link";
 import Image from "next/image";
-import { WaterIcon, LightIcon, FertilizerIcon } from "@/components/SvgIcons";
+import {
+  WaterIcon,
+  LightIcon,
+  FertilizerIcon,
+  FiltersIcon,
+  CloseIcon,
+} from "@/components/SvgIcons";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 
-const LIGHT_OPACITY = {
-  "Full Sun": "opacity-100",
-  "Partial Shade": "opacity-50",
-  "Full Shade": "opacity-20",
-};
+/* new variables for level indicator */
+const WATER_LEVELS = { Low: 1, Medium: 2, High: 3 };
+const LIGHT_LEVELS = { "Full Shade": 1, "Partial Shade": 2, "Full Sun": 3 };
 
-const WATER_OPACITY = {
-  Low: "opacity-20",
-  Medium: "opacity-50",
-  High: "opacity-100",
-};
+/* New conditional to dosplay the right amount of icons for water or light needs */
+function CareLevelIcons({ Icon, total = 3, filled }) {
+  return (
+    <div className="flex gap-0.5">
+      {Array.from({ length: total }).map((_, i) => (
+        <Icon
+          key={i}
+          className={`h-5 w-5 text-secondary-900 ${i < filled ? "opacity-100" : "opacity-20"} `}
+        />
+      ))}
+    </div>
+  );
+}
 
 /* temporary ROOMS */
 
@@ -43,20 +55,40 @@ export default function PlantDetails() {
   const router = useRouter();
   const { id } = router.query;
 
-  /* successMessage if plant is updated */
-  const [successMessage, setSuccessMessage] = useState("");
+  /* Show a temporary success message (=toast) after the plant has been updated */
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
 
   useEffect(() => {
-    if (router.query.updated === "true") {
-      setSuccessMessage("Plant successfully updated!");
+    // Wait until the router is ready before accessing query parameters
+    if (!router.isReady) return;
 
+    if (router.query.updated === "true") {
+      // Show the success toast after the current effect has finished
       const timer = setTimeout(() => {
-        setSuccessMessage("");
+        setShowSuccessToast(true);
+      }, 0);
+
+      // Remove the temporary query parameter from the URL without reloading the page
+      router.replace(
+        {
+          pathname: `/plants/${id}`,
+        },
+        undefined,
+        { shallow: true },
+      );
+
+      // Hide the success toast after five seconds
+      const hideTimer = setTimeout(() => {
+        setShowSuccessToast(false);
       }, 5000);
 
-      return () => clearTimeout(timer);
+      // Clean up timers if the component unmounts or the effect runs again
+      return () => {
+        clearTimeout(timer);
+        clearTimeout(hideTimer);
+      };
     }
-  }, [router.query.updated]);
+  }, [router, id]);
 
   const {
     data: plant,
@@ -89,18 +121,21 @@ export default function PlantDetails() {
       <div className="flex justify-between items-center mb-4">
         <Link
           href={`/plants/${id}/edit`}
-          className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-colors text-sm"
+          className="bg-primary-500 hover:bg-primary-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-colors text-sm"
         >
           Edit Plant
         </Link>
-        {plant.userCreated && (
-          <button
-            onClick={() => setShowDeleteConfirmation(true)}
-            className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-colors text-sm"
-          >
-            Delete
-          </button>
-        )}
+
+        <button
+          onClick={() => setShowDeleteConfirmation(true)}
+          disabled={!plant.userCreated}
+          title={
+            !plant.userCreated ? "This plant cannot be deleted" : undefined
+          }
+          className="bg-secondary-800 hover:bg-secondary-900 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-colors text-sm disabled:bg-gray-400 disabled:cursor-not-allowed"
+        >
+          Delete
+        </button>
       </div>
       {showDeleteConfirmation && (
         <div className="mb-4 p-4 rounded-card bg-red-50 border border-red-200 shadow-soft">
@@ -126,9 +161,9 @@ export default function PlantDetails() {
         </div>
       )}
 
-      {successMessage && (
+      {showSuccessToast && (
         <p className="mb-6 rounded-xl border border-primary-500/30 bg-primary-100 px-4 py-3 text-center font-semibold text-primary-700 shadow-sm">
-          {successMessage}
+          Plant successfully updated
         </p>
       )}
 
@@ -167,8 +202,9 @@ export default function PlantDetails() {
         <CareCard
           label="Water"
           icon={
-            <WaterIcon
-              className={`h-5 w-5 text-secondary-900 ${WATER_OPACITY[plant.waterNeed] ?? "opacity-100"}`}
+            <CareLevelIcons
+              Icon={WaterIcon}
+              filled={WATER_LEVELS[plant.waterNeed]}
             />
           }
         >
@@ -177,8 +213,9 @@ export default function PlantDetails() {
         <CareCard
           label="Light"
           icon={
-            <LightIcon
-              className={`h-5 w-5 text-secondary-900 ${LIGHT_OPACITY[plant.lightNeed] ?? "opacity-100"}`}
+            <CareLevelIcons
+              Icon={LightIcon}
+              filled={LIGHT_LEVELS[plant.lightNeed]}
             />
           }
         >
