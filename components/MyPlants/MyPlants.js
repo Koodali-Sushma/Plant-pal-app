@@ -1,6 +1,4 @@
-import Link from "next/link";
-import OwnershipButton from "@/components/PlantOwnership/OwnershipButton"; // Import your reusable ownership component
-import Image from "next/image";
+import PlantCard from "../PlantCard";
 
 export default function MyPlants({
   plants,
@@ -17,7 +15,19 @@ export default function MyPlants({
       )}
       <ul className="grid grid-cols-2 gap-2  list-none">
         {plants.map((plant) => (
-          <li
+          <PlantCard
+            key={plant._id}
+            plant={plant}
+            onOwnershipToggle={onOwnershipToggle}
+          />
+        ))}
+      </ul>
+    </>
+  );
+}
+
+/* 
+ <li
             key={plant._id}
             className="group relative h-40 w-40 m-auto overflow-hidden rounded-2xl border-(--color-secondary-500)"
           >
@@ -50,14 +60,8 @@ export default function MyPlants({
                 {plant.botanicalName}
               </span>
             </Link>
-            {/* Reusable Component Used Here */}
             <OwnershipButton
               plant={plant}
               onOwnershipToggle={onOwnershipToggle}
             />
-          </li>
-        ))}
-      </ul>
-    </>
-  );
-}
+          </li> */

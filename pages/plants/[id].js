@@ -94,7 +94,7 @@ export default function PlantDetails() {
     data: plant,
     error,
     isLoading,
-  } = useSWR(id ? `/api/plants/${id}` : null, fetcher);
+  } = useSWR(id ? `/api/plants/${id}` : null);
 
   async function handleDelete() {
     const response = await fetch(`/api/plants/${id}`, {
