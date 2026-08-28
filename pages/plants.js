@@ -3,7 +3,7 @@ import useSWR, { mutate } from "swr";
 import { useState } from "react";
 import CreatePlantForm from "@/components/CreatePlantForm";
 import handleOwnershipToggle from "@/components/PlantOwnership/OwnershipToggle";
-import FilterButtons from "@/components/FilterButton/FilterButton.js";
+import FilterButton from "@/components/FilterButton/FilterButton.js";
 import useFilters from "@/hooks/useFilters.js";
 import { filterPlants } from "@/utils/filterPlants.js";
 import SearchBar from "@/components/SearchBar/SearchBar";
@@ -137,7 +137,7 @@ export default function PlantListPage() {
             {showFilterButtons ? "Hide" : "Show"} Filters
           </button>
           {showFilterButtons && (
-            <FilterButtons
+            <FilterButton
               filters={filters}
               toggleFilters={toggleFilters}
               clearFilters={clearFilters}
