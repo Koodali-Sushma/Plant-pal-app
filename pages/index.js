@@ -107,7 +107,7 @@ export default function Homepage() {
       ) : (
         <>
           <button
-            type="Button"
+            type="button"
             onClick={() => setShowFilterButtons(!showFilterButtons)}
           >
             {showFilterButtons ? "Hide" : "Show"} Filters
