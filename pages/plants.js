@@ -8,7 +8,7 @@ import useFilters from "@/hooks/useFilters.js";
 import { filterPlants } from "@/utils/filterPlants.js";
 
 export default function PlantListPage() {
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(false); /* form to add new plants */
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const { data, isLoading } = useSWR("/api/plants");
