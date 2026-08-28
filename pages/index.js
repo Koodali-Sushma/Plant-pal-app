@@ -50,6 +50,11 @@ export default function Homepage() {
   if (isLoading) {
     return <p>Loading...</p>;
   }
+
+  if (!plants) {
+    return <p className="text-center mt12 text-lg">No data found</p>;
+  }
+
   const normalizedQuery = searchQuery.trim().toLowerCase();
   const filteredPlants = filterPlants?.(plants, filters);
   const searchedPlants =

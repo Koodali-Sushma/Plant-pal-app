@@ -9,7 +9,7 @@ import { filterPlants } from "@/utils/filterPlants.js";
 import SearchBar from "@/components/SearchBar/SearchBar";
 
 export default function PlantListPage() {
-  const [showForm, setShowForm] = useState(false); /* form to add new plants */
+  const [showForm, setShowForm] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const { data, isLoading } = useSWR("/api/plants");
   const { filters, toggleFilters, clearFilters } = useFilters({
@@ -24,7 +24,7 @@ export default function PlantListPage() {
     return <h1>Loading...</h1>;
   }
   if (!data) {
-    return null;
+    return <p className="text-center mt-12 text-lg">No data found</p>;
   }
   const filteredPlants = filterPlants(data, filters);
   const normalizedQuery = searchQuery.trim().toLowerCase();
