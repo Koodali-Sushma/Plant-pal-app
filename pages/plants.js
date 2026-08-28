@@ -22,7 +22,7 @@ export default function PlantListPage() {
     return <h1>Loading...</h1>;
   }
   if (!data) {
-    return null;
+    return <p className="text-center mt-12 text-lg">No data found</p>;
   }
 
   const filteredPlants = filterPlants(data, filters);

@@ -12,7 +12,7 @@ export default function OwnershipButton({ plant, onOwnershipToggle }) {
       }
       aria-pressed={Boolean(plant.isOwned)}
       onClick={(e) => {
-        e.stopPropagation(); // Prevents triggering parent Link clicks if nested
+        e.stopPropagation();
         console.log("Check button clicked");
         onOwnershipToggle(plant);
       }}
