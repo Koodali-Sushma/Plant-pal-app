@@ -57,7 +57,13 @@ export default function Homepage() {
   return (
     <main className="px-4 py-6">
       {!showForm && (
-        <button type="button" onClick={() => setShowForm(true)}>
+        <button
+          type="button"
+          onClick={() => {
+            setShowForm(true);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+        >
           <Image
             src="/assets/plus.svg"
             alt="plus sign"
@@ -107,7 +113,7 @@ export default function Homepage() {
       ) : (
         <>
           <button
-            type="Button"
+            type="button"
             onClick={() => setShowFilterButtons(!showFilterButtons)}
           >
             {showFilterButtons ? "Hide" : "Show"} Filters

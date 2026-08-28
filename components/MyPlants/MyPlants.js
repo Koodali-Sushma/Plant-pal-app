@@ -1,4 +1,3 @@
-import OwnershipButton from "@/components/PlantOwnership/OwnershipButton"; // Import your reusable ownership component
 import PlantCard from "../PlantCard";
 
 export default function MyPlants({
