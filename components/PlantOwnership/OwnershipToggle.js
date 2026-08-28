@@ -41,6 +41,7 @@ export default async function handleOwnershipToggle(plant) {
         optimisticData:
           optimisticPlants /* Show the updated plant data immediately before the server responds. */,
         rollbackOnError: true /* Restore the previous data if the server update fails. */,
+        populateCache: false /* Keep the optimistic data in the cache until the revalidation. fetch replaces it with the latest data from the server. */,
         revalidate: true /* fetch the latest plant data from the server after the successful update */,
       },
     );

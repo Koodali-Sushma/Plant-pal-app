@@ -61,6 +61,8 @@ export default function PlantListPage() {
           /* Remove the optimistic plant if the request fails. */
           rollbackOnError: true,
 
+          populateCache: false, /* Keep the optimistic data in the cache until the revalidation. fetch replaces it with the latest data from the server. */
+
           /* Fetch the latest data from the server after the request succeeds. */
           revalidate: true,
         },
