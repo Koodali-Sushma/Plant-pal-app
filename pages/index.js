@@ -59,19 +59,15 @@ export default function Homepage() {
       {!showForm && (
         <button
           type="button"
-          onClick={() => {
-            setShowForm(true);
-            window.scrollTo({ top: 0, behavior: "smooth" });
-          }}
+          onClick={() => setShowForm(true)}
+          className="fixed bottom-25 right-5 z-50 flex h-14 w-14 items-center
+        justify-center rounded-full bg-accent-500 shadow-2xl transition hover:bg-(--color-primary-700) hover:shadow-xl"
         >
           <Image
             src="/assets/plus.svg"
             alt="plus sign"
-            width={40}
-            height={40}
-            className="fixed bottom-20 right-5 z-50 flex h-14 w-14 
-            items-center justify-center rounded-full bg-accent-500 
-            shadow-2xl transition hover:bg-primary-700 hover:shadow-xl"
+            width={48}
+            height={48}
           />
         </button>
       )}
