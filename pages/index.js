@@ -49,7 +49,7 @@ export default function Homepage() {
   }
 
   if (!plants) {
-    return <p className="text-center mt12 text-lg">No data found</p>;
+    return <p className="text-center mt-12 text-lg">No data found</p>;
   }
 
   const ownedPlants = plants.filter((plant) => plant.isOwned === true);
