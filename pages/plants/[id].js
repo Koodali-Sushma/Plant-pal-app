@@ -5,8 +5,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { WaterIcon, LightIcon, FertilizerIcon } from "@/components/SvgIcons";
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
-
 const LIGHT_OPACITY = {
   "Full Sun": "opacity-100",
   "Partial Shade": "opacity-50",
@@ -43,20 +41,16 @@ export default function PlantDetails() {
   const router = useRouter();
   const { id } = router.query;
 
-  /* Show a temporary success message (=toast) after the plant has been updated */
   const [showSuccessToast, setShowSuccessToast] = useState(false);
 
   useEffect(() => {
-    // Wait until the router is ready before accessing query parameters
     if (!router.isReady) return;
 
     if (router.query.updated === "true") {
-      // Show the success toast after the current effect has finished
       const timer = setTimeout(() => {
         setShowSuccessToast(true);
       }, 0);
 
-      // Remove the temporary query parameter from the URL without reloading the page
       router.replace(
         {
           pathname: `/plants/${id}`,
@@ -65,12 +59,10 @@ export default function PlantDetails() {
         { shallow: true },
       );
 
-      // Hide the success toast after five seconds
       const hideTimer = setTimeout(() => {
         setShowSuccessToast(false);
       }, 5000);
 
-      // Clean up timers if the component unmounts or the effect runs again
       return () => {
         clearTimeout(timer);
         clearTimeout(hideTimer);
@@ -82,7 +74,7 @@ export default function PlantDetails() {
     data: plant,
     error,
     isLoading,
-  } = useSWR(id ? `/api/plants/${id}` : null, fetcher);
+  } = useSWR(id ? `/api/plants/${id}` : null);
 
   async function handleDelete() {
     const response = await fetch(`/api/plants/${id}`, {
