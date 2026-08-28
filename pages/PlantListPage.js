@@ -10,6 +10,7 @@ import { filterPlants } from "@/utils/filterPlants.js";
 export default function PlantListPage() {
   const [showForm, setShowForm] = useState(false); /* form to add new plants */
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const { data, isLoading } = useSWR("/api/plants");
   const { filters, toggleFilters, clearFilters } = useFilters({
     lightNeed: [],
@@ -76,6 +77,7 @@ export default function PlantListPage() {
       return true;
     } catch (error) {
       console.error("Failed to create plant:", error);
+      setErrorMessage("Failed to add plant. Please try again.");
       return false;
     }
   }
@@ -121,6 +123,10 @@ export default function PlantListPage() {
               onSubmitForm={handleCreatePlant}
               onCancel={() => setShowForm(false)}
             />
+          )}
+
+          {errorMessage && (
+            <p className="mt-2 text-sm text-red-600">{errorMessage}</p>
           )}
 
           <PlantList
