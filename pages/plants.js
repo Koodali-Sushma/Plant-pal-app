@@ -9,8 +9,9 @@ import { filterPlants } from "@/utils/filterPlants.js";
 import SearchBar from "@/components/SearchBar/SearchBar";
 
 export default function PlantListPage() {
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(false); /* form to add new plants */
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const { data, isLoading } = useSWR("/api/plants");
   const { filters, toggleFilters, clearFilters } = useFilters({
     lightNeed: [],
@@ -21,7 +22,7 @@ export default function PlantListPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const searchBarState = !data ? true : false;
   if (isLoading) {
-    return <h1>Loading...</h1>;
+    return <p>Loading...</p>;
   }
   if (!data) {
     return <p className="text-center mt-12 text-lg">No data found</p>;
@@ -41,33 +42,57 @@ export default function PlantListPage() {
   async function handleCreatePlant(data) {
     const updatedData = { ...data, isOwned: true, userCreated: true };
 
-    const response = await fetch("/api/plants", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedData),
-    });
+    try {
+      const newPlant = {
+        ...updatedData,
+        _id: `temp-${Date.now()}` /* Temporary ID for the optimistic update. */,
+      };
 
-    if (!response.ok) {
+      await mutate(
+        "/api/plants",
+        async (currentPlants) => {
+          /* send the new plant to the server */
+          const response = await fetch("/api/plants", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedData),
+          });
+
+          if (!response.ok) {
+            throw new Error("Failed to create plant");
+          }
+          /* Return the current data. SWR will revalidate afterwards. */
+          return currentPlants;
+        },
+        {
+          optimisticData: (currentPlants) => [...currentPlants, newPlant],
+
+          /* Remove the optimistic plant if the request fails. */
+          rollbackOnError: true,
+
+          populateCache: false /* Keep the optimistic data in the cache until the revalidation. fetch replaces it with the latest data from the server. */,
+
+          /* Fetch the latest data from the server after the request succeeds. */
+          revalidate: true,
+        },
+      );
+
+      setShowForm(false);
+
+      setSuccessMessage("Plant successfully added!");
+
+      setTimeout(() => {
+        setSuccessMessage("");
+      }, 5000);
+
+      return true;
+    } catch (error) {
+      console.error("Failed to create plant:", error);
+      setErrorMessage("Failed to add plant. Please try again.");
       return false;
     }
-
-    const newPlant = await response.json();
-
-    console.log("newPlant add: ", newPlant);
-
-    await mutate("/api/plants");
-
-    setShowForm(false);
-
-    setSuccessMessage("Plant successfully added!");
-
-    setTimeout(() => {
-      setSuccessMessage("");
-    }, 5000);
-
-    return true;
   }
 
   return (
@@ -118,9 +143,26 @@ export default function PlantListPage() {
               clearFilters={clearFilters}
             />
           )}
+          {showForm && (
+            <CreatePlantForm
+              onSubmitForm={handleCreatePlant}
+              onCancel={() => setShowForm(false)}
+            />
+          )}
+
+          {errorMessage && (
+            <p className="mt-2 text-sm text-red-600">{errorMessage}</p>
+          )}
+
           <PlantList
             plants={searchPlants}
-            onAddPlant={() => setShowForm(true)}
+            onAddPlant={() => {
+              setShowForm(true);
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
+            }}
             onOwnershipToggle={handleOwnershipToggle}
             successMessage={successMessage}
           />

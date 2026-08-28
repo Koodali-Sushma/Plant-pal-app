@@ -3,19 +3,33 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import Link from "next/link";
 import Image from "next/image";
-import { WaterIcon, LightIcon, FertilizerIcon } from "@/components/SvgIcons";
+import {
+  WaterIcon,
+  LightIcon,
+  FertilizerIcon,
+  FiltersIcon,
+  CloseIcon,
+} from "@/components/SvgIcons";
 
-const LIGHT_OPACITY = {
-  "Full Sun": "opacity-100",
-  "Partial Shade": "opacity-50",
-  "Full Shade": "opacity-20",
-};
+const fetcher = (url) => fetch(url).then((res) => res.json());
 
-const WATER_OPACITY = {
-  Low: "opacity-20",
-  Medium: "opacity-50",
-  High: "opacity-100",
-};
+/* new variables for level indicator */
+const WATER_LEVELS = { Low: 1, Medium: 2, High: 3 };
+const LIGHT_LEVELS = { "Full Shade": 1, "Partial Shade": 2, "Full Sun": 3 };
+
+/* New conditional to dosplay the right amount of icons for water or light needs */
+function CareLevelIcons({ Icon, total = 3, filled }) {
+  return (
+    <div className="flex gap-0.5">
+      {Array.from({ length: total }).map((_, i) => (
+        <Icon
+          key={i}
+          className={`h-5 w-5 text-secondary-900 ${i < filled ? "opacity-100" : "opacity-20"} `}
+        />
+      ))}
+    </div>
+  );
+}
 
 /* temporary ROOMS */
 
@@ -41,16 +55,20 @@ export default function PlantDetails() {
   const router = useRouter();
   const { id } = router.query;
 
+  /* Show a temporary success message (=toast) after the plant has been updated */
   const [showSuccessToast, setShowSuccessToast] = useState(false);
 
   useEffect(() => {
+    // Wait until the router is ready before accessing query parameters
     if (!router.isReady) return;
 
     if (router.query.updated === "true") {
+      // Show the success toast after the current effect has finished
       const timer = setTimeout(() => {
         setShowSuccessToast(true);
       }, 0);
 
+      // Remove the temporary query parameter from the URL without reloading the page
       router.replace(
         {
           pathname: `/plants/${id}`,
@@ -59,10 +77,12 @@ export default function PlantDetails() {
         { shallow: true },
       );
 
+      // Hide the success toast after five seconds
       const hideTimer = setTimeout(() => {
         setShowSuccessToast(false);
       }, 5000);
 
+      // Clean up timers if the component unmounts or the effect runs again
       return () => {
         clearTimeout(timer);
         clearTimeout(hideTimer);
@@ -101,7 +121,7 @@ export default function PlantDetails() {
       <div className="flex justify-between items-center mb-4">
         <Link
           href={`/plants/${id}/edit`}
-          className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-colors text-sm"
+          className="bg-primary-500 hover:bg-primary-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-colors text-sm"
         >
           Edit Plant
         </Link>
@@ -112,7 +132,7 @@ export default function PlantDetails() {
           title={
             !plant.userCreated ? "This plant cannot be deleted" : undefined
           }
-          className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-colors text-sm disabled:bg-gray-400 disabled:cursor-not-allowed"
+          className="bg-secondary-800 hover:bg-secondary-900 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-colors text-sm disabled:bg-gray-400 disabled:cursor-not-allowed"
         >
           Delete
         </button>
@@ -182,8 +202,9 @@ export default function PlantDetails() {
         <CareCard
           label="Water"
           icon={
-            <WaterIcon
-              className={`h-5 w-5 text-secondary-900 ${WATER_OPACITY[plant.waterNeed] ?? "opacity-100"}`}
+            <CareLevelIcons
+              Icon={WaterIcon}
+              filled={WATER_LEVELS[plant.waterNeed]}
             />
           }
         >
@@ -192,8 +213,9 @@ export default function PlantDetails() {
         <CareCard
           label="Light"
           icon={
-            <LightIcon
-              className={`h-5 w-5 text-secondary-900 ${LIGHT_OPACITY[plant.lightNeed] ?? "opacity-100"}`}
+            <CareLevelIcons
+              Icon={LightIcon}
+              filled={LIGHT_LEVELS[plant.lightNeed]}
             />
           }
         >
