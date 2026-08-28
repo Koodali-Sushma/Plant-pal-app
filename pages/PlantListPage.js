@@ -26,17 +26,21 @@ export default function PlantListPage() {
   if (!data) {
     return null;
   }
+  const filteredPlants = filterPlants(data, filters);
   const normalizedQuery = searchQuery.trim().toLowerCase();
   //searching the plants with filteredPlant data getting as props if filter applied
   // otherwise with full data searching by name
-  const searchPlants = (!filterPlants ? data : filterPlants).filter((plant) => {
-    const name = plant.name?.toLowerCase() || "";
-    const botanicalName = plant.botanicalName?.toLowerCase() || "";
+  const searchPlants = (!filteredPlants ? data : filteredPlants).filter(
+    (plant) => {
+      const name = plant.name?.toLowerCase() || "";
+      const botanicalName = plant.botanicalName?.toLowerCase() || "";
 
-    return (
-      name.includes(normalizedQuery) || botanicalName.includes(normalizedQuery)
-    );
-  });
+      return (
+        name.includes(normalizedQuery) ||
+        botanicalName.includes(normalizedQuery)
+      );
+    },
+  );
   async function handleCreatePlant(data) {
     const updatedData = { ...data, isOwned: true, userCreated: true };
 
@@ -68,45 +72,39 @@ export default function PlantListPage() {
 
     return true;
   }
-  const filteredPlants = filterPlants(data, filters);
 
   return (
     <main className="px-4 py-6">
-      {filteredPlants.length === 0 || searchPlants.length == 0 ? (
-        <>
-          <p
-            className="mx-auto mt-12 max-w-md rounded-xl
-         border border-emerald-300/30 bg-emerald-50 p-6 
-         text-center text-lg font-semibold text-emerald-700 shadow-sm"
-          >
-            No plants{" "}
-            {filteredPlants.length === 0 ? " match your filters " : " found "}
-          </p>
-          <button type="button" onClick={() => clearFilters()}>
-            Clear all filters
-          </button>
-        </>
-      ) : (
-        <>
-          <h1
-            className="mb-8 text-left 
+      <h1
+        className="mb-8 text-left 
      text-4xl font-bold tracking-tight 
      text-primary-500 sm:text-5xl 
      top-1 z-10"
+      >
+        All Plants
+      </h1>
+
+      <SearchBar value={searchQuery} onChange={setSearchQuery} />
+      {searchPlants.length === 0 ? (
+        <>
+          <button className="ml-4" type="button" onClick={() => clearFilters()}>
+            Clear all filters
+          </button>
+          <p
+            className="mx-auto mt-12 max-w-md 
+          rounded-xl border border-emerald-300/30 
+          bg-emerald-50 p-6 text-center text-lg 
+          font-semibold text-emerald-700"
           >
-            All Plants
-          </h1>
-          <div className="mb-6 flex items-center gap-3">
-            <SearchBar value={searchQuery} onChange={setSearchQuery} />
-            <button
-              type="button"
-              aria-label="Filter plants"
-              className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-primary-500"
-            >
-              Filters
-            </button>
-          </div>
+            {normalizedQuery
+              ? "No results found"
+              : "No plants match your filters"}
+          </p>
+        </>
+      ) : (
+        <>
           <button
+            className="ml-4"
             type="Button"
             onClick={() => setShowFilterButtons(!showFilterButtons)}
           >
@@ -127,7 +125,7 @@ export default function PlantListPage() {
           )}
 
           <PlantList
-            plants={filteredPlants}
+            plants={searchPlants}
             onAddPlant={() => setShowForm(true)}
             onOwnershipToggle={handleOwnershipToggle}
             successMessage={successMessage}

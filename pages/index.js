@@ -51,9 +51,9 @@ export default function Homepage() {
     return <p>Loading...</p>;
   }
   const normalizedQuery = searchQuery.trim().toLowerCase();
-
-  const ownedPlants =
-    plants?.filter((plant) => {
+  const filteredPlants = filterPlants?.(plants, filters);
+  const searchedPlants =
+    (!filteredPlants ? plants : filteredPlants).filter((plant) => {
       const name = plant.name?.toLowerCase() || "";
       const botanicalName = plant.botanicalName?.toLowerCase() || "";
 
@@ -63,7 +63,6 @@ export default function Homepage() {
           botanicalName.includes(normalizedQuery))
       );
     }) || [];
-  const filteredPlants = filterPlants?.(ownedPlants, filters);
 
   return (
     <main className="px-4 py-6">
@@ -102,11 +101,16 @@ export default function Homepage() {
          border border-emerald-300/30 bg-emerald-50 p-6 
          text-center text-lg font-semibold text-emerald-700 shadow-sm"
         >
-          You do not own any plants yet. Explore the Plant List.
+          You do not own{" "}
+          {!searchedPlants
+            ? " any plants yet... Explore the Plant List"
+            : " any plant by this name...!! "}
         </p>
       ) : filteredPlants.length === 0 ? (
         <>
-          {" "}
+          <button type="button" onClick={() => clearFilters()}>
+            Clear all filters
+          </button>{" "}
           <p
             className="mx-auto mt-12 max-w-md rounded-xl
          border border-emerald-300/30 bg-emerald-50 p-6 
@@ -114,13 +118,11 @@ export default function Homepage() {
           >
             No plants match your filters.
           </p>
-          <button type="button" onClick={() => clearFilters()}>
-            Clear all filters
-          </button>
         </>
       ) : (
         <>
           <button
+            className="ml-4"
             type="Button"
             onClick={() => setShowFilterButtons(!showFilterButtons)}
           >
@@ -134,7 +136,7 @@ export default function Homepage() {
             />
           )}
           <MyPlants
-            plants={ownedPlants}
+            plants={searchedPlants}
             onOwnershipToggle={handleOwnershipToggle}
             successMessage={successMessage}
           />
