@@ -19,28 +19,25 @@ export default function PlantListPage() {
   });
   const [showFilterButtons, setShowFilterButtons] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-
+  const searchBarState = !data ? true : false;
   if (isLoading) {
     return <h1>Loading...</h1>;
   }
   if (!data) {
     return <p className="text-center mt-12 text-lg">No data found</p>;
   }
-  const filteredPlants = filterPlants(data, filters);
-  const normalizedQuery = searchQuery.trim().toLowerCase();
-  //searching the plants with filteredPlant data getting as props if filter applied
-  // otherwise with full data searching by name
-  const searchPlants = (!filteredPlants ? data : filteredPlants).filter(
-    (plant) => {
-      const name = plant.name?.toLowerCase() || "";
-      const botanicalName = plant.botanicalName?.toLowerCase() || "";
 
-      return (
-        name.includes(normalizedQuery) ||
-        botanicalName.includes(normalizedQuery)
-      );
-    },
-  );
+  const normalizedQuery = searchQuery.trim().toLowerCase();
+  const filteredPlants = filterPlants(data, filters);
+
+  const searchPlants = filteredPlants.filter((plant) => {
+    const name = plant.name?.toLowerCase() || "";
+    const botanicalName = plant.botanicalName?.toLowerCase() || "";
+
+    return (
+      name.includes(normalizedQuery) || botanicalName.includes(normalizedQuery)
+    );
+  });
   async function handleCreatePlant(data) {
     const updatedData = { ...data, isOwned: true, userCreated: true };
 
@@ -84,7 +81,11 @@ export default function PlantListPage() {
         All Plants
       </h1>
 
-      <SearchBar value={searchQuery} onChange={setSearchQuery} />
+      <SearchBar
+        value={searchQuery}
+        onChange={setSearchQuery}
+        searchBarState={searchBarState}
+      />
       {searchPlants.length === 0 ? (
         <>
           <button className="ml-4" type="button" onClick={() => clearFilters()}>
@@ -97,15 +98,15 @@ export default function PlantListPage() {
           font-semibold text-emerald-700"
           >
             {normalizedQuery
-              ? "No results found"
-              : "No plants match your filters"}
+              ? "No plants match your search."
+              : "No plants match your filters."}
           </p>
         </>
       ) : (
         <>
           <button
             className="ml-4"
-            type="Button"
+            type="button"
             onClick={() => setShowFilterButtons(!showFilterButtons)}
           >
             {showFilterButtons ? "Hide" : "Show"} Filters
@@ -117,13 +118,6 @@ export default function PlantListPage() {
               clearFilters={clearFilters}
             />
           )}
-          {showForm && (
-            <CreatePlantForm
-              onSubmitForm={handleCreatePlant}
-              onCancel={() => setShowForm(false)}
-            />
-          )}
-
           <PlantList
             plants={searchPlants}
             onAddPlant={() => setShowForm(true)}
@@ -131,6 +125,13 @@ export default function PlantListPage() {
             successMessage={successMessage}
           />
         </>
+      )}
+
+      {showForm && (
+        <CreatePlantForm
+          onSubmitForm={handleCreatePlant}
+          onCancel={() => setShowForm(false)}
+        />
       )}
     </main>
   );

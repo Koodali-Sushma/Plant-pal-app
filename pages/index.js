@@ -44,9 +44,6 @@ export default function Homepage() {
     }, 5000);
     return true;
   }
-
-  // Get the function from your custom hook
-
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -55,19 +52,19 @@ export default function Homepage() {
     return <p className="text-center mt12 text-lg">No data found</p>;
   }
 
+  const ownedPlants = plants.filter((plant) => plant.isOwned === true);
+  const searchBarState = ownedPlants.length > 0 ? false : true;
   const normalizedQuery = searchQuery.trim().toLowerCase();
-  const filteredPlants = filterPlants?.(plants, filters);
-  const searchedPlants =
-    (!filteredPlants ? plants : filteredPlants).filter((plant) => {
-      const name = plant.name?.toLowerCase() || "";
-      const botanicalName = plant.botanicalName?.toLowerCase() || "";
+  const filteredPlants = filterPlants(ownedPlants, filters);
 
-      return (
-        plant.isOwned === true &&
-        (name.includes(normalizedQuery) ||
-          botanicalName.includes(normalizedQuery))
-      );
-    }) || [];
+  const searchedPlants = filteredPlants.filter((plant) => {
+    const name = plant.name?.toLowerCase() || "";
+    const botanicalName = plant.botanicalName?.toLowerCase() || "";
+
+    return (
+      name.includes(normalizedQuery) || botanicalName.includes(normalizedQuery)
+    );
+  });
 
   return (
     <main className="px-4 py-6">
@@ -92,47 +89,40 @@ export default function Homepage() {
       >
         My Plants
       </h1>
-
       {showForm && (
         <CreatePlantForm
           onSubmitForm={handleCreatePlant}
           onCancel={() => setShowForm(false)}
         />
       )}
-      <SearchBar value={searchQuery} onChange={setSearchQuery} />
-      {searchQuery.trim() !== "" && ownedPlants.length === 0 ? (
-        <p
-          className="mx-auto mt-12 max-w-md rounded-xl
-         border border-emerald-300/30 bg-emerald-50 p-6 
-         text-center text-lg font-semibold text-emerald-700 shadow-sm"
-        >
-          You do not own{" "}
-          {!searchedPlants
-            ? " any plants yet... Explore the Plant List"
-            : " any plant by this name...!! "}
+      <SearchBar
+        value={searchQuery}
+        onChange={setSearchQuery}
+        searchBarState={searchBarState}
+      />
+      {ownedPlants.length === 0 ? (
+        <p className="mx-auto mt-12 max-w-md rounded-xl border border-emerald-300/30 bg-emerald-50 p-6 text-center text-lg font-semibold text-emerald-700">
+          You do not own any plants yet. Explore the Plant List.
         </p>
-      ) : filteredPlants.length === 0 ? (
+      ) : searchedPlants.length === 0 ? (
         <>
           <button type="button" onClick={() => clearFilters()}>
             Clear all filters
-          </button>{" "}
-          <p
-            className="mx-auto mt-12 max-w-md rounded-xl
-         border border-emerald-300/30 bg-emerald-50 p-6 
-         text-center text-lg font-semibold text-emerald-700 shadow-sm"
-          >
-            No plants match your filters.
+          </button>
+          <p className="mx-auto mt-12 max-w-md rounded-xl border border-emerald-300/30 bg-emerald-50 p-6 text-center text-lg font-semibold text-emerald-700">
+            No results found
           </p>
         </>
       ) : (
         <>
           <button
             className="ml-4"
-            type="Button"
+            type="button"
             onClick={() => setShowFilterButtons(!showFilterButtons)}
           >
             {showFilterButtons ? "Hide" : "Show"} Filters
           </button>
+
           {showFilterButtons && (
             <FilterButtons
               filters={filters}
@@ -140,6 +130,7 @@ export default function Homepage() {
               clearFilters={clearFilters}
             />
           )}
+
           <MyPlants
             plants={searchedPlants}
             onOwnershipToggle={handleOwnershipToggle}
