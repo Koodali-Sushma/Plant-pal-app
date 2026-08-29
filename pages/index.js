@@ -111,7 +111,7 @@ export default function Homepage() {
         </p>
       ) : searchedPlants.length === 0 ? (
         <>
-          <button type="button" onClick={() => clearFilters()}>
+          <button className="ml-4" type="button" onClick={() => clearFilters()}>
             Clear all filters
           </button>
           <p className="mx-auto mt-12 max-w-md rounded-xl border border-emerald-300/30 bg-emerald-50 p-6 text-center text-lg font-semibold text-emerald-700">
