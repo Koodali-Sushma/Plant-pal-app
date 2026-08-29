@@ -15,7 +15,7 @@ export default function PlantList({
         type="button"
         onClick={onAddPlant}
         className="fixed bottom-25 right-5 z-50 flex h-14 w-14 items-center
-        justify-center rounded-full bg-accent-500 shadow-2xl transition hover:bg-(--color-primary-700) hover:shadow-xl"
+        justify-center rounded-full bg-accent-500/80 backdrop-blur-2xl shadow-2xl transition hover:bg-(--color-primary-700) hover:shadow-xl"
       >
         <Image src="/assets/plus.svg" alt="plus sign" width={48} height={48} />
       </button>
@@ -27,7 +27,7 @@ export default function PlantList({
         </p>
       )}
 
-      <ul className="grid grid-cols-2 gap-2  list-none">
+      <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-8  list-none">
         {plants.length === 0 ? (
           <p>No plants found</p>
         ) : (

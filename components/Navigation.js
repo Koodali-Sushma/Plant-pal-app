@@ -13,7 +13,7 @@ export default function Navigation() {
 
   return (
     <nav
-      className="rounded-3xl fixed bottom-4 left-4 right-4 bg-(--color-secondary-500) z-10 backdrop-blur-md 
+      className="rounded-3xl fixed bottom-4 left-4 right-4 bg-(--color-secondary-500)/80 z-10 backdrop-blur-sm 
       pt-2
       pb-2"
     >

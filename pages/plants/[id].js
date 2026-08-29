@@ -7,11 +7,9 @@ import {
   WaterIcon,
   LightIcon,
   FertilizerIcon,
-  FiltersIcon,
-  CloseIcon,
+  EditIcon,
+  DeleteIcon,
 } from "@/components/SvgIcons";
-
-const fetcher = (url) => fetch(url).then((res) => res.json());
 
 /* new variables for level indicator */
 const WATER_LEVELS = { Low: 1, Medium: 2, High: 3 };
@@ -118,24 +116,45 @@ export default function PlantDetails() {
 
   return (
     <main className="max-w-2xl mx-auto px-4 py-6 font-body text-foreground">
-      <div className="flex justify-between items-center mb-4">
-        <Link
-          href={`/plants/${id}/edit`}
-          className="bg-primary-500 hover:bg-primary-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-colors text-sm"
-        >
-          Edit Plant
-        </Link>
-
-        <button
-          onClick={() => setShowDeleteConfirmation(true)}
-          disabled={!plant.userCreated}
-          title={
-            !plant.userCreated ? "This plant cannot be deleted" : undefined
-          }
-          className="bg-secondary-800 hover:bg-secondary-900 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-colors text-sm disabled:bg-gray-400 disabled:cursor-not-allowed"
-        >
-          Delete
-        </button>
+      <div className="relative rounded-card overflow-hidden shadow-soft">
+        <Image
+          src={images[activeImage]}
+          alt={plant.name}
+          className="w-full h-64 object-cover"
+          width={200}
+          height={200}
+        />
+        {images.length > 1 && (
+          <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveImage(i)}
+                className={`h-2 w-2 rounded-full ${i === activeImage ? "bg-primary-500" : "bg-primary-100"}`}
+              >
+                •
+              </button>
+            ))}
+          </div>
+        )}
+        <div className="flex absolute top-3 right-3 gap-3">
+          <Link
+            href={`/plants/${id}/edit`}
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-100/90 backdrop-blur-2xl hover:bg-primary-700 shadow-md transition-colors"
+          >
+            <EditIcon className="h-5 w-5" />
+          </Link>
+          <button
+            onClick={() => setShowDeleteConfirmation(true)}
+            disabled={!plant.userCreated}
+            title={
+              !plant.userCreated ? "This plant cannot be deleted" : undefined
+            }
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-100/90 backdrop-blur-2xl hover:bg-primary-700 shadow-md transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none"
+          >
+            <DeleteIcon className="h-5 w-5 " />
+          </button>
+        </div>
       </div>
       {showDeleteConfirmation && (
         <div className="mb-4 p-4 rounded-card bg-red-50 border border-red-200 shadow-soft">
@@ -166,29 +185,6 @@ export default function PlantDetails() {
           Plant successfully updated
         </p>
       )}
-
-      <div className="relative rounded-card overflow-hidden shadow-soft">
-        <Image
-          src={images[activeImage]}
-          alt={plant.name}
-          className="w-full h-64 object-cover"
-          width={200}
-          height={200}
-        />
-        {images.length > 1 && (
-          <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
-            {images.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveImage(i)}
-                className={`h-2 w-2 rounded-full ${i === activeImage ? "bg-primary-500" : "bg-primary-100"}`}
-              >
-                •
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
 
       <h1 className="mt-6 font-heading text-2xl font-semibold">{plant.name}</h1>
       {plant.botanicalName && (
