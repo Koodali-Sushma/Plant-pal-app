@@ -1,6 +1,4 @@
-import Link from "next/link";
-import OwnershipButton from "@/components/PlantOwnership/OwnershipButton"; // Import your reusable ownership component
-import Image from "next/image";
+import PlantCard from "../PlantCard";
 
 export default function MyPlants({
   plants,
@@ -15,47 +13,13 @@ export default function MyPlants({
           {successMessage}
         </p>
       )}
-      <ul className="grid grid-cols-2 gap-2  list-none">
+      <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-8  list-none">
         {plants.map((plant) => (
-          <li
+          <PlantCard
             key={plant._id}
-            className="group relative h-40 w-40 m-auto overflow-hidden rounded-2xl border-(--color-secondary-500)"
-          >
-            {plant.imageUrl && (
-              <Image
-                placeholder="blur"
-                blurDataURL={plant.imageUrl}
-                src={plant.imageUrl}
-                alt={plant.name}
-                fill
-                sizes="(max-width: 768px) 50vw, 300px"
-                className="object-cover transition-transform duration-300  z-0"
-              />
-            )}
-            <div
-              className="pointer-events-none absolute inset-x-0 
-            bottom-0 h-[30%] bg-linear-to-t from-black/70 to-transparent z-1"
-            />{" "}
-            <Link
-              className="absolute left-0 bottom-0 flex flex-col p-1.5"
-              href={`/plants/${plant._id}`}
-            >
-              <span
-                className="font-semibold  drop-shadow-md z-1 absolute-bottom-0 
-              left-0 bg-(--color-primary-500) rounded-3xl p-0.75"
-              >
-                {plant.name}
-              </span>
-              <span className="italic text-xs text bg-(--color-primary-100) rounded-3xl">
-                {plant.botanicalName}
-              </span>
-            </Link>
-            {/* Reusable Component Used Here */}
-            <OwnershipButton
-              plant={plant}
-              onOwnershipToggle={onOwnershipToggle}
-            />
-          </li>
+            plant={plant}
+            onOwnershipToggle={onOwnershipToggle}
+          />
         ))}
       </ul>
     </>

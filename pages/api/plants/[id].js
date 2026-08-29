@@ -12,14 +12,13 @@ export default async function handler(request, response) {
 
       if (!plant) {
         response.status(404).json({
-          status: `Plant not found. Feel free to add your own Plants!`,
+          status: `Plant not found.`,
         });
-        return;
       }
 
-      response.status(200).json(plant);
+      return response.status(200).json(plant);
     } catch (error) {
-      response
+      return response
         .status(400)
         .json({ status: "Invalid request", error: error.message });
     }
@@ -35,7 +34,7 @@ export default async function handler(request, response) {
 
       const updatedPlant = await Plant.findByIdAndUpdate(
         id,
-        { isOwned }, //only update isOwned
+        { isOwned },
         { new: true, runValidators: true },
       );
 
@@ -45,22 +44,54 @@ export default async function handler(request, response) {
         });
       }
 
-      response.status(200).json(updatedPlant);
+      return response.status(200).json(updatedPlant);
     } catch (error) {
-      response.status(400).json({
+      return response.status(400).json({
         status: "Invalid request",
         error: error.message,
       });
     }
-  }
-  // update plant logic
-  else if (request.method === "PUT") {
-    //get the updated data from request body
-    const updatedPlant = request.body;
-    // Find the plant by its ID and update the plant using its ID and the new data.
-    await Plant.findByIdAndUpdate(id, updatedPlant);
-    return response.status(200).json({ status: `Plant successfully updated` });
+  } else if (request.method === "PUT") {
+    try {
+      const plantDataToUpdate = request.body;
+      const updatedPlant = await Plant.findByIdAndUpdate(
+        id,
+        plantDataToUpdate,
+        { new: true, runValidators: true },
+      );
+
+      if (!updatedPlant) {
+        return response.status(404).json({
+          status: "Plant not found",
+        });
+      }
+      return response
+        .status(200)
+        .json({ status: "Plant successfully updated" });
+    } catch (error) {
+      return response.status(400).json({
+        status: "Invalid request",
+        error: error.message,
+      });
+    }
+  } else if (request.method === "DELETE") {
+    try {
+      const deletedPlant = await Plant.findByIdAndDelete(id);
+      if (!deletedPlant) {
+        return response.status(404).json({
+          status: "Plant not found",
+        });
+      }
+      return response
+        .status(200)
+        .json({ status: "Plant successfully deleted" });
+    } catch (error) {
+      return response.status(400).json({
+        status: "Invalid request",
+        error: error.message,
+      });
+    }
   } else {
-    response.status(405).json({ status: "Method not allowed." });
+    return response.status(405).json({ status: "Method not allowed." });
   }
 }

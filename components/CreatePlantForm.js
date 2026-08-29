@@ -8,20 +8,81 @@ export default function CreatePlantForm({
   onCancel,
   initialData,
 }) {
-  const imagePath = initialData
-    ? initialData.imageUrl
-    : "/images/plant-placeholder.png";
+  const [imageError, setImageError] = useState("");
   const [descriptionLength, setDescriptionLength] = useState(
     initialData?.description ? initialData.description.length : 0,
   );
 
+  const imagePath = initialData
+    ? initialData.imageUrl
+    : "/images/plant-placeholder.png";
+
+  const [imagePreview, setImagePreview] =
+    useState(imagePath); /* set the preview for the plant image */
+
+  const isOwnedValue = initialData ? initialData.isOwned : false;
+
+  // Create a temporary URL for the selected image and update the preview.
+  function handleImageChange(event) {
+    const file = event.target.files[0];
+
+    if (!file) return;
+
+    // Only allow JPEG, PNG, and WebP image files.
+    const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
+
+    if (!allowedMimeTypes.includes(file.type)) {
+      setImageError("Please select a JPEG or PNG image.");
+      return;
+    }
+
+    // Clear any previous image error.
+    setImageError("");
+
+    // Create a temporary URL for the selected image and update the preview.
+    const imageUrl = URL.createObjectURL(file);
+    setImagePreview(imageUrl);
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
+    // Collect all form data from the submitted form.
     const formData = new FormData(event.target);
+    const imageFile = formData.get("file");
+
+    // Keep the existing image path as the default value.
+    let imageUrl = imagePath;
+
+    // Upload the selected image to Vercel Blob if a file was selected.
+    if (imageFile && imageFile.size > 0) {
+      const uploadFormData = new FormData();
+      uploadFormData.append("file", imageFile);
+
+      // Send the image to the upload API endpoint.
+      const uploadResponse = await fetch("/api/upload", {
+        method: "POST",
+        body: uploadFormData,
+      });
+
+      // Stop submitting the form if the image upload failed.
+      if (!uploadResponse.ok) {
+        const errorData = await uploadResponse.json().catch(() => ({}));
+
+        console.error("Image upload failed:", errorData);
+
+        setImageError(errorData.error || "Image upload failed.");
+        return;
+      }
+
+      // Get the public Blob URL returned by the upload endpoint.
+      const uploadData = await uploadResponse.json();
+      imageUrl = uploadData.url;
+    }
+
     const data = {
       name: formData.get("name"),
       botanicalName: formData.get("botanicalName"),
-      imageUrl: imagePath,
+      imageUrl: imageUrl,
       waterNeed: formData.get("waterNeed"),
       lightNeed: formData.get("lightNeed"),
       fertiliserSeason: formData.getAll("fertiliserSeason"),
@@ -33,7 +94,7 @@ export default function CreatePlantForm({
   return (
     <>
       <div className="mx-auto w-full max-w-2xl rounded-3xl bg-primary-100 p-5 shadow-lg sm:p-8 mb-10">
-        <h2 className="mb-2 font-heading text-3xl font-bold">
+        <h2 className="mb-2 font-heading text-3xl font-bold pb-4 text-primary-700">
           {initialData ? "Edit a plant" : "Add a new plant"}
         </h2>
 
@@ -43,27 +104,38 @@ export default function CreatePlantForm({
           aria-label="add a plant to your list"
           className="flex flex-col gap-6"
         >
-          <div className="flex gap-3 pt-2">
-            <button
-              type="button"
-              onClick={onCancel}
-              className="flex-1 rounded-xl border-2 border-secondary-500 px-5 py-3 font-semibold text-secondary-500 transition hover:bg-secondary-500 hover:text-background cursor-pointer"
-            >
-              Cancel
-            </button>
-          </div>
-
           <div className="flex flex-col items-center gap-3">
-            <label className="flex flex-col gap-2 font-semibold">
+            <label className="flex flex-col gap-2 font-semibold self-start">
               Plant Image:
             </label>
             <Image
-              src={imagePath}
-              alt="placeholder for plant image"
+              src={imagePreview}
+              alt="Preview of selected plant image"
               width={200}
               height={200}
-              className="rounded-xl object-cover"
+              className="h-54 w-full rounded-xl object-cover" /* object-cover cuts the uploaded picture in the preview to the size 200x200px (same as h- and w-50) */
             />
+            {/* Allow the user to select an image for the plant. */}
+            <label
+              htmlFor="plant-image"
+              className="w-full text-center cursor-pointer rounded-xl bg-primary-500 px-5 py-3 font-semibold text-background transition hover:bg-primary-700"
+            >
+              Upload image
+            </label>
+
+            <input
+              id="plant-image"
+              type="file"
+              name="file"
+              accept="image/jpeg, image/png" /* only allows jpg, jpeg and png to be uploaded */
+              className="hidden"
+              onChange={handleImageChange}
+            />
+
+            {/* display error message when the wrong image type is uploaded */}
+            {imageError && (
+              <p className="text-sm font-semibold text-red-600">{imageError}</p>
+            )}
           </div>
 
           <label htmlFor="name" className="flex flex-col gap-2 font-semibold">
@@ -73,6 +145,7 @@ export default function CreatePlantForm({
             type="text"
             id="name"
             name="name"
+            placeholder="e.g. Monstera"
             defaultValue={initialData ? initialData.name : ""}
             required
             className="rounded-xl border border-primary-500 bg-white px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/30"
@@ -88,6 +161,7 @@ export default function CreatePlantForm({
             type="text"
             id="botanical-name"
             name="botanicalName"
+            placeholder="Monstera deliciosa"
             defaultValue={initialData ? initialData.botanicalName : ""}
             className="rounded-xl border border-primary-500 bg-white px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/30"
           />
@@ -223,6 +297,7 @@ export default function CreatePlantForm({
           <textarea
             id="description"
             name="description"
+            placeholder="Add any care notes or details about this plant..."
             maxLength={250}
             onChange={(event) =>
               setDescriptionLength(event.target.value.length)
@@ -242,6 +317,15 @@ export default function CreatePlantForm({
               hover:bg-foreground hover:shadow-md cursor-pointer"
             >
               {initialData ? "UPDATE" : "ADD"}
+            </button>
+          </div>
+          <div className="flex gap-3 pt-2">
+            <button
+              type="button"
+              onClick={onCancel}
+              className="flex-1 rounded-xl border-2 border-secondary-500 px-5 py-3 font-semibold text-secondary-500 transition hover:bg-secondary-500 hover:text-background cursor-pointer"
+            >
+              Cancel
             </button>
           </div>
         </form>
