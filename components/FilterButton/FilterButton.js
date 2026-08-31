@@ -111,7 +111,7 @@ export default function FilterButtons ({filters, toggleFilters, clearFilters}) {
                       key={option.value}
                       className={`flex min-w-[84px] cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border px-3 py-2 text-xs font-medium transition-colors ${
                         selected
-                          ? "border-(--color-primary-500) bg-green-50 text-(--color-primary-100)"
+                          ? "border-(--color-primary-500) bg-green-50 text-gray-900"
                           : "border-gray-200 bg-white text-gray-500 hover:border-(--color-primary-500) hover:bg-(--color-primary-500/40)"
                       }`}
                     >
