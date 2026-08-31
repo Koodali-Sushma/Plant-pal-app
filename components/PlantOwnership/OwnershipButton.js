@@ -33,9 +33,9 @@ export default function OwnershipButton({ plant, onOwnershipToggle }) {
        duration-200 shadow-md bg-white/80 hover:bg-white"
       >
         {plant.isOwned ? (
-          <BookmarkFilledIcon className={`text-primary-500 p-1`} />
+          <BookmarkFilledIcon className="text-[#6fb54f] p-1" />
         ) : (
-          <BookmarkIcon className={`text-secondary-800 p-1`} />
+          <BookmarkIcon className="text-[#2a5f16] p-1" />
         )}
       </button>
 

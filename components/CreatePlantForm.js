@@ -181,7 +181,7 @@ export default function CreatePlantForm({
                   defaultChecked={initialData?.waterNeed === "Low"}
                   className="peer sr-only"
                 />
-                <div className="flex h-24 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-primary-100 bg-background p-2 text-foreground/80 transition-all hover:bg-primary-100/50 peer-checked:border-primary-700 peer-checked:bg-primary-100 peer-checked:text-primary-700 font-medium text-sm">
+                <div className="flex h-24 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-primary-100 bg-background p-2 text-foreground/80 transition-all hover:bg-water-100/50 peer-checked:border-water-500 peer-checked:bg-water-100 peer-checked:text-water-700 font-medium text-sm text-center">
                   <div className="flex items-center justify-center gap-0.5">
                     <WaterIcon className="h-6 w-6 text-current" />
                   </div>
@@ -197,7 +197,7 @@ export default function CreatePlantForm({
                   defaultChecked={initialData?.waterNeed === "Medium"}
                   className="peer sr-only"
                 />
-                <div className="flex h-24 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-primary-100 bg-background p-2 text-foreground/80 transition-all hover:bg-primary-100/50 peer-checked:border-primary-700 peer-checked:bg-primary-100 peer-checked:text-primary-700 font-medium text-sm">
+                <div className="flex h-24 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-primary-100 bg-background p-2 text-foreground/80 transition-all hover:bg-water-100/50 peer-checked:border-water-500 peer-checked:bg-water-100 peer-checked:text-water-700 font-medium text-sm text-center">
                   <div className="flex items-center justify-center gap-0.5">
                     <WaterIcon className="h-6 w-6 text-current" />
                     <WaterIcon className="h-6 w-6 text-current" />
@@ -214,7 +214,7 @@ export default function CreatePlantForm({
                   defaultChecked={initialData?.waterNeed === "High"}
                   className="peer sr-only"
                 />
-                <div className="flex h-24 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-primary-100 bg-background p-2 text-foreground/80 transition-all hover:bg-primary-100/50 peer-checked:border-primary-700 peer-checked:bg-primary-100 peer-checked:text-primary-700 font-medium text-sm">
+                <div className="flex h-24 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-primary-100 bg-background p-2 text-foreground/80 transition-all hover:bg-water-100/50 peer-checked:border-water-500 peer-checked:bg-water-100 peer-checked:text-water-700 font-medium text-sm text-center">
                   <div className="flex items-center justify-center gap-0.5">
                     <WaterIcon className="h-6 w-6 text-current" />
                     <WaterIcon className="h-6 w-6 text-current" />
@@ -391,7 +391,7 @@ export default function CreatePlantForm({
             <button
               type="button"
               onClick={onCancel}
-              className="flex-1 rounded-xl border-2 border-secondary-500 px-5 py-3 font-semibold text-secondary-500 transition hover:bg-secondary-500 hover:text-background cursor-pointer"
+              className="flex-1 rounded-xl border-2 border-secondary-500 px-5 py-3 font-semibold text-secondary-500 bg-secondary-100 transition hover:bg-secondary-500 hover:text-background cursor-pointer"
             >
               Cancel
             </button>
