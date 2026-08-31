@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { ChevronDown, CloudSun, Cloud } from "lucide-react";
-import { FiltersIcon, LightIcon, WaterIcon, AutumnIcon, WinterIcon, SpringIcon } from "../SvgIcons.js";
+import { FiltersIcon, LightIcon, WaterIcon, AutumnIcon, WinterIcon, SpringIcon, PartialShadeIcon, ChevronDownIcon  } from "../SvgIcons.js";
 
 const Categories = [
   {
@@ -10,7 +10,7 @@ const Categories = [
     Icon: LightIcon,
     options: [
       { value: "Full Sun", Icon: LightIcon},
-      { value: "Partial Shade", Icon: CloudSun},
+      { value: "Partial Shade", Icon: PartialShadeIcon},
       { value: "Full Shade", Icon: Cloud},
 ], 
   },
@@ -28,7 +28,7 @@ const Categories = [
   {  
      key: "fertiliserSeason",
     label: "Season",
-    subtitle: "Select best growing season",
+    subtitle: "Select best season to fertilise",
     Icon: SpringIcon,
     options: [
       { value: "Spring", Icon: SpringIcon},
@@ -83,7 +83,7 @@ export default function FilterButtons ({filters, toggleFilters, clearFilters}) {
             aria-expanded={open}
             className="grid place-items-center w-7 h-7 rounded-md text-gray-500 hover:bg-gray-100"
           >
-            <ChevronDown className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`} />
+            <ChevronDownIcon className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`} />
           </button>
         </div>
       </div>
