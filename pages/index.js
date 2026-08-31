@@ -8,6 +8,7 @@ import MyPlants from "@/components/MyPlants/MyPlants.js";
 import { filterPlants } from "@/utils/filterPlants";
 import FilterButtons from "@/components/FilterButton/FilterButton";
 import SearchBar from "@/components/SearchBar/SearchBar";
+import { FiltersIcon } from "@/components/SvgIcons";
 
 export default function Homepage() {
   const { data: plants, isLoading } = useSWR("/api/plants");
@@ -125,7 +126,7 @@ export default function Homepage() {
             type="button"
             onClick={() => setShowFilterButtons(!showFilterButtons)}
           >
-            {showFilterButtons ? "Hide" : "Show"} Filters
+            <FiltersIcon className="w-4 h-4" />
           </button>
 
           {showFilterButtons && (
