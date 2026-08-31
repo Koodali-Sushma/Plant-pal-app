@@ -9,8 +9,6 @@ import {
   FertilizerIcon,
   EditIcon,
   DeleteIcon,
-  PartialShadeIcon,
-  FullShadeIcon,
 } from "@/components/SvgIcons";
 
 /* new variables for level indicator */

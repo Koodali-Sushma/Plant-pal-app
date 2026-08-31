@@ -195,3 +195,11 @@ export function PartialShadeIcon({ className }) {
     </svg>
   );
 }
+
+export function ChevronDownIcon({ className }) {
+  return (
+    <svg viewBox="0 0 32 32" fill="currentColor" className={className}>
+      <path d="M11.5 24.5l-8.5-8.5 2.83-2.83L11.5 18.83l16.17-16.17L30.5 5.5z" />
+    </svg>
+  );
+}
