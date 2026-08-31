@@ -121,7 +121,7 @@ export default function Homepage() {
       ) : (
         <>
           <button
-            className="ml-4"
+            className="bg-(--color-primary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 rounded-xl border-(--color-primary-100) ml-4"
             type="button"
             onClick={() => setShowFilterButtons(!showFilterButtons)}
           >
