@@ -12,6 +12,7 @@ import {
   SearchIcon,
   PartialShadeIcon,
   FullShadeIcon,
+  ChevronDownIcon,
 } from "@/components/SvgIcons";
 
 /* new variables for level indicator */

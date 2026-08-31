@@ -3,12 +3,23 @@
 :root {
   --background: #fefefb;
   --foreground: #14210a;
+
   --primary-100: #e3f4da;
+  --primary-500: #6fb54f;
   --primary-700: #2a5f16;
+
   --secondary-100: #ffe4cc;
+  --secondary-200: #ecc29c;
   --secondary-500: #f2793a;
+  --secondary-700: #b24810;
   --secondary-800: #732d08;
   --secondary-900: #331200;
+
+  --water-50: #eef6fb;
+  --water-100: #d3e9f5;
+  --water-500: #4a90c4;
+  --water-700: #1f5c85;
+
   --accent-500: #f2b705;
 }
 
@@ -28,17 +39,22 @@
   --color-foreground: var(--foreground);
   --color-primary-50: #f2fbe9;
   --color-primary-100: var(--primary-100);
-  --color-primary-500: #6fb54f;
+  --color-primary-500: var(--color-500);
   --color-primary-700: var(--primary-700);
 
   --color-secondary-50: #fff7f0;
   --color-secondary-100: var(--secondary-100);
-  --color-secondary-200: #ecc29c;
+  --color-secondary-200: var(--secondary-200);
   --color-secondary-500: var(--secondary-500);
-  --color-secondary-700: #b24810;
+  --color-secondary-700: var(--secondary-700);
   --color-secondary-800: var(--secondary-800);
   --color-secondary-900: var(--secondary-900);
   --color-accent-500: var(--accent-500);
+
+  --color-water-50: var(--water-50);
+  --color-water-100: var(--water-100);
+  --color-water-500: var(--water-500);
+  --color-water-700: var(--water-700);
 
   /* radius & shadows */
 
@@ -50,13 +66,23 @@
   :root {
     --background: #14210a;
     --foreground: #f2fbe9;
-    --primary-100: #2a5f16;
+
+    --primary-100: #1c2e14;
+    --primary-500: #5aa645;
     --primary-700: #7ecb54;
+
     --secondary-100: #3a2417;
     --secondary-500: #d9692e;
+    --secondary-700: #f5c9a0;
     --secondary-800: #f2c9a8;
     --secondary-900: #ffe4cc;
-    --accent-500: #f2c94c;
+
+    --water-50: #16232d;
+    --water-100: #1c3a4d;
+    --water-500: #5aa3d9;
+    --water-700: #a9d4ef;
+
+    --accent-500: #c5970d;
   }
 }
 
