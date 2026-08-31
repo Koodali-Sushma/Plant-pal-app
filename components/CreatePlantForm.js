@@ -1,5 +1,13 @@
 /*--- FORM TO ADD A NEW PLANT ---*/
-
+import {
+  WaterIcon,
+  LightIcon,
+  SpringIcon,
+  AutumnIcon,
+  WinterIcon,
+  PartialShadeIcon,
+  FullShadeIcon,
+} from "@/components/SvgIcons";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -17,18 +25,15 @@ export default function CreatePlantForm({
     ? initialData.imageUrl
     : "/images/plant-placeholder.png";
 
-  const [imagePreview, setImagePreview] =
-    useState(imagePath); /* set the preview for the plant image */
+  const [imagePreview, setImagePreview] = useState(imagePath);
 
   const isOwnedValue = initialData ? initialData.isOwned : false;
 
-  // Create a temporary URL for the selected image and update the preview.
   function handleImageChange(event) {
     const file = event.target.files[0];
 
     if (!file) return;
 
-    // Only allow JPEG, PNG, and WebP image files.
     const allowedMimeTypes = ["image/jpeg", "image/png", "image/webp"];
 
     if (!allowedMimeTypes.includes(file.type)) {
@@ -36,35 +41,28 @@ export default function CreatePlantForm({
       return;
     }
 
-    // Clear any previous image error.
     setImageError("");
 
-    // Create a temporary URL for the selected image and update the preview.
     const imageUrl = URL.createObjectURL(file);
     setImagePreview(imageUrl);
   }
 
   async function handleSubmit(event) {
     event.preventDefault();
-    // Collect all form data from the submitted form.
     const formData = new FormData(event.target);
     const imageFile = formData.get("file");
 
-    // Keep the existing image path as the default value.
     let imageUrl = imagePath;
 
-    // Upload the selected image to Vercel Blob if a file was selected.
     if (imageFile && imageFile.size > 0) {
       const uploadFormData = new FormData();
       uploadFormData.append("file", imageFile);
 
-      // Send the image to the upload API endpoint.
       const uploadResponse = await fetch("/api/upload", {
         method: "POST",
         body: uploadFormData,
       });
 
-      // Stop submitting the form if the image upload failed.
       if (!uploadResponse.ok) {
         const errorData = await uploadResponse.json().catch(() => ({}));
 
@@ -74,7 +72,6 @@ export default function CreatePlantForm({
         return;
       }
 
-      // Get the public Blob URL returned by the upload endpoint.
       const uploadData = await uploadResponse.json();
       imageUrl = uploadData.url;
     }
@@ -105,7 +102,7 @@ export default function CreatePlantForm({
           className="flex flex-col gap-6"
         >
           <div className="flex flex-col items-center gap-3">
-            <label className="flex flex-col gap-2 font-semibold self-start">
+            <label className="flex flex-col gap-2 font-semibold self-start text-secondary-900">
               Plant Image:
             </label>
             <Image
@@ -113,12 +110,12 @@ export default function CreatePlantForm({
               alt="Preview of selected plant image"
               width={200}
               height={200}
-              className="h-54 w-full rounded-xl object-cover" /* object-cover cuts the uploaded picture in the preview to the size 200x200px (same as h- and w-50) */
+              className="h-54 w-full rounded-xl object-cover"
             />
-            {/* Allow the user to select an image for the plant. */}
+
             <label
               htmlFor="plant-image"
-              className="w-full text-center cursor-pointer rounded-xl bg-primary-500 px-5 py-3 font-semibold text-background transition hover:bg-primary-700"
+              className="w-full text-center cursor-pointer rounded-xl bg-primary-700 px-5 py-3 font-semibold text-background transition hover:bg-foreground"
             >
               Upload image
             </label>
@@ -127,18 +124,22 @@ export default function CreatePlantForm({
               id="plant-image"
               type="file"
               name="file"
-              accept="image/jpeg, image/png" /* only allows jpg, jpeg and png to be uploaded */
+              accept="image/jpeg, image/png"
               className="hidden"
               onChange={handleImageChange}
             />
 
-            {/* display error message when the wrong image type is uploaded */}
             {imageError && (
-              <p className="text-sm font-semibold text-red-600">{imageError}</p>
+              <p className="text-sm font-semibold text-secondary-500">
+                {imageError}
+              </p>
             )}
           </div>
 
-          <label htmlFor="name" className="flex flex-col gap-2 font-semibold">
+          <label
+            htmlFor="name"
+            className="flex flex-col gap-2 font-semibold text-secondary-900"
+          >
             Name:
           </label>
           <input
@@ -148,12 +149,12 @@ export default function CreatePlantForm({
             placeholder="e.g. Monstera"
             defaultValue={initialData ? initialData.name : ""}
             required
-            className="rounded-xl border border-primary-500 bg-white px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/30"
+            className="rounded-xl border border-primary-700 bg-background text-foreground px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/50"
           />
 
           <label
             htmlFor="botanical-name"
-            className="flex flex-col gap-2 font-semibold"
+            className="flex flex-col gap-2 font-semibold text-secondary-900"
           >
             Botanical Name:
           </label>
@@ -163,85 +164,130 @@ export default function CreatePlantForm({
             name="botanicalName"
             placeholder="Monstera deliciosa"
             defaultValue={initialData ? initialData.botanicalName : ""}
-            className="rounded-xl border border-primary-500 bg-white px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/30"
+            className="rounded-xl border border-primary-700 bg-background text-foreground px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/50"
           />
 
           <fieldset>
-            <legend className="flex flex-col gap-2 font-semibold mb-1">
+            <legend className="flex items-center gap-2 font-semibold text-secondary-900 mb-3">
               Water Need:
             </legend>
             <div className="grid grid-cols-3 gap-3">
-              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+              <label className="cursor-pointer">
                 <input
                   type="radio"
                   name="waterNeed"
                   value="Low"
                   required
                   defaultChecked={initialData?.waterNeed === "Low"}
+                  className="peer sr-only"
                 />
-                Low
+                <div className="flex h-24 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-primary-100 bg-background p-2 text-foreground/80 transition-all hover:bg-primary-100/50 peer-checked:border-primary-700 peer-checked:bg-primary-100 peer-checked:text-primary-700 font-medium text-sm">
+                  <div className="flex items-center justify-center gap-0.5">
+                    <WaterIcon className="h-6 w-6 text-current" />
+                  </div>
+                  Low
+                </div>
               </label>
-              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+
+              <label className="cursor-pointer">
                 <input
                   type="radio"
                   name="waterNeed"
                   value="Medium"
                   defaultChecked={initialData?.waterNeed === "Medium"}
+                  className="peer sr-only"
                 />
-                Medium
+                <div className="flex h-24 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-primary-100 bg-background p-2 text-foreground/80 transition-all hover:bg-primary-100/50 peer-checked:border-primary-700 peer-checked:bg-primary-100 peer-checked:text-primary-700 font-medium text-sm">
+                  <div className="flex items-center justify-center gap-0.5">
+                    <WaterIcon className="h-6 w-6 text-current" />
+                    <WaterIcon className="h-6 w-6 text-current" />
+                  </div>
+                  Medium
+                </div>
               </label>
-              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+
+              <label className="cursor-pointer">
                 <input
                   type="radio"
                   name="waterNeed"
                   value="High"
                   defaultChecked={initialData?.waterNeed === "High"}
+                  className="peer sr-only"
                 />
-                High
+                <div className="flex h-24 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-primary-100 bg-background p-2 text-foreground/80 transition-all hover:bg-primary-100/50 peer-checked:border-primary-700 peer-checked:bg-primary-100 peer-checked:text-primary-700 font-medium text-sm">
+                  <div className="flex items-center justify-center gap-0.5">
+                    <WaterIcon className="h-6 w-6 text-current" />
+                    <WaterIcon className="h-6 w-6 text-current" />
+                    <WaterIcon className="h-6 w-6 text-current" />
+                  </div>
+                  High
+                </div>
               </label>
             </div>
           </fieldset>
 
           <fieldset>
-            <legend className="mb-1 font-semibold">Light Need:</legend>
-            <div className="grid grid-cols-3 gap-1">
-              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+            <legend className="flex items-center gap-2 font-semibold text-secondary-900 mb-3">
+              Light Need:
+            </legend>
+            <div className="grid grid-cols-3 gap-3">
+              <label className="cursor-pointer">
                 <input
                   type="radio"
                   name="lightNeed"
                   value="Full Sun"
                   required
                   defaultChecked={initialData?.lightNeed === "Full Sun"}
+                  className="peer sr-only"
                 />
-                Full Sun
+                <div className="flex h-24 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-primary-100 bg-background p-2 text-foreground/80 transition-all hover:bg-secondary-100/50 peer-checked:border-accent-500 peer-checked:bg-secondary-100 peer-checked:text-secondary-900 font-medium text-sm text-center">
+                  <div className="flex items-center justify-center gap-0.5">
+                    <LightIcon className="h-6 w-6 text-current" />
+                  </div>
+                  Full Sun
+                </div>
               </label>
-              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+
+              <label className="cursor-pointer">
                 <input
                   type="radio"
                   name="lightNeed"
                   value="Partial Shade"
                   defaultChecked={initialData?.lightNeed === "Partial Shade"}
+                  className="peer sr-only"
                 />
-                Partial Shade
+                <div className="flex h-24 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-primary-100 bg-background p-2 text-foreground/80 transition-all hover:bg-secondary-100/50 peer-checked:border-accent-500 peer-checked:bg-secondary-100 peer-checked:text-secondary-900 font-medium text-sm text-center">
+                  <div className="flex items-center justify-center gap-0.5">
+                    <PartialShadeIcon className="h-6 w-6 text-current" />
+                  </div>
+                  Partial Shade
+                </div>
               </label>
-              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+
+              <label className="cursor-pointer">
                 <input
                   type="radio"
                   name="lightNeed"
                   value="Full Shade"
                   defaultChecked={initialData?.lightNeed === "Full Shade"}
+                  className="peer sr-only"
                 />
-                Full Shade
+                <div className="flex h-24 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-primary-100 bg-background p-2 text-foreground/80 transition-all hover:bg-secondary-100/50 peer-checked:border-accent-500 peer-checked:bg-secondary-100 peer-checked:text-secondary-900 font-medium text-sm text-center">
+                  <div className="flex items-center justify-center gap-0.5">
+                    <FullShadeIcon className="h-6 w-6 text-current" />
+                  </div>
+                  Full Shade
+                </div>
               </label>
             </div>
           </fieldset>
 
           <fieldset>
-            <legend className="flex flex-col gap-2 font-semibold mb-1">
+            <legend className="flex items-center gap-2 font-semibold text-secondary-900 mb-3">
               Fertiliser Season:
             </legend>
-            <div className="grid grid-cols-4 gap-3">
-              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <label className="cursor-pointer">
                 <input
                   type="checkbox"
                   name="fertiliserSeason"
@@ -249,10 +295,16 @@ export default function CreatePlantForm({
                   defaultChecked={initialData?.fertiliserSeason?.includes(
                     "Spring",
                   )}
+                  className="peer sr-only"
                 />
-                Spring
+                <div className="flex h-24 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-primary-100 bg-background p-2 text-foreground/80 transition-all hover:bg-secondary-100/50 peer-checked:border-secondary-500 peer-checked:bg-secondary-100 peer-checked:text-secondary-900 font-medium text-sm">
+                  <div className="flex items-center justify-center gap-0.5">
+                    <SpringIcon className="h-6 w-6 text-current" />
+                  </div>
+                  Spring
+                </div>
               </label>
-              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+              <label className="cursor-pointer">
                 <input
                   type="checkbox"
                   name="fertiliserSeason"
@@ -260,10 +312,16 @@ export default function CreatePlantForm({
                   defaultChecked={initialData?.fertiliserSeason?.includes(
                     "Summer",
                   )}
+                  className="peer sr-only"
                 />
-                Summer
+                <div className="flex h-24 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-primary-100 bg-background p-2 text-foreground/80 transition-all hover:bg-secondary-100/50 peer-checked:border-secondary-500 peer-checked:bg-secondary-100 peer-checked:text-secondary-900 font-medium text-sm">
+                  <div className="flex items-center justify-center gap-0.5">
+                    <LightIcon className="h-6 w-6 text-current" />
+                  </div>
+                  Summer
+                </div>
               </label>
-              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+              <label className="cursor-pointer">
                 <input
                   type="checkbox"
                   name="fertiliserSeason"
@@ -271,10 +329,16 @@ export default function CreatePlantForm({
                   defaultChecked={initialData?.fertiliserSeason?.includes(
                     "Autumn",
                   )}
+                  className="peer sr-only"
                 />
-                Autumn
+                <div className="flex h-24 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-primary-100 bg-background p-2 text-foreground/80 transition-all hover:bg-secondary-100/50 peer-checked:border-secondary-500 peer-checked:bg-secondary-100 peer-checked:text-secondary-900 font-medium text-sm">
+                  <div className="flex items-center justify-center gap-0.5">
+                    <AutumnIcon className="h-6 w-6 text-current" />
+                  </div>
+                  Autumn
+                </div>
               </label>
-              <label className="flex w-full cursor-pointer justify-center gap-1 whitespace-nowrap">
+              <label className="cursor-pointer">
                 <input
                   type="checkbox"
                   name="fertiliserSeason"
@@ -282,15 +346,21 @@ export default function CreatePlantForm({
                   defaultChecked={initialData?.fertiliserSeason?.includes(
                     "Winter",
                   )}
+                  className="peer sr-only"
                 />
-                Winter
+                <div className="flex h-24 flex-col items-center justify-center gap-2 rounded-2xl border-2 border-primary-100 bg-background p-2 text-foreground/80 transition-all hover:bg-secondary-100/50 peer-checked:border-secondary-500 peer-checked:bg-secondary-100 peer-checked:text-secondary-900 font-medium text-sm">
+                  <div className="flex items-center justify-center gap-0.5">
+                    <WinterIcon className="h-6 w-6 text-current" />
+                  </div>
+                  Winter
+                </div>
               </label>
             </div>
           </fieldset>
 
           <label
             htmlFor="description"
-            className="flex flex-col gap-2 font-semibold"
+            className="flex flex-col gap-2 font-semibold text-secondary-900"
           >
             Description:
           </label>
@@ -303,7 +373,7 @@ export default function CreatePlantForm({
               setDescriptionLength(event.target.value.length)
             }
             defaultValue={initialData ? initialData.description : ""}
-            className="min-h-32 resize-y rounded-xl border border-primary-500 bg-white px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/30"
+            className="min-h-32 resize-y rounded-xl border border-primary-700 bg-background text-foreground px-4 py-3 font-normal outline-none transition focus:ring-2 focus:ring-primary-700/50"
           />
           <small className="self-end font-normal text-secondary-700">
             {descriptionLength} / 250
@@ -312,9 +382,7 @@ export default function CreatePlantForm({
           <div className="flex gap-3 pt-2">
             <button
               type="submit"
-              className="flex-1 rounded-xl bg-primary-700 px-5 
-              py-3 font-semibold text-background shadow-sm transition 
-              hover:bg-foreground hover:shadow-md cursor-pointer"
+              className="flex-1 rounded-xl bg-primary-700 px-5 py-3 font-semibold text-background shadow-sm transition hover:bg-foreground hover:text-background cursor-pointer"
             >
               {initialData ? "UPDATE" : "ADD"}
             </button>
