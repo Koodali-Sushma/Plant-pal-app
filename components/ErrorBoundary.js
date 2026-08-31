@@ -1,5 +1,4 @@
 import React from "react";
-import Link from "next/link";
 
 // Error Boundary catches unexpected runtime errors in child components
 // and displays a fallback UI instead of crashing the entire application.
@@ -30,9 +29,7 @@ class ErrorBoundary extends React.Component {
 
   /* Resets the error state so the user can try rendering the application again. */
   handleReset = () => {
-    this.setState({
-      hasError: false,
-    });
+    window.location.reload();
   };
 
   render() {
@@ -43,12 +40,10 @@ class ErrorBoundary extends React.Component {
           <h1 className="font-heading text-4xl font-medium">
             Something went wrong.
           </h1>
-
           <p className="mt-4 max-w-md text-gray-600">
             An unexpected error occurred while loading the app. Please try
             again.
           </p>
-
           <button
             /* Allow the user to retry rendering the app. */
             onClick={this.handleReset}
@@ -56,12 +51,13 @@ class ErrorBoundary extends React.Component {
           >
             Try again
           </button>
-          <Link
-        href="/"
-        className="mt-6 rounded-md bg-green-600 px-6 py-3 text-white hover:bg-green-700"
-      >
-        Back to homepage
-      </Link>
+          <a
+            href="/"
+            className="mt-6 rounded-md bg-green-600 px-6 py-3 text-white hover:bg-green-700"
+          >
+            Back to homepage
+          </a>{" "}
+          {/* it's <a></a> instead of <Link></Link> because it doesn't work otherwise */}
         </main>
       );
     }

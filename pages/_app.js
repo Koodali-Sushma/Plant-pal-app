@@ -35,13 +35,12 @@ export default function App({ Component, pageProps }) {
   return (
     <SWRConfig value={{ fetcher }}>
       <ErrorBoundary>
-      <>
         <div className={`${heading.variable} ${body.variable} font-body pb-28`}>
           <Component {...pageProps} />
           <Navigation />
         </div>
-      </>
-      <Toaster position="top-right" />
+
+        <Toaster position="top-right" />
       </ErrorBoundary>
     </SWRConfig>
   );

@@ -10,7 +10,7 @@ import FilterButtons from "@/components/FilterButton/FilterButton";
 import SearchBar from "@/components/SearchBar/SearchBar";
 
 export default function Homepage() {
-  const { data: plants, isLoading } = useSWR("/api/plants");
+  const { data: plants, isLoading, error } = useSWR("/api/plants");
   const [showForm, setShowForm] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const { filters, toggleFilters, clearFilters } = useFilters({
@@ -46,6 +46,14 @@ export default function Homepage() {
   }
   if (isLoading) {
     return <p>Loading...</p>;
+  }
+
+  if (error) {
+    return (
+      <p className="text-center mt-12 text-lg text-red-600">
+        Failed to load plants.
+      </p>
+    );
   }
 
   if (!plants) {
