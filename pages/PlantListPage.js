@@ -67,7 +67,8 @@ export default function PlantListPage() {
          text-center text-lg font-semibold text-emerald-700 shadow-sm"
         >
           No plants match your filters.
-          <button type="button" onClick={() => clearFilters()}>
+          <button type="button" onClick={() => clearFilters()} className="bg-(--color-accent-500) backdrop-blur-md border-3 p-2 text-sm/5 rounded-3xl border-(--color-secondary-100) hover:bg-(--color-secondary-100)"
+>
             Clear all filters
           </button>
         </p>
