@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { ChevronDown, CloudSun, Cloud } from "lucide-react";
-import { FiltersIcon, LightIcon, WaterIcon, AutumnIcon, WinterIcon, SpringIcon, PartialShadeIcon, ChevronDownIcon  } from "../SvgIcons.js";
+import { FiltersIcon, LightIcon, WaterIcon, AutumnIcon, WinterIcon, SpringIcon, PartialShadeIcon, ChevronDownIcon, FullShadeIcon  } from "../SvgIcons.js";
 
 const Categories = [
   {
@@ -11,7 +10,7 @@ const Categories = [
     options: [
       { value: "Full Sun", Icon: LightIcon},
       { value: "Partial Shade", Icon: PartialShadeIcon},
-      { value: "Full Shade", Icon: Cloud},
+      { value: "Full Shade", Icon: FullShadeIcon},
 ], 
   },
   {  
