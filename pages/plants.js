@@ -7,11 +7,11 @@ import FilterButton from "@/components/FilterButton/FilterButton.js";
 import useFilters from "@/hooks/useFilters.js";
 import { filterPlants } from "@/utils/filterPlants.js";
 import SearchBar from "@/components/SearchBar/SearchBar";
+import Image from "next/image";
 import { FiltersIcon } from "@/components/SvgIcons";
 
-
 export default function PlantListPage() {
-  const [showForm, setShowForm] = useState(false); /* form to add new plants */
+  const [showForm, setShowForm] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const { data, isLoading } = useSWR("/api/plants");
@@ -22,7 +22,7 @@ export default function PlantListPage() {
   });
   const [showFilterButtons, setShowFilterButtons] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-  const searchBarState = !data ? true : false;
+
   if (isLoading) {
     return <p>Loading...</p>;
   }
@@ -33,7 +33,7 @@ export default function PlantListPage() {
   const normalizedQuery = searchQuery.trim().toLowerCase();
   const filteredPlants = filterPlants(data, filters);
 
-  const searchPlants = filteredPlants.filter((plant) => {
+  const searchedPlants = filteredPlants.filter((plant) => {
     const name = plant.name?.toLowerCase() || "";
     const botanicalName = plant.botanicalName?.toLowerCase() || "";
 
@@ -97,8 +97,39 @@ export default function PlantListPage() {
     }
   }
 
+  let message = "";
+  let showClearButton = false;
+  let searchBarState = false;
+  let filterButtonState = false;
+  if (filteredPlants.length === 0) {
+    message =
+      "No plants found for the filter applied. Clear filters to see all plants.";
+    showClearButton = true;
+  } else if (searchedPlants.length === 0) {
+    message =
+      "No plants found for searched name!!! check with spelling mistake if any.... Clear the search bar to see all plants.";
+  }
+
   return (
     <main className="px-4 py-6">
+      {!showForm && (
+        <button
+          type="button"
+          onClick={() => {
+            setShowForm(true);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          className="fixed bottom-25 right-5 z-50 flex h-14 w-14 items-center
+              justify-center rounded-full bg-accent-500 shadow-2xl transition hover:bg-(--color-primary-700) hover:shadow-xl"
+        >
+          <Image
+            src="/assets/plus.svg"
+            alt="plus sign"
+            width={48}
+            height={48}
+          />
+        </button>
+      )}
       <h1
         className="mb-8 text-left 
      text-4xl font-bold tracking-tight 
@@ -113,63 +144,69 @@ export default function PlantListPage() {
         onChange={setSearchQuery}
         searchBarState={searchBarState}
       />
-      {searchPlants.length === 0 ? (
-        <>
-          <button className="bg-(--color-secondary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 rounded-full border-(--color-secondary-500) hover:bg-(--color-secondary-500) ml-4" type="button" onClick={() => clearFilters()}>
-            Clear all filters
-          </button>
-          <p
-            className="mx-auto mt-12 max-w-md 
+
+      <>
+        <button
+          className="bg-(--color-primary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 rounded-xl border-(--color-primary-100) ml-4 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-60"
+          type="button"
+          onClick={() => setShowFilterButtons(!showFilterButtons)}
+          disabled={filterButtonState}
+        >
+          <FiltersIcon className="w-4 h-4" />
+        </button>
+
+        {showFilterButtons && (
+          <FilterButton
+            filters={filters}
+            toggleFilters={toggleFilters}
+            clearFilters={clearFilters}
+          />
+        )}
+        {message && (
+          <div>
+            <p
+              className="mx-auto mt-12 max-w-md 
           rounded-xl border border-primary-500/30 
           bg-primary-50 p-6 text-center text-lg 
           font-semibold text-primary-700"
-          >
-            {normalizedQuery
-              ? "No plants match your search."
-              : "No plants match your filters."}
-          </p>
-        </>
-      ) : (
-        <>
-          <button
-            className="bg-(--color-primary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 rounded-xl border-(--color-primary-100) ml-4"
-            type="button"
-            onClick={() => setShowFilterButtons(!showFilterButtons)}
-          >
-                 <FiltersIcon className="w-4 h-4" />
-          </button>
-          {showFilterButtons && (
-            <FilterButton
-              filters={filters}
-              toggleFilters={toggleFilters}
-              clearFilters={clearFilters}
-            />
-          )}
-          {showForm && (
-            <CreatePlantForm
-              onSubmitForm={handleCreatePlant}
-              onCancel={() => setShowForm(false)}
-            />
-          )}
-
-          {errorMessage && (
-            <p className="mt-2 text-sm text-red-600">{errorMessage}</p>
-          )}
-
-          <PlantList
-            plants={searchPlants}
-            onAddPlant={() => {
-              setShowForm(true);
-              window.scrollTo({
-                top: 0,
-                behavior: "smooth",
-              });
-            }}
-            onOwnershipToggle={handleOwnershipToggle}
-            successMessage={successMessage}
+            >
+              {message}
+            </p>
+            {showClearButton && (
+              <button
+                className="bg-(--color-secondary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 rounded-full border-(--color-secondary-500) hover:bg-(--color-secondary-500) ml-4"
+                type="button"
+                onClick={() => clearFilters()}
+              >
+                Clear all filters
+              </button>
+            )}
+          </div>
+        )}
+        {showForm && (
+          <CreatePlantForm
+            onSubmitForm={handleCreatePlant}
+            onCancel={() => setShowForm(false)}
           />
-        </>
-      )}
+        )}
+
+        {errorMessage && (
+          <p className="mt-2 text-sm text-red-600">{errorMessage}</p>
+        )}
+
+        <PlantList
+          plants={searchedPlants}
+          onAddPlant={() => {
+            setShowForm(true);
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+          }}
+          onOwnershipToggle={handleOwnershipToggle}
+          successMessage={successMessage}
+        />
+      </>
     </main>
   );
 }

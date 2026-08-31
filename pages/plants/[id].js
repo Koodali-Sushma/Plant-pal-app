@@ -15,11 +15,9 @@ import {
   ChevronDownIcon,
 } from "@/components/SvgIcons";
 
-/* new variables for level indicator */
 const WATER_LEVELS = { Low: 1, Medium: 2, High: 3 };
 const LIGHT_LEVELS = { "Full Shade": 1, "Partial Shade": 2, "Full Sun": 3 };
 
-/* New conditional to dosplay the right amount of icons for water or light needs */
 function CareLevelIcons({ Icon, total = 3, filled }) {
   return (
     <div className="flex gap-0.5">
@@ -32,10 +30,6 @@ function CareLevelIcons({ Icon, total = 3, filled }) {
     </div>
   );
 }
-
-/* temporary ROOMS */
-
-//onst ROOMS = ["Kitchen", "Balcony", "Living Room", "Bedroom"];
 
 function CareCard({ label, children, icon }) {
   return (
@@ -110,9 +104,12 @@ export default function PlantDetails() {
 
   const [activeImage, setActiveImage] = useState(0);
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Something went wrong.</p>;
-  if (!plant) return <p>Plant not found.</p>;
+  if (isLoading)
+    return <p className="mt-2 text-sm text-black-600">Loading...</p>;
+  if (error)
+    return <p className="mt-2 text-sm text-red-600">Something went wrong.</p>;
+  if (!plant)
+    return <p className="mt-2 text-sm text-red-600">Plant not found.</p>;
 
   const images = plant.images?.length
     ? plant.images
@@ -127,6 +124,8 @@ export default function PlantDetails() {
           className="w-full h-64 object-cover"
           width={200}
           height={200}
+          priority
+          loading="eager"
         />
         {images.length > 1 && (
           <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
