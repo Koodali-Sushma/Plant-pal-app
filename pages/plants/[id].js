@@ -9,6 +9,9 @@ import {
   FertilizerIcon,
   EditIcon,
   DeleteIcon,
+  SearchIcon,
+  PartialShadeIcon,
+  FullShadeIcon,
 } from "@/components/SvgIcons";
 
 /* new variables for level indicator */
@@ -209,10 +212,17 @@ export default function PlantDetails() {
         <CareCard
           label="Light"
           icon={
-            <CareLevelIcons
-              Icon={LightIcon}
-              filled={LIGHT_LEVELS[plant.lightNeed]}
-            />
+            <>
+              {plant.lightNeed === "Full Sun" && (
+                <LightIcon className="h-6 w-6 text-secondary-900" />
+              )}
+              {plant.lightNeed === "Partial Shade" && (
+                <PartialShadeIcon className="h-6 w-6 text-secondary-900" />
+              )}
+              {plant.lightNeed === "Full Shade" && (
+                <FullShadeIcon className="h-6 w-6 text-secondary-900" />
+              )}
+            </>
           }
         >
           {plant.lightNeed}
