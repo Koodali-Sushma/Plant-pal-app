@@ -92,7 +92,7 @@ export default function Homepage() {
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
           className="fixed bottom-25 right-5 z-50 flex h-14 w-14 items-center
-        justify-center rounded-full bg-accent-500 shadow-2xl transition hover:bg-(--color-primary-700) hover:shadow-xl"
+                    justify-center rounded-full bg-accent-500 shadow-2xl transition hover:bg-(--color-primary-700) hover:shadow-xl"
         >
           <Image
             src="/assets/plus.svg"
@@ -143,16 +143,25 @@ export default function Homepage() {
         )}
         {message && (
           <div className="mx-auto mt-12 max-w-md rounded-xl border border-emerald-300/30 bg-emerald-50 p-6 text-center text-lg font-semibold text-emerald-700">
-            <p>{message}</p>
-            {showClearButton && (
-              <button
-                className="ml-4 mt-4 rounded bg-emerald-600 px-4 py-2 text-white hover:bg-emerald-700"
-                type="button"
-                onClick={() => clearFilters()}
-              >
-                Clear all filters
-              </button>
-            )}
+            <p
+              className="mx-auto mt-12 max-w-md 
+          rounded-xl border border-primary-500/30 
+          bg-primary-50 p-6 text-center text-lg 
+          font-semibold text-primary-700"
+            >
+              {message}
+
+              {showClearButton && (
+                <button
+                  className="bg-(--color-secondary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 
+                rounded-full border-(--color-secondary-500) hover:bg-(--color-secondary-500) ml-4"
+                  type="button"
+                  onClick={() => clearFilters()}
+                >
+                  Clear all filters
+                </button>
+              )}
+            </p>
           </div>
         )}
 

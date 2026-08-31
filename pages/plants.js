@@ -109,6 +109,7 @@ export default function PlantListPage() {
   } else if (searchedPlants.length === 0) {
     message =
       "No plants found for searched name!!! check with spelling mistake if any.... Clear the search bar to see all plants.";
+    showClearButton = true;
   }
 
   return (
@@ -140,22 +141,24 @@ export default function PlantListPage() {
         Explore all plants
       </h1>
 
-      <SearchBar
-        value={searchQuery}
-        onChange={setSearchQuery}
-        searchBarState={searchBarState}
-      />
-
       <>
-        <button
-          className=" ml-4 bg-(--color-primary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 rounded-xl border-(--color-primary-100) disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-60"
-          type="button"
-          onClick={() => setShowFilterButtons(!showFilterButtons)}
-          disabled={filterButtonState}
-        >
-          <FiltersIcon className="w-4 h-4" />
-        </button>
-
+        <span>
+          <SearchBar
+            value={searchQuery}
+            onChange={setSearchQuery}
+            searchBarState={searchBarState}
+          />
+          <button
+            className=" ml-4 bg-(--color-primary-100) backdrop-blur-md 
+          mb-2 border-3 p-2 text-sm/5 rounded-xl border-(--color-primary-100) 
+          disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-60"
+            type="button"
+            onClick={() => setShowFilterButtons(!showFilterButtons)}
+            disabled={filterButtonState}
+          >
+            <FiltersIcon className="w-4 h-4" />
+          </button>
+        </span>
         {showFilterButtons && (
           <FilterButton
             filters={filters}
@@ -172,16 +175,17 @@ export default function PlantListPage() {
           font-semibold text-primary-700"
             >
               {message}
+              {showClearButton && (
+                <button
+                  className="bg-(--color-secondary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 
+                rounded-full border-(--color-secondary-500) hover:bg-(--color-secondary-500) ml-4"
+                  type="button"
+                  onClick={() => clearFilters()}
+                >
+                  Clear all filters
+                </button>
+              )}{" "}
             </p>
-            {showClearButton && (
-              <button
-                className="bg-(--color-secondary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 rounded-full border-(--color-secondary-500) hover:bg-(--color-secondary-500) ml-4"
-                type="button"
-                onClick={() => clearFilters()}
-              >
-                Clear all filters
-              </button>
-            )}
           </div>
         )}
         {showForm && (

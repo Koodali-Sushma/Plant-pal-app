@@ -1,5 +1,3 @@
-import Link from "next/link";
-import OwnershipButton from "@/components/PlantOwnership/OwnershipButton"; // Import your reusable ownership component
 import Image from "next/image";
 import PlantCard from "../PlantCard";
 

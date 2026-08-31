@@ -14,7 +14,6 @@ export default function PlantCard({ plant, onOwnershipToggle }) {
       >
         <div className="relative h-40 w-full ">
           <Image
-            /*  placeholder="blur" */
             blurDataURL={plant.imageUrl}
             src={plant.imageUrl}
             alt={plant.name}
