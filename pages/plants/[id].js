@@ -3,25 +3,35 @@ import { useRouter } from "next/router";
 import useSWR from "swr";
 import Link from "next/link";
 import Image from "next/image";
-import { WaterIcon, LightIcon, FertilizerIcon } from "@/components/SvgIcons";
+import {
+  WaterIcon,
+  LightIcon,
+  FertilizerIcon,
+  EditIcon,
+  DeleteIcon,
+} from "@/components/SvgIcons";
 
-const fetcher = (url) => fetch(url).then((res) => res.json());
+/* new variables for level indicator */
+const WATER_LEVELS = { Low: 1, Medium: 2, High: 3 };
+const LIGHT_LEVELS = { "Full Shade": 1, "Partial Shade": 2, "Full Sun": 3 };
 
-const LIGHT_OPACITY = {
-  "Full Sun": "opacity-100",
-  "Partial Shade": "opacity-50",
-  "Full Shade": "opacity-20",
-};
-
-const WATER_OPACITY = {
-  Low: "opacity-20",
-  Medium: "opacity-50",
-  High: "opacity-100",
-};
+/* New conditional to dosplay the right amount of icons for water or light needs */
+function CareLevelIcons({ Icon, total = 3, filled }) {
+  return (
+    <div className="flex gap-0.5">
+      {Array.from({ length: total }).map((_, i) => (
+        <Icon
+          key={i}
+          className={`h-5 w-5 text-secondary-900 ${i < filled ? "opacity-100" : "opacity-20"} `}
+        />
+      ))}
+    </div>
+  );
+}
 
 /* temporary ROOMS */
 
-const ROOMS = ["Kitchen", "Balcony", "Living Room", "Bedroom"];
+//onst ROOMS = ["Kitchen", "Balcony", "Living Room", "Bedroom"];
 
 function CareCard({ label, children, icon }) {
   return (
@@ -82,7 +92,7 @@ export default function PlantDetails() {
     data: plant,
     error,
     isLoading,
-  } = useSWR(id ? `/api/plants/${id}` : null, fetcher);
+  } = useSWR(id ? `/api/plants/${id}` : null);
 
   async function handleDelete() {
     const response = await fetch(`/api/plants/${id}`, {
@@ -106,24 +116,45 @@ export default function PlantDetails() {
 
   return (
     <main className="max-w-2xl mx-auto px-4 py-6 font-body text-foreground">
-      <div className="flex justify-between items-center mb-4">
-        <Link
-          href={`/plants/${id}/edit`}
-          className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-colors text-sm"
-        >
-          Edit Plant
-        </Link>
-
-        <button
-          onClick={() => setShowDeleteConfirmation(true)}
-          disabled={!plant.userCreated}
-          title={
-            !plant.userCreated ? "This plant cannot be deleted" : undefined
-          }
-          className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2 rounded-lg shadow-md transition-colors text-sm disabled:bg-gray-400 disabled:cursor-not-allowed"
-        >
-          Delete
-        </button>
+      <div className="relative rounded-card overflow-hidden shadow-soft">
+        <Image
+          src={images[activeImage]}
+          alt={plant.name}
+          className="w-full h-64 object-cover"
+          width={200}
+          height={200}
+        />
+        {images.length > 1 && (
+          <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setActiveImage(i)}
+                className={`h-2 w-2 rounded-full ${i === activeImage ? "bg-primary-500" : "bg-primary-100"}`}
+              >
+                •
+              </button>
+            ))}
+          </div>
+        )}
+        <div className="flex absolute top-3 right-3 gap-3">
+          <Link
+            href={`/plants/${id}/edit`}
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-100/90 backdrop-blur-2xl hover:bg-primary-700 shadow-md transition-colors"
+          >
+            <EditIcon className="h-5 w-5" />
+          </Link>
+          <button
+            onClick={() => setShowDeleteConfirmation(true)}
+            disabled={!plant.userCreated}
+            title={
+              !plant.userCreated ? "This plant cannot be deleted" : undefined
+            }
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-primary-100/90 backdrop-blur-2xl hover:bg-primary-700 shadow-md transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:pointer-events-none"
+          >
+            <DeleteIcon className="h-5 w-5 " />
+          </button>
+        </div>
       </div>
       {showDeleteConfirmation && (
         <div className="mb-4 p-4 rounded-card bg-red-50 border border-red-200 shadow-soft">
@@ -155,29 +186,6 @@ export default function PlantDetails() {
         </p>
       )}
 
-      <div className="relative rounded-card overflow-hidden shadow-soft">
-        <Image
-          src={images[activeImage]}
-          alt={plant.name}
-          className="w-full h-64 object-cover"
-          width={200}
-          height={200}
-        />
-        {images.length > 1 && (
-          <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-2">
-            {images.map((_, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveImage(i)}
-                className={`h-2 w-2 rounded-full ${i === activeImage ? "bg-primary-500" : "bg-primary-100"}`}
-              >
-                •
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-
       <h1 className="mt-6 font-heading text-2xl font-semibold">{plant.name}</h1>
       {plant.botanicalName && (
         <p className="italic text-primary-700">{plant.botanicalName}</p>
@@ -190,8 +198,9 @@ export default function PlantDetails() {
         <CareCard
           label="Water"
           icon={
-            <WaterIcon
-              className={`h-5 w-5 text-secondary-900 ${WATER_OPACITY[plant.waterNeed] ?? "opacity-100"}`}
+            <CareLevelIcons
+              Icon={WaterIcon}
+              filled={WATER_LEVELS[plant.waterNeed]}
             />
           }
         >
@@ -200,8 +209,9 @@ export default function PlantDetails() {
         <CareCard
           label="Light"
           icon={
-            <LightIcon
-              className={`h-5 w-5 text-secondary-900 ${LIGHT_OPACITY[plant.lightNeed] ?? "opacity-100"}`}
+            <CareLevelIcons
+              Icon={LightIcon}
+              filled={LIGHT_LEVELS[plant.lightNeed]}
             />
           }
         >
@@ -214,20 +224,6 @@ export default function PlantDetails() {
           {plant.fertiliserSeason?.join(", ")}
         </CareCard>
       </div>
-      {/* 
-      <div className="mt-6 p-4 rounded-card bg-primary-100 shadow-soft">
-        <label className="block text-sm font-medium text-primary-700 mb-1">
-          Assign to a room
-        </label>
-        <select className="w-full rounded-card border border-primary-500/30 px-3 py-2 bg-background">
-          <option value="">Select a room...</option>
-          {ROOMS.map((room) => (
-            <option key={room} value={room}>
-              {room}
-            </option>
-          ))}
-        </select>
-      </div> */}
     </main>
   );
 }

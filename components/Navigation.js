@@ -8,12 +8,12 @@ export default function Navigation() {
   const router = useRouter();
 
   const isMyPlants = router.pathname === "/";
-  const isExplore = router.pathname === "/PlantListPage";
+  const isExplore = router.pathname === "/plants";
   /*   const isRooms = router.pathname === "/rooms"; */
 
   return (
     <nav
-      className="rounded-3xl fixed bottom-4 left-4 right-4 bg-(--color-secondary-500) z-10 backdrop-blur-md 
+      className="rounded-3xl fixed bottom-4 left-4 right-4 bg-(--color-secondary-500)/80 z-10 backdrop-blur-sm 
       pt-2
       pb-2"
     >
@@ -30,7 +30,7 @@ export default function Navigation() {
         </li>
         <li>
           <Link
-            href="/PlantListPage"
+            href="/plants"
             className={`flex flex-col items-center rounded-full p-2 ${isExplore ? "bg-accent-500 text-secondary-900" : ""}`}
           >
             <ExploreIcon
@@ -38,16 +38,6 @@ export default function Navigation() {
             />
           </Link>
         </li>
-        {/*         <li>
-          <Link
-            href="/rooms"
-            className={`flex flex-col items-center rounded-full p-2 ${isRooms ? "bg-accent-500 text-secondary-900" : ""}`}
-          >
-            <RoomsIcon
-              className={`h-10 w-10 ${isRooms ? "text-secondary-800" : "text-secondary-700"}`}
-            />
-          </Link>
-        </li> */}
       </ul>
     </nav>
   );

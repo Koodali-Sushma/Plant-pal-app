@@ -47,7 +47,7 @@ export default function FilterButtons ({filters, toggleFilters, clearFilters}) {
     className="bg-(--color-accent-500) backdrop-blur-md border-3 p-2 text-sm/5 rounded-3xl border-(--color-secondary-100) hover:bg-(--color-secondary-100)"
      type="button" onClick={() => clearFilters()}>
         Clear all filters
-    </button>
+      </button>
     </>
-   
+});
 }
