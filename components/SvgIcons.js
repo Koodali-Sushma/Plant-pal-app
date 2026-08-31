@@ -156,6 +156,65 @@ export function EditIcon({ className }) {
   );
 }
 
+export function FullShadeIcon({ className }) {
+  return (
+    <svg viewBox="0 0 32 32" fill="currentColor" className={className}>
+      <path d="M16,7h0a7.66,7.66,0,0,1,1.51.15,8,8,0,0,1,6.35,6.34l.26,1.35,1.35.24a5.5,5.5,0,0,1-1,10.92H7.5a5.5,5.5,0,0,1-1-10.92l1.34-.24.26-1.35A8,8,0,0,1,16,7m0-2a10,10,0,0,0-9.83,8.12A7.5,7.5,0,0,0,7.49,28h17a7.5,7.5,0,0,0,1.32-14.88,10,10,0,0,0-7.94-7.94A10.27,10.27,0,0,0,16,5Z" />
+    </svg>
+  );
+}
+
+export function PartialShadeIcon({ className }) {
+  return (
+    <svg viewBox="0 0 32 32" fill="currentColor" className={className}>
+      <rect x="27" y="15" width="4" height="2" />
+      <rect
+        x="23.0857"
+        y="5.7938"
+        width="4.2426"
+        height="1.9998"
+        transform="translate(2.5791 19.8139) rotate(-45)"
+      />
+      <rect x="15" y="1" width="2" height="4" />
+      <rect
+        x="4.6716"
+        y="24.2078"
+        width="4.2426"
+        height="1.9998"
+        transform="translate(-15.8349 12.1865) rotate(-45)"
+      />
+      <rect
+        x="5.7931"
+        y="4.6723"
+        width="1.9998"
+        height="4.2426"
+        transform="translate(-2.8142 6.7932) rotate(-45)"
+      />
+      <rect x="1" y="15" width="4" height="2" />
+      <path d="M26.7939,20.3418a6.9617,6.9617,0,0,0-1.8681-3.2671A8.485,8.485,0,0,0,25,16a9,9,0,1,0-14.585,7.0332A4.9771,4.9771,0,0,0,15,30H25a4.9947,4.9947,0,0,0,1.7939-9.6582ZM9,16a6.9955,6.9955,0,0,1,13.9849-.2969A6.8883,6.8883,0,0,0,20,15a7.04,7.04,0,0,0-6.7944,5.3418A4.986,4.986,0,0,0,11.5618,21.39,6.9675,6.9675,0,0,1,9,16ZM25,28H15a2.9945,2.9945,0,0,1-.6963-5.9082l.6587-.1572.0986-.67a4.9923,4.9923,0,0,1,9.878,0l.0986.6695.6587.1572A2.9945,2.9945,0,0,1,25,28Z" />
+    </svg>
+  );
+}
+
+export function ChevronDownIcon({ className }) {
+  return (
+    <svg viewBox="0 0 32 32" fill="currentColor" className={className}>
+      <path d="M11.5 24.5l-8.5-8.5 2.83-2.83L11.5 18.83l16.17-16.17L30.5 5.5z" />
+    </svg>
+  );
+}
+
+export function SearchIcon({ className }) {
+  return (
+    <svg viewBox="0 0 32 32" fill="currentColor" className={className}>
+      <path
+        d="M29,27.5859l-7.5521-7.5521a11.0177,11.0177,0,1,0-1.4141,1.4141L27.5859,29ZM4,13a9,9,0,1,1,9,9A9.01,9.01,0,0,1,4,13Z"
+        transform="translate(0 0)"
+      />
+    </svg>
+  );
+}
+
 export function SpringIcon({ className }) {
   return (
     <svg
