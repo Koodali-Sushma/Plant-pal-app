@@ -125,7 +125,7 @@ export default function Homepage() {
             searchBarState={searchBarState}
           />
           <button
-            className="bg-(--color-primary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 rounded-xl border-(--color-primary-100) ml-4 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-60 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-60"
+            className="bg-(--color-primary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 rounded-xl border-(--color-primary-100) ml-4 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-60"
             type="button"
             onClick={() => setShowFilterButtons(!showFilterButtons)}
             disabled={filterButtonState}

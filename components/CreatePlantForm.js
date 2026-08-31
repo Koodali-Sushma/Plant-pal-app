@@ -1,4 +1,3 @@
-/*--- FORM TO ADD A NEW PLANT ---*/
 import {
   WaterIcon,
   LightIcon,
@@ -26,8 +25,6 @@ export default function CreatePlantForm({
     : "/images/plant-placeholder.png";
 
   const [imagePreview, setImagePreview] = useState(imagePath);
-
-  const isOwnedValue = initialData ? initialData.isOwned : false;
 
   function handleImageChange(event) {
     const file = event.target.files[0];

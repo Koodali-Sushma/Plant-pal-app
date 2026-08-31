@@ -7,8 +7,9 @@ import FilterButton from "@/components/FilterButton/FilterButton.js";
 import useFilters from "@/hooks/useFilters.js";
 import { filterPlants } from "@/utils/filterPlants.js";
 import SearchBar from "@/components/SearchBar/SearchBar";
-import Image from "next/image";
 import { FiltersIcon } from "@/components/SvgIcons";
+
+import Image from "next/image";
 
 export default function PlantListPage() {
   const [showForm, setShowForm] = useState(false);
@@ -147,7 +148,7 @@ export default function PlantListPage() {
 
       <>
         <button
-          className="bg-(--color-primary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 rounded-xl border-(--color-primary-100) ml-4 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-60"
+          className=" ml-4 bg-(--color-primary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 rounded-xl border-(--color-primary-100) disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-60"
           type="button"
           onClick={() => setShowFilterButtons(!showFilterButtons)}
           disabled={filterButtonState}
