@@ -7,6 +7,8 @@ import FilterButton from "@/components/FilterButton/FilterButton.js";
 import useFilters from "@/hooks/useFilters.js";
 import { filterPlants } from "@/utils/filterPlants.js";
 import SearchBar from "@/components/SearchBar/SearchBar";
+import { FiltersIcon } from "@/components/SvgIcons";
+
 
 export default function PlantListPage() {
   const [showForm, setShowForm] = useState(false); /* form to add new plants */
@@ -113,7 +115,7 @@ export default function PlantListPage() {
       />
       {searchPlants.length === 0 ? (
         <>
-          <button className="ml-4" type="button" onClick={() => clearFilters()}>
+          <button className="bg-(--color-secondary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 rounded-full border-(--color-secondary-500) hover:bg-(--color-secondary-500) ml-4" type="button" onClick={() => clearFilters()}>
             Clear all filters
           </button>
           <p
@@ -130,11 +132,11 @@ export default function PlantListPage() {
       ) : (
         <>
           <button
-            className="ml-4"
+            className="bg-(--color-primary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 rounded-xl border-(--color-primary-100) ml-4"
             type="button"
             onClick={() => setShowFilterButtons(!showFilterButtons)}
           >
-            {showFilterButtons ? "Hide" : "Show"} Filters
+                 <FiltersIcon className="w-4 h-4" />
           </button>
           {showFilterButtons && (
             <FilterButton
