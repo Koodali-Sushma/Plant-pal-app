@@ -3,7 +3,7 @@ import Navigation from "@/components/Navigation";
 import { Oswald, Lato } from "next/font/google";
 import { SWRConfig } from "swr";
 import { Toaster } from "react-hot-toast";
-import ErrorBoundary from "@/components/ErrorBoundary";
+
 
 const heading = Oswald({
   subsets: ["latin"],
@@ -34,14 +34,14 @@ const fetcher = async (url) => {
 export default function App({ Component, pageProps }) {
   return (
     <SWRConfig value={{ fetcher }}>
-      <ErrorBoundary>
+      
         <div className={`${heading.variable} ${body.variable} font-body pb-28`}>
           <Component {...pageProps} />
           <Navigation />
         </div>
 
         <Toaster position="top-right" />
-      </ErrorBoundary>
+      
     </SWRConfig>
   );
 }
