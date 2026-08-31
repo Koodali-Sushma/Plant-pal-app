@@ -1,18 +1,27 @@
 import PlantList from "@/components/PlantList/PlantList";
 import useSWR, { mutate } from "swr";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CreatePlantForm from "@/components/CreatePlantForm";
 import handleOwnershipToggle from "@/components/PlantOwnership/OwnershipToggle";
 import FilterButton from "@/components/FilterButton/FilterButton.js";
 import useFilters from "@/hooks/useFilters.js";
 import { filterPlants } from "@/utils/filterPlants.js";
 import SearchBar from "@/components/SearchBar/SearchBar";
+import toast from "react-hot-toast";
 
 export default function PlantListPage() {
   const [showForm, setShowForm] = useState(false); /* form to add new plants */
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const { data, isLoading } = useSWR("/api/plants");
+
+  const { data, isLoading, error } = useSWR("/api/plants");
+
+  useEffect(() => {
+    if (error) {
+      toast.error("Failed to load plants. Please try again later.");
+    }
+  }, [error]);
+
   const { filters, toggleFilters, clearFilters } = useFilters({
     lightNeed: [],
     waterNeed: [],
@@ -24,6 +33,15 @@ export default function PlantListPage() {
   if (isLoading) {
     return <p>Loading...</p>;
   }
+
+  if (error) {
+    return (
+      <p className="mx-auto mt-12 max-w-md rounded-xl bg-red-50 p-6 text-center text-lg text-red-700">
+        Failed to load plants. Please try again later.
+      </p>
+    );
+  }
+
   if (!data) {
     return <p className="text-center mt-12 text-lg">No data found</p>;
   }

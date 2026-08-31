@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 // Error Boundary catches unexpected runtime errors in child components
 // and displays a fallback UI instead of crashing the entire application.
@@ -55,6 +56,12 @@ class ErrorBoundary extends React.Component {
           >
             Try again
           </button>
+          <Link
+        href="/"
+        className="mt-6 rounded-md bg-green-600 px-6 py-3 text-white hover:bg-green-700"
+      >
+        Back to homepage
+      </Link>
         </main>
       );
     }

@@ -3,7 +3,7 @@ import Navigation from "@/components/Navigation";
 import { Oswald, Lato } from "next/font/google";
 import { SWRConfig } from "swr";
 import { Toaster } from "react-hot-toast";
-import ErrorBoundary from "@/components/error";
+import ErrorBoundary from "@/components/ErrorBoundary";
 
 const heading = Oswald({
   subsets: ["latin"],
