@@ -101,19 +101,29 @@ export default function Homepage() {
           onCancel={() => setShowForm(false)}
         />
       )}
-      
+      <section className="mb-4 mx-auto flex w-full max-w-2xl items-center gap-2">
+        
       <SearchBar
         value={searchQuery}
         onChange={setSearchQuery}
         searchBarState={searchBarState}
       />
+     
+      <button
+            className="shrink-0 flex items-center justify-center bg-(--color-primary-100) backdrop-blur-md px-4 py-3 border-3 p-3 mb-3 text-sm/5 rounded-xl border-(--color-primary-100) ml-4 focus:cursor-pointer hover:cursor-pointer"
+            type="button"
+            onClick={() => setShowFilterButtons(!showFilterButtons)}
+          >
+            <FiltersIcon className="w-4 h-4" />
+          </button>
+          </section>
       {ownedPlants.length === 0 ? (
         <p className="mx-auto mt-12 max-w-md rounded-xl border border-emerald-300/30 bg-emerald-50 p-6 text-center text-lg font-semibold text-emerald-700">
           You do not own any plants yet. Explore the Plant List.
         </p>
       ) : searchedPlants.length === 0 ? (
         <>
-          <button className="ml-4" type="button" onClick={() => clearFilters()}>
+          <button className="bg-(--color-primary-100) backdrop-blur-md px-4 py-3 border-3 p-3 text-sm/5 rounded-xl border-(--color-primary-100) ml-4 focus:cursor-pointer hover:cursor-pointer" type="button" onClick={() => clearFilters()}>
             Clear all filters
           </button>
           <p className="mx-auto mt-12 max-w-md rounded-xl border border-emerald-300/30 bg-emerald-50 p-6 text-center text-lg font-semibold text-emerald-700">
@@ -122,13 +132,6 @@ export default function Homepage() {
         </>
       ) : (
         <>
-          <button
-            className="bg-(--color-primary-100) backdrop-blur-md px-4 py-3 border-3 p-3 text-sm/5 rounded-xl border-(--color-primary-100) ml-4"
-            type="button"
-            onClick={() => setShowFilterButtons(!showFilterButtons)}
-          >
-            <FiltersIcon className="w-5 h-5" />
-          </button>
 
           {showFilterButtons && (
             <FilterButtons
