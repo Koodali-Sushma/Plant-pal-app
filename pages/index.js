@@ -101,6 +101,7 @@ export default function Homepage() {
           onCancel={() => setShowForm(false)}
         />
       )}
+      
       <SearchBar
         value={searchQuery}
         onChange={setSearchQuery}
@@ -122,11 +123,11 @@ export default function Homepage() {
       ) : (
         <>
           <button
-            className="bg-(--color-primary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 rounded-xl border-(--color-primary-100) ml-4"
+            className="bg-(--color-primary-100) backdrop-blur-md px-4 py-3 border-3 p-3 text-sm/5 rounded-xl border-(--color-primary-100) ml-4"
             type="button"
             onClick={() => setShowFilterButtons(!showFilterButtons)}
           >
-            <FiltersIcon className="w-4 h-4" />
+            <FiltersIcon className="w-5 h-5" />
           </button>
 
           {showFilterButtons && (
