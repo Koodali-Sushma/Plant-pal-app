@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { SlidersHorizontal,ChevronDown, Sprout, Sun, CloudSun, Cloud, Droplet, Leaf, Snowflake } from "lucide-react";
+import { ChevronDown, CloudSun, Cloud } from "lucide-react";
+import { FiltersIcon, LightIcon, WaterIcon, AutumnIcon, WinterIcon, SpringIcon } from "../SvgIcons.js";
 
 const Categories = [
   {
     key: "lightNeed",
     label: "Light",
     subtitle: "Select prefered light conditions",
-    Icon: Sun,
+    Icon: LightIcon,
     options: [
-      { value: "Full Sun", Icon: Sun},
+      { value: "Full Sun", Icon: LightIcon},
       { value: "Partial Shade", Icon: CloudSun},
       { value: "Full Shade", Icon: Cloud},
 ], 
@@ -17,7 +18,7 @@ const Categories = [
      key: "waterNeed",
     label: "Water",
     subtitle: "Select prefered water conditions",
-    Icon: Droplet,
+    Icon: WaterIcon,
     options: [
       { value: "Low", drops: 1 },
       { value: "Medium", drops: 2},
@@ -28,12 +29,12 @@ const Categories = [
      key: "fertiliserSeason",
     label: "Season",
     subtitle: "Select best growing season",
-    Icon: Sprout,
+    Icon: SpringIcon,
     options: [
-      { value: "Spring", Icon: Sprout},
-      { value: "Summer", Icon: Sun},
-      { value: "Autumn", Icon: Leaf},
-      { value: "Winter", Icon: Snowflake},
+      { value: "Spring", Icon: SpringIcon},
+      { value: "Summer", Icon: LightIcon},
+      { value: "Autumn", Icon: AutumnIcon},
+      { value: "Winter", Icon: WinterIcon},
 
     ], 
   },
@@ -45,7 +46,7 @@ if (option.drops) {
 return (
   <span className="flex gap-0.5">
   {Array.from({ length: option.drops}).map((_,i) => (
-    <Droplet key={i} className={cls} fill={selected ? "#7ecb54" : "none"}
+    <WaterIcon key={i} className={cls} 
     stroke="currentColor"/>
   ))}
 </span>
@@ -64,7 +65,7 @@ export default function FilterButtons ({filters, toggleFilters, clearFilters}) {
     return (  <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-sm font-semibold text-gray-800">
-          <SlidersHorizontal className="w-4 h-4 text-(--color-primary-500)" />
+          <FiltersIcon className="w-4 h-4 text-(--color-primary-500)" />
           Filters
         </div>
         <div className="flex items-center gap-3">
