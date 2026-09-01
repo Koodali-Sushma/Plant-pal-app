@@ -1,5 +1,5 @@
 import { SearchIcon} from "../SvgIcons"
-export default function SearchBar({ value, onChange, searchBarState = false }) {
+export default function SearchBar({ value, onChange, searchBarState }) {
   return (
     <div className="relative flex-1">
       <SearchIcon className="pointer-events-none absolute left-3 top-6.5 h-5 w-5 -translate-y-1/2 text-gray-400" />
