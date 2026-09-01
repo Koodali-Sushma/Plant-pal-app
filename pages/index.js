@@ -6,7 +6,7 @@ import { useState } from "react";
 import useSWR, { mutate } from "swr";
 import MyPlants from "@/components/MyPlants/MyPlants.js";
 import { filterPlants } from "@/utils/filterPlants";
-import FilterButtons from "@/components/FilterButton/FilterButton";
+import FilterButton from "@/components/FilterButton/FilterButton";
 import SearchBar from "@/components/SearchBar/SearchBar";
 import { FiltersIcon } from "@/components/SvgIcons";
 
@@ -62,7 +62,7 @@ export default function Homepage() {
   }
 
   const ownedPlants = plants.filter((plant) => plant.isOwned === true);
-  const searchBarState = ownedPlants.length > 0 ? false : true;
+
   const normalizedQuery = searchQuery.trim().toLowerCase();
   const filteredPlants = filterPlants(ownedPlants, filters);
 
@@ -74,7 +74,22 @@ export default function Homepage() {
       name.includes(normalizedQuery) || botanicalName.includes(normalizedQuery)
     );
   });
-
+  let message = "";
+  let showClearButton = false;
+  let searchBarState = false;
+  let filterButtonState = false;
+  if (ownedPlants.length === 0) {
+    message = "You do not own any plants yet. Explore the Plant List.";
+    searchBarState = true;
+    filterButtonState = true;
+  } else if (filteredPlants.length === 0) {
+    message =
+      "No plants found for the filter applied. Clear filters to see all plants.";
+    showClearButton = true;
+  } else if (searchedPlants.length === 0) {
+    message =
+      "No plants found for searched name!!! check with spelling mistake if any.... Clear the search bar to see all plants.";
+  }
   return (
     <main className="px-4 py-6">
       {!showForm && (
@@ -85,7 +100,7 @@ export default function Homepage() {
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
           className="fixed bottom-25 right-5 z-50 flex h-14 w-14 items-center
-        justify-center rounded-full bg-accent-500 shadow-2xl transition hover:bg-(--color-primary-700) hover:shadow-xl"
+                    justify-center rounded-full bg-accent-500 shadow-2xl transition hover:bg-(--color-primary-700) hover:shadow-xl"
         >
           <Image
             src="/assets/plus.svg"
@@ -109,49 +124,61 @@ export default function Homepage() {
           onCancel={() => setShowForm(false)}
         />
       )}
-      <SearchBar
-        value={searchQuery}
-        onChange={setSearchQuery}
-        searchBarState={searchBarState}
-      />
-      {ownedPlants.length === 0 ? (
-        <p className="mx-auto mt-12 max-w-md rounded-xl border border-emerald-300/30 bg-emerald-50 p-6 text-center text-lg font-semibold text-emerald-700">
-          You do not own any plants yet. Explore the Plant List.
-        </p>
-      ) : searchedPlants.length === 0 ? (
-        <>
-          <button className="ml-4" type="button" onClick={() => clearFilters()}>
-            Clear all filters
-          </button>
-          <p className="mx-auto mt-12 max-w-md rounded-xl border border-emerald-300/30 bg-emerald-50 p-6 text-center text-lg font-semibold text-emerald-700">
-            No results found
-          </p>
-        </>
-      ) : (
-        <>
+
+      <>
+        <span>
+          <SearchBar
+            value={searchQuery}
+            onChange={setSearchQuery}
+            searchBarState={searchBarState}
+          />
           <button
-            className="bg-(--color-primary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 rounded-xl border-(--color-primary-100) ml-4"
+            className="bg-(--color-primary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 rounded-xl border-(--color-primary-100) ml-4 disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-60"
             type="button"
             onClick={() => setShowFilterButtons(!showFilterButtons)}
+            disabled={filterButtonState}
           >
             <FiltersIcon className="w-4 h-4" />
           </button>
+        </span>
 
-          {showFilterButtons && (
-            <FilterButtons
-              filters={filters}
-              toggleFilters={toggleFilters}
-              clearFilters={clearFilters}
-            />
-          )}
-
-          <MyPlants
-            plants={searchedPlants}
-            onOwnershipToggle={handleOwnershipToggle}
-            successMessage={successMessage}
+        {showFilterButtons && (
+          <FilterButton
+            filters={filters}
+            toggleFilters={toggleFilters}
+            clearFilters={clearFilters}
           />
-        </>
-      )}
+        )}
+        {message && (
+          <div className="mx-auto mt-12 max-w-md rounded-xl border border-emerald-300/30 bg-emerald-50 p-6 text-center text-lg font-semibold text-emerald-700">
+            <p
+              className="mx-auto mt-12 max-w-md 
+          rounded-xl border border-primary-500/30 
+          bg-primary-50 p-6 text-center text-lg 
+          font-semibold text-primary-700"
+            >
+              {message}
+
+              {showClearButton && (
+                <button
+                  className="bg-(--color-secondary-100) backdrop-blur-md mb-2 border-3 p-2 text-sm/5 
+                rounded-full border-(--color-secondary-500) hover:bg-(--color-secondary-500) ml-4"
+                  type="button"
+                  onClick={() => clearFilters()}
+                >
+                  Clear all filters
+                </button>
+              )}
+            </p>
+          </div>
+        )}
+
+        <MyPlants
+          plants={searchedPlants}
+          onOwnershipToggle={handleOwnershipToggle}
+          successMessage={successMessage}
+        />
+      </>
     </main>
   );
 }

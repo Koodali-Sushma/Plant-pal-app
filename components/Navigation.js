@@ -1,15 +1,12 @@
-/* --- NAVIGATION BAR ---*/
-
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { MyPlantsIcon, ExploreIcon, RoomsIcon } from "./SvgIcons";
+import { MyPlantsIcon, ExploreIcon } from "./SvgIcons";
 
 export default function Navigation() {
   const router = useRouter();
 
   const isMyPlants = router.pathname === "/";
   const isExplore = router.pathname === "/plants";
-  /*   const isRooms = router.pathname === "/rooms"; */
 
   return (
     <nav
