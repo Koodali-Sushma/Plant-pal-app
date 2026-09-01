@@ -70,10 +70,14 @@ export default function FilterButtons({
 }) {
   const [open, setOpen] = useState(true);
 
-  return (
-    <div className="mb-10 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+
+
+export default function FilterButtons ({filters, toggleFilters, clearFilters}) {
+  const [ open, setOpen] = useState(true);
+
+    return (  <div className="rounded-2xl border border-primary-500 bg-(--color-background) p-4 ">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-sm font-semibold text-gray-800">
+        <div className="flex items-center gap-2 text-sm font-semibold text-(--color-primary-700)">
           <FiltersIcon className="w-4 h-4 text-(--color-primary-500)" />
           Filters
         </div>
@@ -102,22 +106,15 @@ export default function FilterButtons({
       {open && (
         <div className="mt-2 divide-y divide-gray-100">
           {Categories.map(({ key, label, subtitle, Icon, options }) => (
-            <div
-              key={key}
-              className="flex flex-col gap-3 py-4 sm:flex-row sm:items-start"
-            >
+            <div key={key} className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center">
               {/* Left: icon + title + subtitle */}
-              <div className="flex items-start gap-3 sm:w-44 sm:shrink-0">
+              <div className="flex items-center gap-3 sm:w-44 sm:shrink-0">
                 <div className="grid place-items-center w-9 h-9 rounded-lg bg-(--color-primary-100) text-(--color-primary-500) shrink-0">
                   <Icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-sm font-semibold text-gray-800">
-                    {label}
-                  </div>
-                  <div className="text-xs leading-tight text-gray-400">
-                    {subtitle}
-                  </div>
+                  <div className="text-sm font-semibold text-primary-700">{label}</div>
+                  <div className="text-xs leading-tight text-(--color-primary-500)">{subtitle}</div>
                 </div>
               </div>
 
@@ -130,8 +127,8 @@ export default function FilterButtons({
                       key={option.value}
                       className={`flex min-w-[84px] cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border px-3 py-2 text-xs font-medium transition-colors ${
                         selected
-                          ? "border-(--color-primary-500) bg-green-50 text-(--color-primary-100)"
-                          : "border-gray-200 bg-white text-gray-500 hover:border-(--color-primary-500) hover:bg-(--color-primary-500/40)"
+                          ? "border-(--color-primary-500) bg-green-50 text-(--primary-700)"
+                          : "border-gray-200 bg-white text-(--color-primary-500) hover:border-(--color-primary-500) hover:bg-(--color-primary-500/40)"
                       }`}
                     >
                       <input

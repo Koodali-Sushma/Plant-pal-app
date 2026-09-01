@@ -160,23 +160,21 @@ export default function PlantListPage() {
       </h1>
 
       <>
-        <span>
+       <section className="mb-4 mx-auto flex w-full max-w-2xl items-center gap-2">
           <SearchBar
             value={searchQuery}
             onChange={setSearchQuery}
             searchBarState={searchBarState}
           />
           <button
-            className=" ml-4 bg-(--color-primary-100) backdrop-blur-md 
-          mb-2 border-3 p-2 text-sm/5 rounded-xl border-(--color-primary-100) 
-          disabled:cursor-not-allowed disabled:bg-gray-100 disabled:opacity-60"
+            className=" shrink-0 flex items-center justify-center bg-(--color-primary-100) backdrop-blur-md px-4 py-3 border-3 p-3 mb-3 text-sm/5 rounded-xl border-(--color-primary-100) ml-4 focus:cursor-pointer hover:cursor-pointer"
             type="button"
             onClick={() => setShowFilterButtons(!showFilterButtons)}
             disabled={filterButtonState}
           >
             <FiltersIcon className="w-4 h-4" />
           </button>
-        </span>
+       </section>
         {showFilterButtons && (
           <FilterButton
             filters={filters}
