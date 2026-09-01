@@ -49,7 +49,7 @@ const Categories = [
 ];
 
 function OptionIcon({ option, selected }) {
-  const cls = `w-5 h-5 ${selected ? "text-(--color-primary-500)" : "text-gray-400"}`;
+  const cls = `w-5 h-5 ${selected ? "--color-primary-500: var(--primary-500)" : "text-secondary-700/60"}`;
   if (option.drops) {
     return (
       <span className="flex gap-0.5">
@@ -71,9 +71,9 @@ export default function FilterButton({
   const [open, setOpen] = useState(true);
 
   return (
-    <div className="mb-10 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+    <div className="rounded-2xl border border-secondary-100 bg-secondary-50 p-4 shadow-sm">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-sm font-semibold text-gray-800">
+        <div className="flex items-center gap-2 text-sm font-semibold text-foreground">
           <FiltersIcon className="w-4 h-4 text-(--color-primary-500)" />
           Filters
         </div>
@@ -90,7 +90,7 @@ export default function FilterButton({
             onClick={() => setOpen((v) => !v)}
             aria-label={open ? "Collapse filters" : "Expand filters"}
             aria-expanded={open}
-            className="grid place-items-center w-7 h-7 rounded-md text-gray-500 hover:bg-gray-100"
+            className="grid place-items-center w-7 h-7 rounded-md text-secondary-700 hover:bg-secondary-50"
           >
             <ChevronDownIcon
               className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`}
@@ -104,18 +104,18 @@ export default function FilterButton({
           {Categories.map(({ key, label, subtitle, Icon, options }) => (
             <div
               key={key}
-              className="flex flex-col gap-3 py-4 sm:flex-row sm:items-start"
+              className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center"
             >
               {/* Left: icon + title + subtitle */}
-              <div className="flex items-start gap-3 sm:w-44 sm:shrink-0">
+              <div className="flex items-center gap-3 sm:w-44 sm:shrink-0">
                 <div className="grid place-items-center w-9 h-9 rounded-lg bg-(--color-primary-100) text-(--color-primary-500) shrink-0">
                   <Icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-sm font-semibold text-gray-800">
+                  <div className="text-sm font-semibold text-foreground">
                     {label}
                   </div>
-                  <div className="text-xs leading-tight text-gray-400">
+                  <div className="text-xs leading-tight text-secondary-700/60">
                     {subtitle}
                   </div>
                 </div>
@@ -130,8 +130,8 @@ export default function FilterButton({
                       key={option.value}
                       className={`flex min-w-[84px] cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border px-3 py-2 text-xs font-medium transition-colors ${
                         selected
-                          ? "border-(--color-primary-500) bg-green-50 text-(--color-primary-100)"
-                          : "border-gray-200 bg-white text-gray-500 hover:border-(--color-primary-500) hover:bg-(--color-primary-500/40)"
+                          ? "border-(--color-primary-500) bg-primary-100 text-primary-700"
+                          : "border-secondary-100 bg-background text-secondary-700 hover:border-(--color-primary-500) hover:bg-(--color-primary-500/40)"
                       }`}
                     >
                       <input
