@@ -104,10 +104,10 @@ export default function FilterButtons({
           {Categories.map(({ key, label, subtitle, Icon, options }) => (
             <div
               key={key}
-              className="flex flex-col gap-3 py-4 sm:flex-row sm:items-start"
+              className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center"
             >
               {/* Left: icon + title + subtitle */}
-              <div className="flex items-start gap-3 sm:w-44 sm:shrink-0">
+              <div className="flex items-center gap-3 sm:w-44 sm:shrink-0">
                 <div className="grid place-items-center w-9 h-9 rounded-lg bg-(--color-primary-100) text-(--color-primary-500) shrink-0">
                   <Icon className="w-5 h-5" />
                 </div>
