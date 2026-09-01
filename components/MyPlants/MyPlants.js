@@ -7,7 +7,6 @@ export default function MyPlants({
 }) {
   return (
     <>
-      {/* shows message when new plant is successfully added */}
       {successMessage && (
         <p className="mb-6 rounded-xl border border-primary-500/30 bg-primary-100 px-4 py-3 text-center font-semibold text-primary-700 shadow-sm">
           {successMessage}

@@ -6,10 +6,6 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "*.public.blob.vercel-storage.com",
-      },
-      {
-        protocol: "https",
-        hostname: "bj6wwnp78shrv3zz.public.blob.vercel-storage.com",
         pathname: "/**",
       },
       {
@@ -21,10 +17,6 @@ const nextConfig = {
         protocol: "https",
         hostname: "cdn.midjourney.com",
         pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "bj6wwnp78shrv3zz.public.blob.vercel-storage.com",
       },
     ],
   },

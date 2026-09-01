@@ -1,5 +1,15 @@
 import { useState } from "react";
-import { FiltersIcon, LightIcon, WaterIcon, AutumnIcon, WinterIcon, SpringIcon, PartialShadeIcon, ChevronDownIcon, FullShadeIcon  } from "../SvgIcons.js";
+import {
+  FiltersIcon,
+  LightIcon,
+  WaterIcon,
+  AutumnIcon,
+  WinterIcon,
+  SpringIcon,
+  PartialShadeIcon,
+  ChevronDownIcon,
+  FullShadeIcon,
+} from "../SvgIcons.js";
 
 const Categories = [
   {
@@ -8,53 +18,57 @@ const Categories = [
     subtitle: "Select prefered light conditions",
     Icon: LightIcon,
     options: [
-      { value: "Full Sun", Icon: LightIcon},
-      { value: "Partial Shade", Icon: PartialShadeIcon},
-      { value: "Full Shade", Icon: FullShadeIcon},
-], 
+      { value: "Full Sun", Icon: LightIcon },
+      { value: "Partial Shade", Icon: PartialShadeIcon },
+      { value: "Full Shade", Icon: FullShadeIcon },
+    ],
   },
-  {  
-     key: "waterNeed",
+  {
+    key: "waterNeed",
     label: "Water",
     subtitle: "Select prefered water conditions",
     Icon: WaterIcon,
     options: [
       { value: "Low", drops: 1 },
-      { value: "Medium", drops: 2},
-      { value: "High", drops: 3},
-], 
+      { value: "Medium", drops: 2 },
+      { value: "High", drops: 3 },
+    ],
   },
-  {  
-     key: "fertiliserSeason",
+  {
+    key: "fertiliserSeason",
     label: "Season",
     subtitle: "Select best season to fertilise",
     Icon: SpringIcon,
     options: [
-      { value: "Spring", Icon: SpringIcon},
-      { value: "Summer", Icon: LightIcon},
-      { value: "Autumn", Icon: AutumnIcon},
-      { value: "Winter", Icon: WinterIcon},
-
-    ], 
+      { value: "Spring", Icon: SpringIcon },
+      { value: "Summer", Icon: LightIcon },
+      { value: "Autumn", Icon: AutumnIcon },
+      { value: "Winter", Icon: WinterIcon },
+    ],
   },
 ];
 
-function OptionIcon({option, selected }) {
+function OptionIcon({ option, selected }) {
   const cls = `w-5 h-5 ${selected ? "text-(--color-primary-500)" : "text-gray-400"}`;
-if (option.drops) {
-return (
-  <span className="flex gap-0.5">
-  {Array.from({ length: option.drops}).map((_,i) => (
-    <WaterIcon key={i} className={cls} 
-    stroke="currentColor"/>
-  ))}
-</span>
-);
-}
-const Icon = option.Icon;
-return <Icon className={cls} />;
+  if (option.drops) {
+    return (
+      <span className="flex gap-0.5">
+        {Array.from({ length: option.drops }).map((_, i) => (
+          <WaterIcon key={i} className={cls} stroke="currentColor" />
+        ))}
+      </span>
+    );
+  }
+  const Icon = option.Icon;
+  return <Icon className={cls} />;
 }
 
+export default function FilterButtons({
+  filters,
+  toggleFilters,
+  clearFilters,
+}) {
+  const [open, setOpen] = useState(true);
 
 
 
@@ -82,7 +96,9 @@ export default function FilterButtons ({filters, toggleFilters, clearFilters}) {
             aria-expanded={open}
             className="grid place-items-center w-7 h-7 rounded-md text-gray-500 hover:bg-gray-100"
           >
-            <ChevronDownIcon className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`} />
+            <ChevronDownIcon
+              className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`}
+            />
           </button>
         </div>
       </div>
