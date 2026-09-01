@@ -63,7 +63,7 @@ function OptionIcon({ option, selected }) {
   return <Icon className={cls} />;
 }
 
-export default function FilterButtons({
+export default function FilterButton({
   filters,
   toggleFilters,
   clearFilters,
