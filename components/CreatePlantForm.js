@@ -1,4 +1,3 @@
-/*--- FORM TO ADD A NEW PLANT ---*/
 import {
   WaterIcon,
   LightIcon,
@@ -17,6 +16,7 @@ export default function CreatePlantForm({
   initialData,
 }) {
   const [imageError, setImageError] = useState("");
+  const [submitError, setSubmitError] = useState("");
   const [descriptionLength, setDescriptionLength] = useState(
     initialData?.description ? initialData.description.length : 0,
   );
@@ -26,8 +26,6 @@ export default function CreatePlantForm({
     : "/images/plant-placeholder.png";
 
   const [imagePreview, setImagePreview] = useState(imagePath);
-
-  const isOwnedValue = initialData ? initialData.isOwned : false;
 
   function handleImageChange(event) {
     const file = event.target.files[0];
@@ -86,7 +84,12 @@ export default function CreatePlantForm({
       description: formData.get("description"),
     };
 
-    await onSubmitForm(data);
+    const success = await onSubmitForm(data);
+
+    if (!success) {
+      setSubmitError("Failed to save the plant. Please try again.");
+      return;
+    }
   }
   return (
     <>
@@ -378,6 +381,12 @@ export default function CreatePlantForm({
           <small className="self-end font-normal text-secondary-700">
             {descriptionLength} / 250
           </small>
+
+          {submitError && (
+            <p className="text-center font-semibold text-red-600">
+              {submitError}
+            </p>
+          )}
 
           <div className="flex gap-3 pt-2">
             <button

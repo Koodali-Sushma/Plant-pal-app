@@ -15,22 +15,6 @@ export function ExploreIcon({ className }) {
   );
 }
 
-export function RoomsIcon({ className }) {
-  return (
-    <svg viewBox="0 0 32 32" fill="currentColor" className={className}>
-      <path
-        class="cls-2"
-        d="m28,4h-3v1.9991l3-.0005v20.0015h-3v2h3c1.103,0,2-.897,2-2V6c0-1.103-.897-2-2-2Z"
-      />
-      <circle class="cls-2" cx="16" cy="17" r="2" />
-      <path
-        class="cls-2"
-        d="m22,4v24c0,1.103-.897,2-2,2H4c-1.103,0-2-.897-2-2V4c0-1.103.897-2,2-2h16c1.103,0,2,.897,2,2ZM4,28h16s0-24.0015,0-24.0015l-16,.0015v24Z"
-      />
-    </svg>
-  );
-}
-
 export function WaterIcon({ className }) {
   return (
     <svg viewBox="0 0 32 32" fill="currentColor" className={className}>
