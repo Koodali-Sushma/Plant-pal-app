@@ -1,5 +1,15 @@
 import { useState } from "react";
-import { FiltersIcon, LightIcon, WaterIcon, AutumnIcon, WinterIcon, SpringIcon, PartialShadeIcon, ChevronDownIcon, FullShadeIcon  } from "../SvgIcons.js";
+import {
+  FiltersIcon,
+  LightIcon,
+  WaterIcon,
+  AutumnIcon,
+  WinterIcon,
+  SpringIcon,
+  PartialShadeIcon,
+  ChevronDownIcon,
+  FullShadeIcon,
+} from "../SvgIcons.js";
 
 const Categories = [
   {
@@ -8,60 +18,60 @@ const Categories = [
     subtitle: "Select prefered light conditions",
     Icon: LightIcon,
     options: [
-      { value: "Full Sun", Icon: LightIcon},
-      { value: "Partial Shade", Icon: PartialShadeIcon},
-      { value: "Full Shade", Icon: FullShadeIcon},
-], 
+      { value: "Full Sun", Icon: LightIcon },
+      { value: "Partial Shade", Icon: PartialShadeIcon },
+      { value: "Full Shade", Icon: FullShadeIcon },
+    ],
   },
-  {  
-     key: "waterNeed",
+  {
+    key: "waterNeed",
     label: "Water",
     subtitle: "Select prefered water conditions",
     Icon: WaterIcon,
     options: [
       { value: "Low", drops: 1 },
-      { value: "Medium", drops: 2},
-      { value: "High", drops: 3},
-], 
+      { value: "Medium", drops: 2 },
+      { value: "High", drops: 3 },
+    ],
   },
-  {  
-     key: "fertiliserSeason",
+  {
+    key: "fertiliserSeason",
     label: "Season",
     subtitle: "Select best season to fertilise",
     Icon: SpringIcon,
     options: [
-      { value: "Spring", Icon: SpringIcon},
-      { value: "Summer", Icon: LightIcon},
-      { value: "Autumn", Icon: AutumnIcon},
-      { value: "Winter", Icon: WinterIcon},
-
-    ], 
+      { value: "Spring", Icon: SpringIcon },
+      { value: "Summer", Icon: LightIcon },
+      { value: "Autumn", Icon: AutumnIcon },
+      { value: "Winter", Icon: WinterIcon },
+    ],
   },
 ];
 
-function OptionIcon({option, selected }) {
+function OptionIcon({ option, selected }) {
   const cls = `w-5 h-5 ${selected ? "text-(--color-primary-500)" : "text-gray-400"}`;
-if (option.drops) {
-return (
-  <span className="flex gap-0.5">
-  {Array.from({ length: option.drops}).map((_,i) => (
-    <WaterIcon key={i} className={cls} 
-    stroke="currentColor"/>
-  ))}
-</span>
-);
+  if (option.drops) {
+    return (
+      <span className="flex gap-0.5">
+        {Array.from({ length: option.drops }).map((_, i) => (
+          <WaterIcon key={i} className={cls} stroke="currentColor" />
+        ))}
+      </span>
+    );
+  }
+  const Icon = option.Icon;
+  return <Icon className={cls} />;
 }
-const Icon = option.Icon;
-return <Icon className={cls} />;
-}
 
+export default function FilterButton({
+  filters,
+  toggleFilters,
+  clearFilters,
+}) {
+  const [open, setOpen] = useState(true);
 
-
-
-export default function FilterButtons ({filters, toggleFilters, clearFilters}) {
-  const [ open, setOpen] = useState(true);
-
-    return (  <div className="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+  return (
+    <div className="mb-10 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-sm font-semibold text-gray-800">
           <FiltersIcon className="w-4 h-4 text-(--color-primary-500)" />
@@ -82,7 +92,9 @@ export default function FilterButtons ({filters, toggleFilters, clearFilters}) {
             aria-expanded={open}
             className="grid place-items-center w-7 h-7 rounded-md text-gray-500 hover:bg-gray-100"
           >
-            <ChevronDownIcon className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`} />
+            <ChevronDownIcon
+              className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`}
+            />
           </button>
         </div>
       </div>
@@ -90,15 +102,22 @@ export default function FilterButtons ({filters, toggleFilters, clearFilters}) {
       {open && (
         <div className="mt-2 divide-y divide-gray-100">
           {Categories.map(({ key, label, subtitle, Icon, options }) => (
-            <div key={key} className="flex flex-col gap-3 py-4 sm:flex-row sm:items-start">
+            <div
+              key={key}
+              className="flex flex-col gap-3 py-4 sm:flex-row sm:items-start"
+            >
               {/* Left: icon + title + subtitle */}
               <div className="flex items-start gap-3 sm:w-44 sm:shrink-0">
                 <div className="grid place-items-center w-9 h-9 rounded-lg bg-(--color-primary-100) text-(--color-primary-500) shrink-0">
                   <Icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-sm font-semibold text-gray-800">{label}</div>
-                  <div className="text-xs leading-tight text-gray-400">{subtitle}</div>
+                  <div className="text-sm font-semibold text-gray-800">
+                    {label}
+                  </div>
+                  <div className="text-xs leading-tight text-gray-400">
+                    {subtitle}
+                  </div>
                 </div>
               </div>
 

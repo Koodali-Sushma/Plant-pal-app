@@ -11,7 +11,7 @@ export default async function handler(request, response) {
       const plant = await Plant.findById(id);
 
       if (!plant) {
-        response.status(404).json({
+        return response.status(404).json({
           status: `Plant not found.`,
         });
       }

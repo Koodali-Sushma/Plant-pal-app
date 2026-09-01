@@ -14,13 +14,14 @@ export default function PlantCard({ plant, onOwnershipToggle }) {
       >
         <div className="relative h-40 w-full ">
           <Image
-            /*  placeholder="blur" */
             blurDataURL={plant.imageUrl}
             src={plant.imageUrl}
             alt={plant.name}
             fill
             sizes="(max-width: 768px) 50vw, 300px"
             className="object-cover transition-transform duration-300 rounded-2xl"
+            priority
+            loading="eager"
           />{" "}
         </div>
         <div className="flex flex-col gap-0.5 p-1.5">

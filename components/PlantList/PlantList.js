@@ -1,5 +1,3 @@
-import Link from "next/link";
-import OwnershipButton from "@/components/PlantOwnership/OwnershipButton"; // Import your reusable ownership component
 import Image from "next/image";
 import PlantCard from "../PlantCard";
 
@@ -20,7 +18,6 @@ export default function PlantList({
         <Image src="/assets/plus.svg" alt="plus sign" width={48} height={48} />
       </button>
 
-      {/* shows message when new plant is successfully added */}
       {successMessage && (
         <p className="mb-6 rounded-xl border border-primary-500/30 bg-primary-100 px-4 py-3 text-center font-semibold text-primary-700 shadow-sm">
           {successMessage}
@@ -28,17 +25,13 @@ export default function PlantList({
       )}
 
       <ul className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-8  list-none">
-        {plants.length === 0 ? (
-          <p>No plants found</p>
-        ) : (
-          plants.map((plant) => (
-            <PlantCard
-              key={plant._id}
-              plant={plant}
-              onOwnershipToggle={onOwnershipToggle}
-            />
-          ))
-        )}
+        {plants.map((plant) => (
+          <PlantCard
+            key={plant._id}
+            plant={plant}
+            onOwnershipToggle={onOwnershipToggle}
+          />
+        ))}
       </ul>
     </>
   );
